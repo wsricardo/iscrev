@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meu Diário</title>
+
+<!-- Fontes tipográficas -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Dancing+Script:wght@600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- KaTeX — carregamento SÍNCRONO (sem defer/async) para garantir
+     que katex.renderToString() está disponível imediatamente        -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<link rel="stylesheet" href="css/trajto.css">
+
+</head>
+<body>
+<div class="app">
+
+  <!-- ── Sidebar ─────────────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo">
+        <span id="logo-title">Meu Diário</span>
+        <span id="logo-sub">anotações pessoais</span>
+      </div>
+      <!-- Controles do header: idioma + tela cheia -->
+      <div class="header-controls">
+        <div class="lang-switcher" id="lang-switcher">
+          <button class="lang-btn active"
+                  data-lang="pt"
+                  data-label="Português (Brasil)"
+                  title="Português (Brasil)"
+                  aria-label="Mudar para Português">
+            <span class="lang-code">PT</span>
+          </button>
+          <button class="lang-btn"
+                  data-lang="en"
+                  data-label="English"
+                  title="English"
+                  aria-label="Switch to English">
+            <span class="lang-code">EN</span>
+          </button>
+        </div>
+
+        <!--
+          Botão de tela cheia.
+          data-label é atualizado por applyLocale() via TEXT_MAP.
+          O ícone SVG troca entre expand e compress via JS (updateFsIcon).
+        -->
+        <button id="btn-fullscreen"
+                data-label="Tela cheia"
+                title="Tela cheia"
+                aria-label="Ativar tela cheia">
+          <!-- Ícone expand (padrão) -->
+          <svg id="fs-icon" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 3 21 3 21 9"/>
+            <polyline points="9 21 3 21 3 15"/>
+            <line x1="21" y1="3" x2="14" y2="10"/>
+            <line x1="3"  y1="21" x2="10" y2="14"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <button class="btn-new" id="btn-new">
+      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="7" y1="1" x2="7" y2="13"/><line x1="1" y1="7" x2="13" y2="7"/>
+      </svg>
+      <span id="btn-new-label">Nova Entrada</span>
+    </button>
+    <div class="search-wrap">
+      <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" id="search-input" placeholder="Buscar entradas…">
+    </div>
+    <div class="entries-list" id="entries-list"></div>
+  </aside>
+
+  <!-- ── Main ────────────────────────────────────────────────────── -->
+  <main class="main">
+
+    <!-- Tela de boas-vindas (sem entrada selecionada) -->
+    <div class="welcome" id="welcome">
+      <div class="welcome-icon">📖</div>
+      <h2 id="welcome-title">Bem-vindo ao seu diário</h2>
+      <p  id="welcome-sub">Selecione uma entrada ou crie uma nova.</p>
+    </div>
+
+    <!-- Container do editor -->
+    <div id="editor-container" style="display:none;flex-direction:column;height:100%">
+
+      <!-- Toolbar principal -->
+      <div class="toolbar">
+        <!-- Botões de formatação (visíveis apenas no modo edição) -->
+        <span id="fmt-btns" style="display:flex;align-items:center;gap:6px">
+          <button class="toolbar-btn" id="fmt-bold"   data-wrap="**" title="Negrito (**texto**)"><b>N</b></button>
+          <button class="toolbar-btn" id="fmt-italic" data-wrap="*"  title="Itálico (*texto*)"><i>I</i></button>
+          <button class="toolbar-btn" id="fmt-quote"  data-prefix="> " title="Citação (> texto)">"</button>
+          <button class="toolbar-btn" id="fmt-list"   data-prefix="- " title="Lista (- item)">☰</button>
+          <div class="toolbar-sep"></div>
+          <button class="btn-eq" id="btn-eq">∑ <span id="btn-eq-label">Equação</span></button>
+          <div class="toolbar-sep"></div>
+        </span>
+
+        <!-- Toggle de modo: Editar | Caneta | Preview -->
+        <div class="mode-toggle">
+          <button class="mode-btn active" id="mode-edit">✏ <span id="mode-edit-label">Editar</span></button>
+          <button class="mode-btn"        id="mode-pen">✒ <span id="mode-pen-label">Caneta</span></button>
+          <button class="mode-btn"        id="mode-preview">👁 <span id="mode-preview-label">Preview</span></button>
+        </div>
+
+        <select class="mood-select" id="mood-select"></select>
+
+        <div class="toolbar-sep"></div>
+        <button class="btn-export" id="btn-export-md"  title="Baixar como Markdown (.md)">⬇ <span id="btn-md-label">Markdown</span></button>
+        <button class="btn-export" id="btn-export-pdf" title="Exportar como PDF">⬇ PDF</button>
+        <div class="toolbar-sep"></div>
+        <button class="btn-delete" id="btn-delete"><span id="btn-delete-label">Excluir</span></button>
+        <button class="btn-save"   id="btn-save"><span id="btn-save-label">Salvar</span></button>
+      </div>
+
+      <!-- Toolbar da caneta (visível apenas no modo caneta) -->
+      <div class="pen-toolbar" id="pen-toolbar">
+        <span class="pen-section-label" id="pen-color-label">Cor:</span>
+        <div class="pen-colors" id="pen-colors"></div>
+        <div class="toolbar-sep"></div>
+        <span class="pen-section-label" id="pen-width-label">Espessura:</span>
+        <div class="pen-widths" id="pen-widths"></div>
+        <div class="toolbar-sep"></div>
+        <button class="pen-tool-btn" id="pen-eraser" title="Borracha: arraste sobre um traço para apagá-lo">◻ <span id="pen-eraser-label">Borracha</span></button>
+        <button class="pen-tool-btn" id="pen-undo"   title="Desfazer último traço (Ctrl+Z)">↩ <span id="pen-undo-label">Desfazer</span></button>
+        <button class="pen-tool-btn pen-clear-btn" id="pen-clear" title="Apagar todos os traços">✕ <span id="pen-clear-label">Limpar</span></button>
+        <span class="pen-stroke-count" id="pen-stroke-count"></span>
+      </div>
+
+      <!-- Editor wrap: editor-area scrollável + SVG overlay fixo sobre ela -->
+      <div class="editor-wrap">
+
+        <!-- Área de edição (scrollável) -->
+        <div class="editor-area" id="editor-area">
+          <div class="entry-date-display" id="entry-date-display"></div>
+          <input type="text" id="entry-title"
+                 placeholder="Título da entrada…"
+                 autocomplete="off" spellcheck="false">
+          <textarea id="entry-raw"
+                    placeholder="Escreva aqui…  $inline$ ou $$bloco$$ para LaTeX."
+                    spellcheck="false"></textarea>
+          <div id="entry-preview"></div>
+        </div>
+
+        <!--
+          SVG de anotações manuscritas
+          ─────────────────────────────
+          • position:absolute;inset:0 → cobre exatamente o editor-wrap visível
+          • pointer-events:none (padrão) → não bloqueia texto em edit/preview
+          • pen-active (classe JS) → ativa captura de eventos
+          • <g id="pen-layer"> recebe transform="translate(0,-scrollTop)"
+            para compensar o scroll do editor-area, mantendo os traços
+            alinhados com o documento independente da posição de rolagem
+        -->
+        <svg id="pen-svg"
+             xmlns="http://www.w3.org/2000/svg"
+             role="img"
+             aria-label="Área de anotações manuscritas">
+          <g id="pen-layer"></g>
+        </svg>
+
+      </div><!-- /.editor-wrap -->
+
+      <!-- Barra de status -->
+      <div class="stats-bar">
+        <span id="word-count">0 palavras</span>
+        <span class="latex-hint" id="latex-hint">LaTeX: <b>$inline$</b> · <b>$$bloco$$</b></span>
+      </div>
+
+    </div><!-- /#editor-container -->
+
+  </main>
+</div><!-- /.app -->
+
+<!-- Toast de notificação -->
+<div class="toast" id="toast"></div>
+
+<!-- Modal de inserção de equação LaTeX -->
+<div class="eq-overlay" id="eq-overlay">
+  <div class="eq-dialog">
+    <h3 id="eq-title">Inserir Equação LaTeX</h3>
+    <p  id="eq-desc">Digite o código LaTeX e confira a pré-visualização em tempo real.</p>
+    <div class="eq-type-toggle">
+      <button class="eq-type-btn active" id="eq-inline-btn">Inline &nbsp;$…$</button>
+      <button class="eq-type-btn"        id="eq-block-btn">Bloco &nbsp;$$…$$</button>
+    </div>
+    <div class="eq-templates" id="eq-templates"></div>
+    <textarea id="eq-input" placeholder="Ex: \frac{-b \pm \sqrt{b^2-4ac}}{2a}"></textarea>
+    <div class="eq-preview-label" id="eq-preview-label">Pré-visualização</div>
+    <div class="eq-preview-box" id="eq-preview-box">
+      <span id="eq-waiting" style="color:rgba(26,18,9,.3);font-style:italic;font-size:.85rem">aguardando…</span>
+    </div>
+    <div class="eq-dialog-btns">
+      <button class="eq-btn-cancel" id="eq-cancel">Cancelar</button>
+      <button class="eq-btn-insert" id="eq-insert">Inserir</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/trajto.js"></script>
+</body>
+</html>

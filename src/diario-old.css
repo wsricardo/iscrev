@@ -1,0 +1,548 @@
+/* ── Reset ─────────────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+/* ── Tokens de design ───────────────────────────────────────────── */
+:root{
+  --ink:#1a1209;       /* tinta principal */
+  --paper:#f5efe0;     /* fundo papel */
+  --paper2:#ede6d0;    /* fundo toolbar/stats */
+  --warm:#c8843a;      /* laranja — destaque */
+  --warm-lt:#e8b96a;   /* laranja claro */
+  --rust:#8b3a1f;      /* ferrugem — secundário */
+  --math-bg:#fdf6e8;
+  --math-bd:rgba(200,132,58,.3);
+  --line:rgba(200,132,58,.22);
+}
+
+/* ── Base ───────────────────────────────────────────────────────── */
+html,body{
+  height:100%;
+  background:#2b1f0e url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23fff' fill-opacity='.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  font-family:'Lora',Georgia,serif;
+  color:var(--ink);
+  overflow:hidden;
+}
+.app{
+  display:flex;
+  height:100vh;
+}
+
+/* ── Sidebar ─────────────────────────────────────────────────────── */
+.sidebar{width:280px;min-width:280px;background:#1c1208;display:flex;flex-direction:column;border-right:1px solid #3a2a12;overflow:hidden}
+.sidebar-header{padding:28px 22px 20px;border-bottom:1px solid #3a2a12}
+.logo{font-family:'Dancing Script',cursive;font-size:2rem;color:var(--warm-lt);line-height:1;display:flex;flex-direction:column}
+.logo [data-i18n="logo.title"],.logo [data-i18n="logo.subtitle"]{display:block}
+.logo [data-i18n="logo.subtitle"]{color:var(--warm);font-size:1rem;margin-top:2px;font-family:'Lora',serif;font-style:italic}
+.btn-new{margin:16px 22px 0;background:var(--warm);color:#fff;border:none;border-radius:6px;padding:10px 16px;font-family:'Lora',serif;font-size:.88rem;cursor:pointer;width:calc(100% - 44px);transition:background .2s,transform .1s;display:flex;align-items:center;gap:8px;justify-content:center}
+.btn-new:hover{background:var(--rust)}.btn-new:active{transform:scale(.97)}
+.btn-new svg{width:14px;height:14px}
+/* Botão de importação — estilo secundário (outline) sob o btn-new */
+.btn-import{
+  margin:8px 22px 0;
+  background:none;
+  color:var(--warm-lt);
+  border:1px solid #3a2a12;
+  border-radius:6px;
+  padding:7px 16px;
+  font-family:'Lora',serif;
+  font-size:.82rem;
+  font-style:italic;
+  cursor:pointer;
+  width:calc(100% - 44px);
+  transition:background .2s,border-color .2s,color .2s,transform .1s;
+  display:flex;align-items:center;gap:7px;justify-content:center;
+}
+.btn-import:hover{background:rgba(200,132,58,.12);border-color:var(--warm);color:var(--warm-lt)}
+.btn-import:active{transform:scale(.97)}
+.btn-import svg{width:12px;height:12px;flex-shrink:0}
+.search-wrap{padding:14px 22px 10px;position:relative}
+.search-wrap input{width:100%;background:#2a1e0b;border:1px solid #4a3618;border-radius:6px;color:#c8a96a;font-family:'Lora',serif;font-size:.82rem;padding:8px 12px 8px 32px;outline:none;transition:border .2s}
+.search-wrap input::placeholder{color:#6a5030}
+.search-wrap input:focus{border-color:var(--warm)}
+.search-icon{position:absolute;left:34px;top:50%;transform:translateY(-50%);color:#6a5030;pointer-events:none}
+.entries-list{flex:1;overflow-y:auto;padding:6px 0 20px}
+.entries-list::-webkit-scrollbar{width:4px}
+.entries-list::-webkit-scrollbar-thumb{background:#4a3618;border-radius:4px}
+.entry-item{padding:13px 22px;cursor:pointer;border-left:3px solid transparent;transition:background .15s,border-color .15s;position:relative}
+.entry-item:hover{background:#2a1e0b}
+.entry-item.active{background:#2e2010;border-left-color:var(--warm)}
+.entry-item-title{font-family:'Playfair Display',serif;font-size:.92rem;color:#d4b07a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.entry-item-date{font-size:.72rem;color:#6a5030;margin-top:3px;font-style:italic}
+.entry-item-preview{font-size:.75rem;color:#8a6840;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.entry-item-mood{position:absolute;right:14px;top:13px;font-size:1rem}
+.no-entries{padding:30px 22px;color:#4a3618;font-style:italic;font-size:.85rem;text-align:center}
+
+/* ── Main ────────────────────────────────────────────────────────── */
+.main{flex:1;display:flex;flex-direction:column;background:var(--paper);position:relative;overflow:hidden}
+
+/* ── Toolbar principal ───────────────────────────────────────────── */
+.toolbar{position:relative;z-index:10;display:flex;align-items:center;gap:6px;padding:10px 20px;background:var(--paper2);border-bottom:1px solid rgba(200,132,58,.25);flex-wrap:wrap;
+  min-height:50px; /* altura mínima fixa — evita salto quando flex-wrap muda de 1 para 2 linhas */
+}
+.toolbar-btn{background:none;border:1px solid transparent;border-radius:4px;width:30px;height:30px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--rust);transition:background .15s,border-color .15s;font-size:.85rem;font-weight:700;font-family:serif}
+.toolbar-btn:hover{background:rgba(200,132,58,.15);border-color:var(--warm)}
+.toolbar-sep{width:1px;height:22px;background:rgba(200,132,58,.3);margin:0 2px;flex-shrink:0}
+.mode-toggle{display:flex;border:1px solid rgba(200,132,58,.35);border-radius:6px;overflow:hidden}
+.mode-btn{
+  background:none;border:none;
+  padding:5px 11px;
+  font-family:'Lora',serif;font-size:.78rem;color:#a06830;
+  cursor:pointer;transition:background .15s,color .15s;
+  white-space:nowrap;
+  /* min-width fixo = largura de "✒ Caneta" (o mais largo entre todos os idiomas).
+     Impede que o toggle encolha ao alternar para textos menores como "✒ Pen". */
+  min-width:62px;
+  text-align:center;
+  justify-content:center;
+}
+.mode-btn.active{background:var(--warm);color:#fff}
+.btn-eq{
+  background:none;border:1px solid rgba(200,132,58,.35);border-radius:5px;
+  padding:4px 10px;color:var(--rust);font-size:.82rem;cursor:pointer;
+  font-family:'JetBrains Mono',monospace;
+  transition:background .15s,border-color .15s;
+  white-space:nowrap;
+  min-width:88px;   /* cobre "∑ Equation" (EN) — o mais largo */
+  text-align:center;
+}
+.btn-eq:hover{background:rgba(200,132,58,.12);border-color:var(--warm)}
+.mood-select{margin-left:auto;background:none;border:1px solid rgba(200,132,58,.3);border-radius:6px;padding:4px 10px;font-size:.85rem;color:var(--rust);cursor:pointer;font-family:'Lora',serif;outline:none}
+.mood-select:focus{border-color:var(--warm)}
+.btn-save{
+  background:var(--rust);color:#fff;border:none;border-radius:6px;
+  padding:6px 18px;font-family:'Lora',serif;font-size:.85rem;
+  cursor:pointer;transition:background .2s,transform .1s;margin-left:4px;
+  min-width:64px;   /* cobre "Salvar" (PT) — o mais largo */
+  text-align:center;
+}
+.btn-save:hover{background:var(--warm)}.btn-save:active{transform:scale(.97)}
+.btn-delete{
+  background:none;border:1px solid rgba(200,80,40,.35);border-radius:6px;
+  padding:5px 12px;font-family:'Lora',serif;font-size:.82rem;
+  color:#a04020;cursor:pointer;transition:background .2s;
+  min-width:66px;   /* cobre "Excluir" (PT) e "Delete" (EN) */
+  text-align:center;
+}
+.btn-delete:hover{background:rgba(200,80,40,.1)}
+.btn-export{background:none;border:1px solid rgba(200,132,58,.35);border-radius:5px;padding:5px 11px;color:var(--rust);font-size:.78rem;cursor:pointer;font-family:'Lora',serif;transition:background .15s,border-color .15s;white-space:nowrap}
+.btn-export:hover{background:rgba(200,132,58,.12);border-color:var(--warm)}
+
+/* ── Pen toolbar (visível apenas no modo caneta) ─────────────────── */
+.pen-toolbar{
+  display:none; /* controlado por setMode() */
+  align-items:center;
+  gap:8px;
+  padding:7px 20px;
+  background:#f0e8d4;
+  border-bottom:1px solid rgba(200,132,58,.2);
+  flex-wrap:wrap;
+  position:relative;
+  z-index:10;
+}
+.pen-section-label{
+  font-size:.72rem;color:rgba(26,18,9,.45);font-style:italic;
+  font-family:'Lora',serif;white-space:nowrap;
+  min-width:68px;  /* cobre "Espessura:" (PT) — o mais largo */
+  display:inline-block;
+}
+.pen-colors{display:flex;gap:5px;align-items:center}
+/* Swatch de cor: botão circular com borda indicando seleção */
+.pen-color-swatch{
+  width:20px;height:20px;border-radius:50%;
+  border:2px solid transparent;
+  cursor:pointer;
+  transition:transform .12s,border-color .12s;
+  outline:none;
+  flex-shrink:0;
+}
+.pen-color-swatch:hover{transform:scale(1.15)}
+.pen-color-swatch.active{border-color:var(--warm-lt);box-shadow:0 0 0 2px var(--warm)}
+.pen-widths{display:flex;gap:4px;align-items:center}
+.pen-width-btn{
+  background:none;border:1px solid rgba(200,132,58,.3);
+  border-radius:4px;padding:2px 4px;cursor:pointer;
+  color:var(--rust);transition:background .12s,border-color .12s;
+  display:flex;align-items:center;
+}
+.pen-width-btn:hover{background:rgba(200,132,58,.12);border-color:var(--warm)}
+.pen-width-btn.active{background:rgba(200,132,58,.2);border-color:var(--warm)}
+/* Botões de ação da caneta */
+.pen-tool-btn{
+  background:none;border:1px solid rgba(200,132,58,.3);
+  border-radius:5px;padding:4px 10px;
+  font-family:'Lora',serif;font-size:.78rem;
+  color:var(--rust);cursor:pointer;
+  transition:background .12s,border-color .12s;
+  white-space:nowrap;
+}
+.pen-tool-btn:hover{background:rgba(200,132,58,.12);border-color:var(--warm)}
+.pen-tool-btn.active{background:rgba(200,132,58,.22);border-color:var(--warm)}
+.pen-clear-btn{color:#a04020;border-color:rgba(200,80,40,.3)}
+.pen-clear-btn:hover{background:rgba(200,80,40,.08);border-color:#a04020}
+.pen-stroke-count{font-size:.7rem;color:rgba(26,18,9,.35);font-style:italic;font-family:'Lora',serif;margin-left:4px}
+
+/* ── Editor wrap: contém editor-area + SVG overlay ───────────────── */
+.editor-wrap{
+  position:relative; /* containing block do SVG */
+  flex:1;
+  overflow:hidden;   /* clipar SVG nos limites da área */
+  display:flex;
+  flex-direction:column;
+}
+
+/* ── Editor area + notebook-bg ───────────────────────────────────────
+   ÚNICO CONTEXTO DE SCROLL:
+   .editor-area  — overflow-y:auto — o único elemento que scrolla.
+   .notebook-bg  — bloco normal, min-height:100% — carrega o paper.
+                   Cresce com seu conteúdo. Ao rolar, move-se com tudo.
+
+   SEM display:flex em .editor-area nem em .notebook-bg.
+   SEM flex:1 em #entry-raw ou #entry-preview.
+   Esses valores criavam dependência circular de altura que impedia
+   o notebook-bg de crescer além do viewport.
+────────────────────────────────────────────────────────────────────── */
+.editor-area{
+  flex:1;            /* preenche .editor-wrap (necessário) */
+  overflow-y:auto;   /* único scroll container */
+  z-index:1;
+}
+.editor-area::-webkit-scrollbar{width:6px}
+.editor-area::-webkit-scrollbar-thumb{background:rgba(200,132,58,.3);border-radius:4px}
+
+.notebook-bg{
+  min-height:100%;           /* ao menos preenche o viewport */
+  padding:28px 30px 28px 96px;
+  box-sizing:border-box;
+  background-image:
+    linear-gradient(
+      to right,
+      transparent 89px,
+      rgba(200,60,40,.18) 89px,
+      rgba(200,60,40,.18) 90.5px,
+      transparent 90.5px
+    ),
+    repeating-linear-gradient(
+      transparent,
+      transparent 27px,
+      var(--line) 27px,
+      var(--line) 28px
+    );
+}
+.entry-date-display{font-family:'Dancing Script',cursive;font-size:1.05rem;color:var(--rust);margin-bottom:8px;opacity:.8}
+#entry-title{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--ink);background:transparent;border:none;outline:none;width:100%;margin-bottom:18px;line-height:1.2;border-bottom:2px solid rgba(200,132,58,.25);padding-bottom:12px}
+#entry-title::placeholder{color:rgba(26,18,9,.25)}
+#entry-raw{display:block;width:100%;min-height:60vh;background:transparent;border:none;outline:none;resize:none;font-family:'JetBrains Mono','Courier New',monospace;font-size:.93rem;line-height:28px;color:var(--ink);caret-color:var(--rust);overflow:hidden}
+#entry-raw::placeholder{color:rgba(26,18,9,.28);font-family:'Lora',serif;font-style:italic}
+
+/* ── Preview ─────────────────────────────────────────────────────── */
+#entry-preview{display:none;width:100%;min-height:60vh;font-family:'Lora',serif;font-size:1.05rem;line-height:28px;color:var(--ink)}
+#entry-preview p{margin-bottom:14px}
+#entry-preview strong{font-weight:600}
+#entry-preview em{font-style:italic}
+#entry-preview blockquote{border-left:3px solid var(--warm);padding-left:16px;margin:12px 0;color:var(--rust);font-style:italic}
+#entry-preview ul{padding-left:22px;margin-bottom:12px}
+#entry-preview li{margin-bottom:4px}
+#entry-preview .math-block{background:var(--math-bg);border:1px solid var(--math-bd);border-radius:6px;padding:14px 20px;margin:16px 0;overflow-x:auto;text-align:center}
+#entry-preview .math-inline{display:inline}
+.katex-display{margin:.4em 0!important}
+
+/* ── SVG de anotações (pen overlay) ──────────────────────────────── */
+/*
+  O SVG cobre exatamente a área visível do editor-wrap (inset:0).
+  Em modos não-caneta: pointer-events:none → não bloqueia interação.
+  Em modo caneta: pointer-events:all → captura todos os eventos.
+  touch-action:none → evita scroll do browser interferir no desenho.
+*/
+#pen-svg{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:5;
+  pointer-events:none;
+  touch-action:none;
+  /* Não usar overflow:hidden aqui — o clip vem do editor-wrap */
+}
+/* Modo caneta ativo */
+#pen-svg.pen-active{
+  pointer-events:all;
+  cursor:crosshair;
+}
+#pen-svg.pen-eraser{
+  cursor:cell;
+}
+
+/* ── Stats bar ───────────────────────────────────────────────────── */
+.stats-bar{padding:6px 24px 6px 96px;font-size:.72rem;color:rgba(26,18,9,.4);font-style:italic;background:var(--paper2);border-top:1px solid rgba(200,132,58,.15);position:relative;z-index:10;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.latex-hint{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:rgba(26,18,9,.32)}
+.latex-hint b{color:var(--rust)}
+
+/* ── Welcome ─────────────────────────────────────────────────────── */
+.welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;position:relative;z-index:1;text-align:center}
+.welcome-icon{font-size:4rem;margin-bottom:16px}
+.welcome h2{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;font-style:italic;margin-bottom:8px;color:rgba(26,18,9,.35)}
+.welcome p{font-size:.9rem;color:rgba(26,18,9,.28)}
+
+/* ── Toast ───────────────────────────────────────────────────────── */
+.toast{position:fixed;bottom:28px;right:28px;background:var(--ink);color:var(--warm-lt);padding:10px 20px;border-radius:8px;font-family:'Lora',serif;font-size:.85rem;font-style:italic;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;pointer-events:none;z-index:100}
+.toast.show{opacity:1;transform:translateY(0)}
+
+/* ── Diálogo de equação ───────────────────────────────────────────── */
+.eq-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:none;align-items:center;justify-content:center}
+.eq-overlay.open{display:flex}
+.eq-dialog{background:var(--paper);border-radius:10px;padding:28px 30px;width:480px;max-width:95vw;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.eq-dialog h3{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--rust);margin-bottom:5px}
+.eq-dialog p{font-size:.82rem;color:rgba(26,18,9,.5);margin-bottom:14px}
+.eq-type-toggle{display:flex;gap:8px;margin-bottom:12px}
+.eq-type-btn{background:none;border:1px solid rgba(200,132,58,.35);border-radius:5px;padding:4px 14px;font-family:'Lora',serif;font-size:.8rem;color:var(--rust);cursor:pointer;transition:background .15s}
+.eq-type-btn.active{background:var(--warm);color:#fff;border-color:var(--warm)}
+.eq-templates{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.eq-tpl{background:none;border:1px solid rgba(200,132,58,.3);border-radius:4px;padding:3px 9px;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#8b3a1f;cursor:pointer;transition:background .15s}
+.eq-tpl:hover{background:rgba(200,132,58,.12)}
+.eq-dialog textarea{width:100%;height:80px;border:1px solid rgba(200,132,58,.4);border-radius:6px;padding:10px 12px;resize:vertical;font-family:'JetBrains Mono',monospace;font-size:.92rem;color:var(--ink);background:var(--paper2);outline:none}
+.eq-dialog textarea:focus{border-color:var(--warm)}
+.eq-preview-label{font-size:.75rem;color:var(--rust);margin:10px 0 6px;font-style:italic}
+.eq-preview-box{min-height:52px;background:var(--math-bg);border:1px solid var(--math-bd);border-radius:6px;padding:12px 16px;text-align:center;margin-bottom:16px;overflow-x:auto}
+.eq-dialog-btns{display:flex;gap:10px;justify-content:flex-end}
+.eq-btn-cancel{background:none;border:1px solid rgba(200,132,58,.35);border-radius:6px;padding:7px 18px;font-family:'Lora',serif;font-size:.85rem;color:var(--rust);cursor:pointer}
+.eq-btn-cancel:hover{background:rgba(200,132,58,.08)}
+.eq-btn-insert{background:var(--rust);color:#fff;border:none;border-radius:6px;padding:7px 20px;font-family:'Lora',serif;font-size:.85rem;cursor:pointer;transition:background .2s}
+.eq-btn-insert:hover{background:var(--warm)}
+
+/* ── Impressão / PDF ─────────────────────────────────────────────── */
+@media print{
+  .sidebar,.toolbar,.pen-toolbar,.stats-bar,.toast,.eq-overlay{display:none!important}
+  html,body{overflow:visible;height:auto;background:#fff}
+  .app{display:block}
+  .main{overflow:visible;background:#fff}
+  #welcome{display:none!important}
+  #editor-container{display:block!important;height:auto}
+  .editor-wrap{overflow:visible;position:relative}
+  .editor-area{padding:0;overflow:visible}
+  .notebook-bg{padding:0;background-image:none;min-height:0}
+  #entry-raw{display:none!important}
+  #entry-preview{display:block!important;min-height:0}
+  /* Oculta o SVG overlay — ele usa position:absolute e coordenadas
+     de documento que não se traduzem para o contexto de impressão. */
+  #pen-svg{display:none!important}
+  /* SVG standalone gerado por Pen.buildPrintSvg() — tem viewBox correto */
+  #print-svg-tmp{
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    page-break-inside:avoid;
+  }
+  #print-title{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;margin-bottom:6px;color:#1a1209}
+  #print-date{font-family:'Lora',serif;font-style:italic;color:#8b3a1f;margin-bottom:28px;font-size:.95rem}
+  #entry-preview{font-family:'Lora',serif;font-size:11pt;line-height:1.75;color:#1a1209}
+  #entry-preview p{margin-bottom:10pt}
+  #entry-preview blockquote{border-left:3px solid #c8843a;padding-left:12pt;color:#8b3a1f;font-style:italic;margin:10pt 0}
+  #entry-preview .math-block{text-align:center;margin:14pt 0;page-break-inside:avoid}
+  .katex{color:#1a1209}
+}
+
+/* ── Controles do header (idioma + tela cheia) ───────────────────── */
+.header-controls{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-top:14px;
+  gap:8px;
+}
+
+/* Seletor de idioma ── */
+.lang-switcher{
+  display:flex;
+  gap:6px;
+  align-items:center;
+}
+
+.lang-btn{
+  background:none;
+  border:none;
+  padding:0;
+  cursor:pointer;
+  position:relative;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:64px;
+  height:28px;
+  border-radius:20px;
+
+  outline:1.5px solid #3a2a12;
+
+  font-family:'Lora',serif;
+  font-size:.75rem;
+  font-style:italic;
+  font-weight:500;
+  letter-spacing:.04em;
+  color:#6a5030;
+
+  transition:
+    outline-color .18s,
+    background .18s,
+    color .18s,
+    transform .12s,
+    box-shadow .18s;
+}
+
+/* Código do idioma */
+.lang-btn .lang-code{
+  text-transform:uppercase;
+  font-size:.7rem;
+  font-style:normal;
+  font-weight:700;
+  letter-spacing:.08em;
+  /* width fixa para que a mudança de texto (PT→EN) não mova a flag */
+  min-width:16px;
+  text-align:center;
+}
+
+/* ── Hover ── */
+.lang-btn:hover{
+  outline-color:var(--warm);
+  color:#a07840;
+  transform:translateY(-1px);
+}
+
+/* ── Ativo ── */
+.lang-btn.active{
+  background:var(--warm);
+  outline-color:var(--warm);
+  color:#fff;
+  box-shadow:0 2px 8px rgba(200,132,58,.4);
+}
+.lang-btn.active .lang-code{ color:#fff; }
+
+/* ── Tooltip ribbon — aparece abaixo da pílula ── */
+.lang-btn::after{
+  content: attr(data-label);
+  position:absolute;
+  top:calc(100% + 7px);
+  left:50%;
+  transform:translateX(-50%) translateY(-3px);
+  background:var(--warm);
+  color:#fff;
+  font-family:'Lora',serif;
+  font-size:.65rem;
+  font-style:italic;
+  font-weight:500;
+  padding:2px 8px;
+  border-radius:3px;
+  white-space:nowrap;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .18s, transform .18s;
+  z-index:50;
+}
+/* Triângulo apontando para cima */
+.lang-btn::before{
+  content:'';
+  position:absolute;
+  top:calc(100% + 3px);
+  left:50%;
+  transform:translateX(-50%) translateY(-3px);
+  border:4px solid transparent;
+  border-bottom-color:var(--warm);
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .18s, transform .18s;
+  z-index:51;
+}
+.lang-btn:hover::after,
+.lang-btn:hover::before{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+/* O botão ativo não precisa de tooltip */
+.lang-btn.active::after,
+.lang-btn.active::before{ display:none; }
+
+/* ── Botão de tela cheia ─────────────────────────────────────────── */
+/*
+  Mesmo vocabulário visual das pílulas de idioma:
+  borda discreta inativa, fundo var(--warm) ativo.
+  Ícone SVG inline que troca entre expand ↔ compress
+  via .fs-icon-expand / .fs-icon-compress controlados por JS.
+*/
+#btn-fullscreen{
+  background:none;
+  border:none;
+  padding:0;
+  cursor:pointer;
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:32px;
+  height:28px;
+  border-radius:8px;
+  outline:1.5px solid #3a2a12;
+  color:#6a5030;
+  transition:outline-color .18s, background .18s, color .18s, transform .12s;
+  flex-shrink:0;
+}
+#btn-fullscreen:hover{
+  outline-color:var(--warm);
+  color:#a07840;
+  transform:translateY(-1px);
+}
+#btn-fullscreen.is-fullscreen{
+  background:var(--warm);
+  outline-color:var(--warm);
+  color:#fff;
+  box-shadow:0 2px 8px rgba(200,132,58,.4);
+}
+#btn-fullscreen svg{
+  width:14px;
+  height:14px;
+  pointer-events:none;
+}
+/* Tooltip reutiliza o mesmo padrão ribbon das pílulas de idioma */
+#btn-fullscreen::after{
+  content:attr(data-label);
+  position:absolute;
+  top:calc(100% + 7px);
+  left:50%;
+  transform:translateX(-50%) translateY(-3px);
+  background:var(--warm);
+  color:#fff;
+  font-family:'Lora',serif;
+  font-size:.65rem;
+  font-style:italic;
+  font-weight:500;
+  padding:2px 8px;
+  border-radius:3px;
+  white-space:nowrap;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .18s, transform .18s;
+  z-index:50;
+}
+#btn-fullscreen::before{
+  content:'';
+  position:absolute;
+  top:calc(100% + 3px);
+  left:50%;
+  transform:translateX(-50%) translateY(-3px);
+  border:4px solid transparent;
+  border-bottom-color:var(--warm);
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .18s, transform .18s;
+  z-index:51;
+}
+#btn-fullscreen:hover::after,
+#btn-fullscreen:hover::before{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+/* ── Responsivo ──────────────────────────────────────────────────── */
+@media(max-width:640px){
+  .sidebar{width:220px;min-width:220px}
+  .notebook-bg{padding-left:58px}
+  .stats-bar{padding-left:58px}
+}
