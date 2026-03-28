@@ -471,7 +471,7 @@ function convertMarkdown(raw) {
       out.push('<li>' + ln.slice(2) + '</li>');
     } else {
       if (inUl) { out.push('</ul>'); inUl = false; }
-      if (ln.trim()) out.push('<p>' + ln + '</p>'+'<br>');
+      if (ln.trim()) out.push(ln );
     }
   }
   if (inUl) out.push('</ul>');
@@ -920,6 +920,18 @@ var Pen = (function () {
       if (drawing) onPointerUp({ preventDefault: function(){}, pointerId: null });
     },
 
+    /** Torna o overlay visível nas superfícies canônicas (preview/pen). */
+    showOverlay: function () {
+      svgEl.classList.add('pen-visible');
+      syncScroll();
+    },
+
+    /** Oculta completamente o overlay no modo edição-fonte. */
+    hideOverlay: function () {
+      this.deactivate();
+      svgEl.classList.remove('pen-visible');
+    },
+
     /**
      * Carrega traços de uma entrada.
      * @param {Array} savedStrokes  Array de {pts,c,w} do localStorage
@@ -972,6 +984,64 @@ var Pen = (function () {
       svgEl.classList.toggle('pen-eraser', on);
       /* pointer-events nos paths permanece 'none':
          o hit-test é geométrico (eraserHitTest), não via DOM */
+    },
+
+    /**
+     * Gera um overlay SVG alinhado à superfície canônica inteira.
+     *
+     * Diferente de buildPrintSvg(), este método preserva o sistema de
+     * coordenadas do modo Pen/Preview: origem em (0,0) no topo da área
+     * visível do editor e y em espaço de documento.
+     *
+     * @param {number} surfaceWidth  Largura da superfície canônica em px
+     * @param {number} surfaceHeight Altura mínima do conteúdo em px
+     * @returns {SVGElement|null} SVG absoluto pronto para sobrepor o preview
+     */
+    buildPrintOverlay: function (surfaceWidth, surfaceHeight) {
+      if (!strokes.length) return null;
+
+      var PAD  = 12;
+      var maxX = Math.max(1, Math.round(surfaceWidth  || 0));
+      var maxY = Math.max(1, Math.round(surfaceHeight || 0));
+
+      for (var i = 0; i < strokes.length; i++) {
+        var pts = strokes[i].pts;
+        for (var j = 0; j < pts.length; j++) {
+          if (pts[j][0] > maxX) maxX = pts[j][0];
+          if (pts[j][1] > maxY) maxY = pts[j][1];
+        }
+      }
+
+      maxX += PAD;
+      maxY += PAD;
+
+      var svg = document.createElementNS(SVG_NS, 'svg');
+      svg.setAttribute('xmlns',   SVG_NS);
+      svg.setAttribute('viewBox', '0 0 ' + maxX + ' ' + maxY);
+      svg.setAttribute('width',   maxX);
+      svg.setAttribute('height',  maxY);
+      svg.setAttribute('role',       'img');
+      svg.setAttribute('aria-label', 'Anotações manuscritas');
+      svg.id = 'print-overlay-tmp';
+      svg.style.position = 'absolute';
+      svg.style.left     = '0';
+      svg.style.top      = '0';
+      svg.style.width    = maxX + 'px';
+      svg.style.height   = maxY + 'px';
+      svg.style.pointerEvents = 'none';
+
+      for (var k = 0; k < strokes.length; k++) {
+        var s = strokes[k];
+        var p = document.createElementNS(SVG_NS, 'path');
+        p.setAttribute('fill',            'none');
+        p.setAttribute('stroke',          s.c);
+        p.setAttribute('stroke-width',    s.w);
+        p.setAttribute('stroke-linecap',  'round');
+        p.setAttribute('stroke-linejoin', 'round');
+        p.setAttribute('d', toPathD(s.pts));
+        svg.appendChild(p);
+      }
+      return svg;
     },
 
     /**
@@ -1455,13 +1525,94 @@ function renderList(q) {
 /**
  * Muda o modo do editor.
  *
- * 'edit'    → textarea visível, SVG passivo (apenas overlay)
- * 'pen'     → textarea visível com opacidade reduzida, SVG ativo
- * 'preview' → div renderizada visível, SVG passivo
+ * 'edit'    → textarea visível, preview e traços ocultos
+ * 'pen'     → preview renderizado visível, SVG ativo
+ * 'preview' → preview renderizado visível, SVG passivo
  *
- * O SVG de anotações é sempre visível nos três modos; apenas
- * a captura de eventos e o cursor variam.
+ * Preview e Pen compartilham a mesma superfície canônica renderizada.
+ * Edit é modo-fonte: exibe apenas Markdown cru para edição.
  */
+function renderCanonicalSurface() {
+  var raw  = document.getElementById('entry-raw');
+  var prev = document.getElementById('entry-preview');
+  prev.innerHTML = mdToHtml(raw.value);
+}
+
+/**
+ * Monta uma superfície temporária de impressão que replica Preview/Pen.
+ *
+ * Estratégia:
+ *  1. Clona o HTML já renderizado do preview canônico.
+ *  2. Recria cabeçalho (data/título) com a mesma ordem visual da tela.
+ *  3. Sobrepõe um SVG absoluto com o mesmo sistema de coordenadas da caneta.
+ *
+ * O stage fica fora da UI ativa e só é revelado em @media print quando
+ * body.print-exporting estiver presente.
+ */
+function buildPrintStage(entry) {
+  var editorContainer = document.getElementById('editor-container');
+  var editorWrap      = document.querySelector('.editor-wrap');
+  var prev            = document.getElementById('entry-preview');
+  var dateDisplay     = document.getElementById('entry-date-display');
+  var titleInput      = document.getElementById('entry-title');
+
+  if (!editorContainer || !editorWrap || !prev) return null;
+
+  var stage = document.createElement('div');
+  stage.id = 'print-stage';
+  stage.style.position   = 'absolute';
+  stage.style.left       = '-100000px';
+  stage.style.top        = '0';
+  stage.style.display    = 'block';
+  stage.style.visibility = 'hidden';
+
+  var surface = document.createElement('div');
+  surface.id = 'print-stage-surface';
+  surface.style.width = Math.max(1, Math.round(editorWrap.getBoundingClientRect().width)) + 'px';
+
+  var dateEl = document.createElement('div');
+  dateEl.id = 'print-stage-date';
+  dateEl.textContent =
+    (dateDisplay ? dateDisplay.textContent : fmtLong(entry.updatedAt))
+    + (entry.mood ? '  ' + entry.mood : '');
+
+  var titleEl = document.createElement('div');
+  titleEl.id = 'print-stage-title';
+  titleEl.textContent =
+    (titleInput && titleInput.value.trim())
+      ? titleInput.value.trim()
+      : (entry.title || t('list.untitled'));
+
+  var previewEl = document.createElement('div');
+  previewEl.id = 'print-stage-preview';
+  previewEl.innerHTML = prev.innerHTML;
+
+  surface.appendChild(dateEl);
+  surface.appendChild(titleEl);
+  surface.appendChild(previewEl);
+  stage.appendChild(surface);
+  editorContainer.appendChild(stage);
+
+  var surfaceWidth  = surface.getBoundingClientRect().width;
+  var surfaceHeight = Math.max(surface.scrollHeight, surface.offsetHeight);
+  var overlay       = Pen.buildPrintOverlay(surfaceWidth, surfaceHeight);
+
+  if (overlay) {
+    surface.appendChild(overlay);
+    var overlayHeight = parseFloat(overlay.getAttribute('height')) || surfaceHeight;
+    if (overlayHeight > surfaceHeight)
+      surface.style.minHeight = Math.ceil(overlayHeight) + 'px';
+  }
+
+  stage.style.position   = '';
+  stage.style.left       = '';
+  stage.style.top        = '';
+  stage.style.display    = '';
+  stage.style.visibility = '';
+
+  return stage;
+}
+
 function setMode(m) {
   var raw     = document.getElementById('entry-raw');
   var prev    = document.getElementById('entry-preview');
@@ -1479,28 +1630,26 @@ function setMode(m) {
     prev.style.display   = 'none';
     fmt.style.display    = 'flex';
     penTool.style.display= 'none';
-    Pen.deactivate();
+    Pen.hideOverlay();
     autoResizeTextarea(raw);
     raw.focus();
 
-  } else if (m === 'pen') {
-    raw.style.display    = 'block';
-    /* Texto visível porém levemente transparente para ver anotações */
-    raw.style.opacity    = '0.45';
-    prev.style.display   = 'none';
-    fmt.style.display    = 'none';
-    penTool.style.display= 'flex';
-    Pen.activate();
-
-  } else { /* preview */
+  } else {
+    renderCanonicalSurface();
     raw.style.display    = 'none';
     raw.style.opacity    = '1';
     prev.style.display   = 'block';
     fmt.style.display    = 'none';
-    penTool.style.display= 'none';
-    Pen.deactivate();
-    /* KaTeX síncrono — renderiza diretamente */
-    prev.innerHTML = mdToHtml(raw.value);
+    Pen.showOverlay();
+
+    if (m === 'pen') {
+      penTool.style.display= 'flex';
+      Pen.activate();
+
+    } else { /* preview */
+      penTool.style.display= 'none';
+      Pen.deactivate();
+    }
   }
 }
 
@@ -1795,8 +1944,8 @@ function exportMarkdown() {
 
 /**
  * Exporta como PDF via window.print().
- * O @media print no CSS cuida do layout.
- * O SVG de anotações é incluído automaticamente por estar no DOM.
+ * Cria uma superfície temporária de impressão que replica Preview/Pen
+ * e a revela apenas durante a chamada a window.print().
  */
 function exportPDF() {
   if (!currentId) return;
@@ -1804,53 +1953,20 @@ function exportPDF() {
   if (!e) return;
 
   saveEntry();
+  renderCanonicalSurface();
 
-  /* 1. Renderiza preview de texto com LaTeX */
-  var prev = document.getElementById('entry-preview');
-  prev.innerHTML = mdToHtml(document.getElementById('entry-raw').value);
-  var wasHidden = prev.style.display === 'none';
-  prev.style.display = 'block';
+  /* 1. Monta stage temporário fiel ao Preview/Pen */
+  var printStage = buildPrintStage(e);
+  if (!printStage) return;
 
-  /* 2. Injeta cabeçalho (título + data) */
-  var titleEl = document.createElement('div');
-  titleEl.id  = 'print-title';
-  titleEl.textContent = e.title || t('list.untitled');
-
-  var dateEl = document.createElement('div');
-  dateEl.id  = 'print-date';
-  dateEl.textContent = fmtLong(e.updatedAt) + (e.mood ? '  ' + e.mood : '');
-
-  prev.parentNode.insertBefore(titleEl, prev);
-  prev.parentNode.insertBefore(dateEl,  prev);
-
-  /* 3. Injeta SVG de anotações (standalone, com viewBox calculado).
-     Pen.buildPrintSvg() calcula o bounding box real dos traços e
-     gera um SVG autossuficiente — sem dependência de coordenadas
-     de tela ou scrollTop. O #pen-svg overlay é ocultado via @media print. */
-  var printSvg    = Pen.buildPrintSvg();
-  var svgLabel    = null;
-  if (printSvg) {
-    printSvg.id = 'print-svg-tmp';
-    svgLabel = document.createElement('div');
-    svgLabel.id = 'print-svg-label';
-    svgLabel.style.cssText =
-      'font-family:\'Lora\',serif;font-size:.8rem;font-style:italic;color:#8b3a1f;margin-top:24px;';
-    svgLabel.textContent = t('exp.svg.lbl') || 'Anotações manuscritas:';
-    prev.parentNode.appendChild(svgLabel);
-    prev.parentNode.appendChild(printSvg);
+  /* 2. Impressão */
+  document.body.classList.add('print-exporting');
+  try {
+    window.print();
+  } finally {
+    document.body.classList.remove('print-exporting');
+    if (printStage.parentNode) printStage.parentNode.removeChild(printStage);
   }
-
-  /* 4. Impressão */
-  window.print();
-
-  /* 5. Limpeza — remove todos os elementos temporários */
-  prev.parentNode.removeChild(titleEl);
-  prev.parentNode.removeChild(dateEl);
-  if (printSvg) {
-    if (svgLabel && svgLabel.parentNode) svgLabel.parentNode.removeChild(svgLabel);
-    if (printSvg.parentNode)            printSvg.parentNode.removeChild(printSvg);
-  }
-  if (wasHidden) prev.style.display = 'none';
 
   showToast(t('toast.pdf'));
 }

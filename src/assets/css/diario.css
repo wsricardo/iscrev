@@ -306,11 +306,13 @@ html,body{
 /* ── SVG de anotações (pen overlay) ──────────────────────────────── */
 /*
   O SVG cobre exatamente a área visível do editor-wrap (inset:0).
-  Em modos não-caneta: pointer-events:none → não bloqueia interação.
+  Em modo edição-fonte: permanece oculto.
+  Em preview: fica visível, porém passivo.
   Em modo caneta: pointer-events:all → captura todos os eventos.
   touch-action:none → evita scroll do browser interferir no desenho.
 */
 #pen-svg{
+  display:none;
   position:absolute;
   inset:0;
   width:100%;
@@ -319,6 +321,9 @@ html,body{
   pointer-events:none;
   touch-action:none;
   /* Não usar overflow:hidden aqui — o clip vem do editor-wrap */
+}
+#pen-svg.pen-visible{
+  display:block;
 }
 /* Modo caneta ativo */
 #pen-svg.pen-active{
@@ -366,6 +371,62 @@ html,body{
 .eq-btn-insert{background:var(--rust);color:#fff;border:none;border-radius:6px;padding:7px 20px;font-family:'Lora',serif;font-size:.85rem;cursor:pointer;transition:background .2s}
 .eq-btn-insert:hover{background:var(--warm)}
 
+/* ── Superfície temporária de impressão ───────────────────────────── */
+#print-stage{display:none}
+#print-stage-surface{
+  position:relative;
+  margin:0 auto;
+  min-height:0;
+  padding:28px 30px 28px 96px;
+  box-sizing:border-box;
+  background-image:
+    linear-gradient(
+      to right,
+      transparent 89px,
+      rgba(200,60,40,.18) 89px,
+      rgba(200,60,40,.18) 90.5px,
+      transparent 90.5px
+    );
+}
+#print-stage-date{
+  font-family:'Dancing Script',cursive;
+  font-size:1.05rem;
+  color:var(--rust);
+  margin-bottom:8px;
+  opacity:.8;
+}
+#print-stage-title{
+  font-family:'Playfair Display',serif;
+  font-size:2rem;
+  font-weight:700;
+  color:var(--ink);
+  margin-bottom:18px;
+  line-height:1.2;
+  border-bottom:2px solid rgba(200,132,58,.25);
+  padding-bottom:12px;
+}
+#print-stage-preview{
+  font-family:'Lora',serif;
+  font-size:1.05rem;
+  line-height:28px;
+  color:var(--ink);
+}
+#print-stage-preview p{margin-bottom:14px}
+#print-stage-preview strong{font-weight:600}
+#print-stage-preview em{font-style:italic}
+#print-stage-preview blockquote{border-left:3px solid var(--warm);padding-left:16px;margin:12px 0;color:var(--rust);font-style:italic}
+#print-stage-preview ul{padding-left:22px;margin-bottom:12px}
+#print-stage-preview li{margin-bottom:4px}
+#print-stage-preview .math-block{background:var(--math-bg);border:1px solid var(--math-bd);border-radius:6px;padding:14px 20px;margin:16px 0;overflow-x:auto;text-align:center}
+#print-stage-preview .math-inline{display:inline}
+#print-overlay-tmp{
+  position:absolute;
+  left:0;
+  top:0;
+  z-index:2;
+  pointer-events:none;
+}
+
 /* ── Impressão / PDF ─────────────────────────────────────────────── */
 @media print{
   .sidebar,.toolbar,.pen-toolbar,.stats-bar,.toast,.eq-overlay{display:none!important}
@@ -383,15 +444,18 @@ html,body{
   /* Oculta o SVG overlay — ele usa position:absolute e coordenadas
      de documento que não se traduzem para o contexto de impressão. */
   #pen-svg{display:none!important}
-  /* SVG standalone gerado por Pen.buildPrintSvg() — tem viewBox correto */
-  #print-svg-tmp{
-    display:block!important;
-    width:100%!important;
-    max-width:100%!important;
+
+  body.print-exporting .editor-wrap{display:none!important}
+  body.print-exporting #print-stage{display:block!important}
+  body.print-exporting #print-stage-surface{
+    background-image:none;
+    break-inside:auto;
+  }
+  body.print-exporting #print-stage-preview .math-block{
+    overflow:visible;
     page-break-inside:avoid;
   }
-  #print-title{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;margin-bottom:6px;color:#1a1209}
-  #print-date{font-family:'Lora',serif;font-style:italic;color:#8b3a1f;margin-bottom:28px;font-size:.95rem}
+
   #entry-preview{font-family:'Lora',serif;font-size:11pt;line-height:1.75;color:#1a1209}
   #entry-preview p{margin-bottom:10pt}
   #entry-preview blockquote{border-left:3px solid #c8843a;padding-left:12pt;color:#8b3a1f;font-style:italic;margin:10pt 0}

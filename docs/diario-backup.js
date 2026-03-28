@@ -24,7 +24,6 @@ var I18N = {
     'logo.sub':     'anotações pessoais',
     /* Sidebar */
     'lang.label':   'Idioma:',
-    'home.link':    'Início',
     'fs.enter':     'Tela cheia',
     'fs.exit':      'Sair da tela cheia',
     'btn.new':      'Nova Entrada',
@@ -108,8 +107,6 @@ var I18N = {
     'toast.limit':  'Limite de traços atingido (500).',
     'toast.undo':   'Traço removido ↩',
     'toast.clear':  'Anotações limpas ✓',
-    'toast.quotaExceeded': 'Armazenamento cheio. Exporte e exclua entradas antigas.',
-    'toast.storageError':  'Erro ao salvar. Verifique o armazenamento do browser.',
     /* Confirms */
     'cf.del':       'Excluir esta entrada permanentemente?',
     'cf.clear':     'Apagar todas as anotações desta entrada?',
@@ -135,7 +132,6 @@ var I18N = {
     'logo.sub':     'personal notes',
     /* Sidebar */
     'lang.label':   'Lang:',
-    'home.link':    'Home',
     'fs.enter':     'Full screen',
     'fs.exit':      'Exit full screen',
     'btn.new':      'New Entry',
@@ -219,8 +215,6 @@ var I18N = {
     'toast.limit':  'Stroke limit reached (500).',
     'toast.undo':   'Stroke undone ↩',
     'toast.clear':  'Annotations cleared ✓',
-    'toast.quotaExceeded': 'Storage full. Export and delete old entries.',
-'toast.storageError':  'Error saving. Check your browser\'s storage.',
     /* Confirms */
     'cf.del':       'Permanently delete this entry?',
     'cf.clear':     'Clear all annotations for this entry?',
@@ -353,14 +347,6 @@ function doApply(lang) {
       btn.classList.toggle('active', btn.dataset.lang === lang);
     });
 
-    var homeBtn = document.getElementById('btn-home');
-    if (homeBtn) {
-      var homeLabel = t('home.link');
-      homeBtn.setAttribute('data-label', homeLabel);
-      homeBtn.setAttribute('title', homeLabel);
-      homeBtn.setAttribute('aria-label', homeLabel);
-    }
-
     if (typeof Pen !== 'undefined' && Pen.buildToolbar) Pen.buildToolbar();
     if (typeof updateStats === 'function') updateStats();
     if (typeof renderList  === 'function')
@@ -448,30 +434,24 @@ function convertMarkdown(raw) {
   s = s.replace(/^(#{4})\s+(.*)$/gm, '<h4>$2</h4>');
   s = s.replace(/^(#{5})\s+(.*)$/gm, '<h5>$2</h5>');
   s = s.replace(/^(#{6})\s+(.*)$/gm, '<h6>$2</h6>');
-
-  s = s.replace(/\n/g, '<br>');
   //console.log('>' + s)
   
   s = s.replace(/`([^`]+)`/g,
     '<code style="font-family:\'JetBrains Mono\',monospace;font-size:.88em;'
     + 'background:rgba(200,132,58,.12);padding:1px 5px;border-radius:3px">$1</code>');
 
-  var lines = s.split(/(\n)/), out = [], inUl = false;
+  var lines = s.split('\n'), out = [], inUl = false;
   for (var i = 0; i < lines.length; i++) {
     var ln = lines[i];
     if (/^&gt;\s?/.test(ln)) {
       if (inUl) { out.push('</ul>'); inUl = false; }
       out.push('<blockquote>' + ln.replace(/^&gt;\s?/, '') + '</blockquote>');
-
-    } else if ( ln == "\n") {
-      out.push('<br>');
-    
     } else if (/^[-*]\s/.test(ln)) {
       if (!inUl) { out.push('<ul>'); inUl = true; }
       out.push('<li>' + ln.slice(2) + '</li>');
     } else {
       if (inUl) { out.push('</ul>'); inUl = false; }
-      if (ln.trim()) out.push(ln );
+      if (ln.trim()) out.push('<p>' + ln + '</p>');
     }
   }
   if (inUl) out.push('</ul>');
@@ -920,18 +900,6 @@ var Pen = (function () {
       if (drawing) onPointerUp({ preventDefault: function(){}, pointerId: null });
     },
 
-    /** Torna o overlay visível nas superfícies canônicas (preview/pen). */
-    showOverlay: function () {
-      svgEl.classList.add('pen-visible');
-      syncScroll();
-    },
-
-    /** Oculta completamente o overlay no modo edição-fonte. */
-    hideOverlay: function () {
-      this.deactivate();
-      svgEl.classList.remove('pen-visible');
-    },
-
     /**
      * Carrega traços de uma entrada.
      * @param {Array} savedStrokes  Array de {pts,c,w} do localStorage
@@ -984,64 +952,6 @@ var Pen = (function () {
       svgEl.classList.toggle('pen-eraser', on);
       /* pointer-events nos paths permanece 'none':
          o hit-test é geométrico (eraserHitTest), não via DOM */
-    },
-
-    /**
-     * Gera um overlay SVG alinhado à superfície canônica inteira.
-     *
-     * Diferente de buildPrintSvg(), este método preserva o sistema de
-     * coordenadas do modo Pen/Preview: origem em (0,0) no topo da área
-     * visível do editor e y em espaço de documento.
-     *
-     * @param {number} surfaceWidth  Largura da superfície canônica em px
-     * @param {number} surfaceHeight Altura mínima do conteúdo em px
-     * @returns {SVGElement|null} SVG absoluto pronto para sobrepor o preview
-     */
-    buildPrintOverlay: function (surfaceWidth, surfaceHeight) {
-      if (!strokes.length) return null;
-
-      var PAD  = 12;
-      var maxX = Math.max(1, Math.round(surfaceWidth  || 0));
-      var maxY = Math.max(1, Math.round(surfaceHeight || 0));
-
-      for (var i = 0; i < strokes.length; i++) {
-        var pts = strokes[i].pts;
-        for (var j = 0; j < pts.length; j++) {
-          if (pts[j][0] > maxX) maxX = pts[j][0];
-          if (pts[j][1] > maxY) maxY = pts[j][1];
-        }
-      }
-
-      maxX += PAD;
-      maxY += PAD;
-
-      var svg = document.createElementNS(SVG_NS, 'svg');
-      svg.setAttribute('xmlns',   SVG_NS);
-      svg.setAttribute('viewBox', '0 0 ' + maxX + ' ' + maxY);
-      svg.setAttribute('width',   maxX);
-      svg.setAttribute('height',  maxY);
-      svg.setAttribute('role',       'img');
-      svg.setAttribute('aria-label', 'Anotações manuscritas');
-      svg.id = 'print-overlay-tmp';
-      svg.style.position = 'absolute';
-      svg.style.left     = '0';
-      svg.style.top      = '0';
-      svg.style.width    = maxX + 'px';
-      svg.style.height   = maxY + 'px';
-      svg.style.pointerEvents = 'none';
-
-      for (var k = 0; k < strokes.length; k++) {
-        var s = strokes[k];
-        var p = document.createElementNS(SVG_NS, 'path');
-        p.setAttribute('fill',            'none');
-        p.setAttribute('stroke',          s.c);
-        p.setAttribute('stroke-width',    s.w);
-        p.setAttribute('stroke-linecap',  'round');
-        p.setAttribute('stroke-linejoin', 'round');
-        p.setAttribute('d', toPathD(s.pts));
-        svg.appendChild(p);
-      }
-      return svg;
     },
 
     /**
@@ -1386,51 +1296,20 @@ var Storage = (function () {
    SEÇÃO 3 — ESTADO E PERSISTÊNCIA
    ────────────────────────────────────────────────────────────────── */
 
-//var STORAGE_KEY = 'meu_diario_v2';
+var STORAGE_KEY = 'meu_diario_v2';
 var entries     = [];   /* array de Entry — fonte da verdade */
 var currentId   = null; /* ID da entrada aberta, ou null */
 
-/** Carrega entries[] do backend ativo. Retorna Promise.  */
-function loadData() {
-  return Storage.getAll().then( function ( all ) {
-    entries = all;
-  });
-
-}
-
-/**
- * Persiste uma única entrada no backend.
- * Mais eficiente que gravar o array inteiro a cada alteração.
- * @param {Entry} entry
- */
-function saveEntry_store(entry) {
-  Storage.put(entry).catch(function (err) {
-    console.error('[Storage] put failed:', err);
-    document.dispatchEvent(new CustomEvent('storage:error'));
-  });
-}
-
-/**
- * Remove uma entrada do backend.
- * @param {string} id
- */
-function removeEntry_store(id) {
-  Storage.remove(id).catch(function (err) {
-    console.error('[Storage] remove failed:', err);
-  });
-}
-
-
 /** Carrega entries do localStorage. Em caso de JSON corrompido, inicia vazio. */
-//function loadData() {
-//  try { entries = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-//  catch (e) { entries = []; }
-//}
+function loadData() {
+  try { entries = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+  catch (e) { entries = []; }
+}
 
 /** Persiste o array entries no localStorage. */
-//function saveData() {
-//  localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
-//}
+function saveData() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+}
 
 /* ──────────────────────────────────────────────────────────────────
    SEÇÃO 4 — UTILITÁRIOS
@@ -1525,94 +1404,13 @@ function renderList(q) {
 /**
  * Muda o modo do editor.
  *
- * 'edit'    → textarea visível, preview e traços ocultos
- * 'pen'     → preview renderizado visível, SVG ativo
- * 'preview' → preview renderizado visível, SVG passivo
+ * 'edit'    → textarea visível, SVG passivo (apenas overlay)
+ * 'pen'     → textarea visível com opacidade reduzida, SVG ativo
+ * 'preview' → div renderizada visível, SVG passivo
  *
- * Preview e Pen compartilham a mesma superfície canônica renderizada.
- * Edit é modo-fonte: exibe apenas Markdown cru para edição.
+ * O SVG de anotações é sempre visível nos três modos; apenas
+ * a captura de eventos e o cursor variam.
  */
-function renderCanonicalSurface() {
-  var raw  = document.getElementById('entry-raw');
-  var prev = document.getElementById('entry-preview');
-  prev.innerHTML = mdToHtml(raw.value);
-}
-
-/**
- * Monta uma superfície temporária de impressão que replica Preview/Pen.
- *
- * Estratégia:
- *  1. Clona o HTML já renderizado do preview canônico.
- *  2. Recria cabeçalho (data/título) com a mesma ordem visual da tela.
- *  3. Sobrepõe um SVG absoluto com o mesmo sistema de coordenadas da caneta.
- *
- * O stage fica fora da UI ativa e só é revelado em @media print quando
- * body.print-exporting estiver presente.
- */
-function buildPrintStage(entry) {
-  var editorContainer = document.getElementById('editor-container');
-  var editorWrap      = document.querySelector('.editor-wrap');
-  var prev            = document.getElementById('entry-preview');
-  var dateDisplay     = document.getElementById('entry-date-display');
-  var titleInput      = document.getElementById('entry-title');
-
-  if (!editorContainer || !editorWrap || !prev) return null;
-
-  var stage = document.createElement('div');
-  stage.id = 'print-stage';
-  stage.style.position   = 'absolute';
-  stage.style.left       = '-100000px';
-  stage.style.top        = '0';
-  stage.style.display    = 'block';
-  stage.style.visibility = 'hidden';
-
-  var surface = document.createElement('div');
-  surface.id = 'print-stage-surface';
-  surface.style.width = Math.max(1, Math.round(editorWrap.getBoundingClientRect().width)) + 'px';
-
-  var dateEl = document.createElement('div');
-  dateEl.id = 'print-stage-date';
-  dateEl.textContent =
-    (dateDisplay ? dateDisplay.textContent : fmtLong(entry.updatedAt))
-    + (entry.mood ? '  ' + entry.mood : '');
-
-  var titleEl = document.createElement('div');
-  titleEl.id = 'print-stage-title';
-  titleEl.textContent =
-    (titleInput && titleInput.value.trim())
-      ? titleInput.value.trim()
-      : (entry.title || t('list.untitled'));
-
-  var previewEl = document.createElement('div');
-  previewEl.id = 'print-stage-preview';
-  previewEl.innerHTML = prev.innerHTML;
-
-  surface.appendChild(dateEl);
-  surface.appendChild(titleEl);
-  surface.appendChild(previewEl);
-  stage.appendChild(surface);
-  editorContainer.appendChild(stage);
-
-  var surfaceWidth  = surface.getBoundingClientRect().width;
-  var surfaceHeight = Math.max(surface.scrollHeight, surface.offsetHeight);
-  var overlay       = Pen.buildPrintOverlay(surfaceWidth, surfaceHeight);
-
-  if (overlay) {
-    surface.appendChild(overlay);
-    var overlayHeight = parseFloat(overlay.getAttribute('height')) || surfaceHeight;
-    if (overlayHeight > surfaceHeight)
-      surface.style.minHeight = Math.ceil(overlayHeight) + 'px';
-  }
-
-  stage.style.position   = '';
-  stage.style.left       = '';
-  stage.style.top        = '';
-  stage.style.display    = '';
-  stage.style.visibility = '';
-
-  return stage;
-}
-
 function setMode(m) {
   var raw     = document.getElementById('entry-raw');
   var prev    = document.getElementById('entry-preview');
@@ -1630,26 +1428,28 @@ function setMode(m) {
     prev.style.display   = 'none';
     fmt.style.display    = 'flex';
     penTool.style.display= 'none';
-    Pen.hideOverlay();
+    Pen.deactivate();
     autoResizeTextarea(raw);
     raw.focus();
 
-  } else {
-    renderCanonicalSurface();
+  } else if (m === 'pen') {
+    raw.style.display    = 'block';
+    /* Texto visível porém levemente transparente para ver anotações */
+    raw.style.opacity    = '0.45';
+    prev.style.display   = 'none';
+    fmt.style.display    = 'none';
+    penTool.style.display= 'flex';
+    Pen.activate();
+
+  } else { /* preview */
     raw.style.display    = 'none';
     raw.style.opacity    = '1';
     prev.style.display   = 'block';
     fmt.style.display    = 'none';
-    Pen.showOverlay();
-
-    if (m === 'pen') {
-      penTool.style.display= 'flex';
-      Pen.activate();
-
-    } else { /* preview */
-      penTool.style.display= 'none';
-      Pen.deactivate();
-    }
+    penTool.style.display= 'none';
+    Pen.deactivate();
+    /* KaTeX síncrono — renderiza diretamente */
+    prev.innerHTML = mdToHtml(raw.value);
   }
 }
 
@@ -1708,26 +1508,7 @@ function saveEntry() {
   renderList(document.getElementById('search-input').value);
 }
 
-
 function deleteEntry() {
-  if (!currentId) return;
-  if (!confirm(t('cf.del'))) return;
-  removeEntry_store(currentId);              /* ← grava remoção no IDB */
-  entries = entries.filter(function (x) { return x.id !== currentId; });
-  currentId = null;
-
-  saveEntry_store( entries[0] );
-  Pen.load([]);
-  Pen.deactivate();
-  document.getElementById('editor-container').style.display = 'none';
-  document.getElementById('welcome').style.display = 'flex';
-  renderList();
-  showToast(t('toast.del'));
-
-}
-
-
-/*function deleteEntry() {
   if (!currentId) return;
   if (!confirm(t('cf.del'))) return;
   entries   = entries.filter(function (x) { return x.id !== currentId; });
@@ -1739,7 +1520,7 @@ function deleteEntry() {
   document.getElementById('welcome').style.display = 'flex';
   renderList();
   showToast(t('toast.del'));
-}*/
+}
 
 function updateStats() {
   var n = wordCount(document.getElementById('entry-raw').value);
@@ -1944,8 +1725,8 @@ function exportMarkdown() {
 
 /**
  * Exporta como PDF via window.print().
- * Cria uma superfície temporária de impressão que replica Preview/Pen
- * e a revela apenas durante a chamada a window.print().
+ * O @media print no CSS cuida do layout.
+ * O SVG de anotações é incluído automaticamente por estar no DOM.
  */
 function exportPDF() {
   if (!currentId) return;
@@ -1953,20 +1734,53 @@ function exportPDF() {
   if (!e) return;
 
   saveEntry();
-  renderCanonicalSurface();
 
-  /* 1. Monta stage temporário fiel ao Preview/Pen */
-  var printStage = buildPrintStage(e);
-  if (!printStage) return;
+  /* 1. Renderiza preview de texto com LaTeX */
+  var prev = document.getElementById('entry-preview');
+  prev.innerHTML = mdToHtml(document.getElementById('entry-raw').value);
+  var wasHidden = prev.style.display === 'none';
+  prev.style.display = 'block';
 
-  /* 2. Impressão */
-  document.body.classList.add('print-exporting');
-  try {
-    window.print();
-  } finally {
-    document.body.classList.remove('print-exporting');
-    if (printStage.parentNode) printStage.parentNode.removeChild(printStage);
+  /* 2. Injeta cabeçalho (título + data) */
+  var titleEl = document.createElement('div');
+  titleEl.id  = 'print-title';
+  titleEl.textContent = e.title || t('list.untitled');
+
+  var dateEl = document.createElement('div');
+  dateEl.id  = 'print-date';
+  dateEl.textContent = fmtLong(e.updatedAt) + (e.mood ? '  ' + e.mood : '');
+
+  prev.parentNode.insertBefore(titleEl, prev);
+  prev.parentNode.insertBefore(dateEl,  prev);
+
+  /* 3. Injeta SVG de anotações (standalone, com viewBox calculado).
+     Pen.buildPrintSvg() calcula o bounding box real dos traços e
+     gera um SVG autossuficiente — sem dependência de coordenadas
+     de tela ou scrollTop. O #pen-svg overlay é ocultado via @media print. */
+  var printSvg    = Pen.buildPrintSvg();
+  var svgLabel    = null;
+  if (printSvg) {
+    printSvg.id = 'print-svg-tmp';
+    svgLabel = document.createElement('div');
+    svgLabel.id = 'print-svg-label';
+    svgLabel.style.cssText =
+      'font-family:\'Lora\',serif;font-size:.8rem;font-style:italic;color:#8b3a1f;margin-top:24px;';
+    svgLabel.textContent = t('exp.svg.lbl') || 'Anotações manuscritas:';
+    prev.parentNode.appendChild(svgLabel);
+    prev.parentNode.appendChild(printSvg);
   }
+
+  /* 4. Impressão */
+  window.print();
+
+  /* 5. Limpeza — remove todos os elementos temporários */
+  prev.parentNode.removeChild(titleEl);
+  prev.parentNode.removeChild(dateEl);
+  if (printSvg) {
+    if (svgLabel && svgLabel.parentNode) svgLabel.parentNode.removeChild(svgLabel);
+    if (printSvg.parentNode)            printSvg.parentNode.removeChild(printSvg);
+  }
+  if (wasHidden) prev.style.display = 'none';
 
   showToast(t('toast.pdf'));
 }
@@ -2064,7 +1878,7 @@ function importMarkdown() {
           updatedAt: now
         };
         entries.unshift(entry);
-        saveData();
+        saveEntry_store(entry);
         openEntry(entry.id);    /* abre + chama Pen.load(entry.strokes) */
         showToast(t('toast.imported'));
 
@@ -2135,25 +1949,15 @@ document.getElementById('entry-raw').addEventListener('input', function () {
 document.getElementById('entry-title').addEventListener('input', debSave);
 document.getElementById('mood-select').addEventListener('change', debSave);
 
-
-/*Callback do Pen: chamado após cada traço completo (new version, IndexedDB)*/
-Pen._onStrokesChange = function (strokes) {
-  var e = entries.find(function (x) { return x.id === currentId; });
-  if (!e) return;
-  e.strokes   = strokes;
-  e.updatedAt = new Date().toISOString();
-  saveEntry_store(e);    /* persiste só esta entrada, sem tocar as demais */
-};
-
 /* Callback do Pen: chamado após cada traço completo */
-/*Pen._onStrokesChange = function (strokes) {
+Pen._onStrokesChange = function (strokes) {
   if (!currentId) return;
   var e = entries.filter(function (x) { return x.id === currentId; })[0];
   if (!e) return;
   e.strokes   = strokes;
   e.updatedAt = new Date().toISOString();
-  saveData(); /* persiste imediatamente — sem debounce *\/
-};*/
+  saveData(); /* persiste imediatamente — sem debounce */
+};
 
 /* ──────────────────────────────────────────────────────────────────
    SEÇÃO 13 — TELA CHEIA (Fullscreen API)
@@ -2302,8 +2106,7 @@ document.getElementById('mode-preview').addEventListener('click', function () {
 document.getElementById('btn-new').addEventListener('click', newEntry);
 document.getElementById('btn-import-md').addEventListener('click', importMarkdown);
 document.getElementById('btn-save').addEventListener('click', function () {
-  saveEntry(); 
-  showToast(t('toast.saved'));
+  saveEntry(); showToast(t('toast.saved'));
 });
 document.getElementById('btn-delete').addEventListener('click', deleteEntry);
 
@@ -2317,75 +2120,16 @@ document.querySelectorAll('#lang-switcher .lang-btn').forEach(function (btn) {
   btn.addEventListener('click', function () { applyLocale(btn.dataset.lang); });
 });
 
-/*
- dois eventos customizados 
- que o app deve escutar para exibir toasts informativos 
- despachados neste módulo.
-*/
-document.addEventListener('storage:quota-exceeded', function () {
-  showToast(t('toast.quotaExceeded'));
-});
-document.addEventListener('storage:error', function () {
-  showToast(t('toast.storageError'));
-});
-
 /* ──────────────────────────────────────────────────────────────────
    SEÇÃO 15 — INICIALIZAÇÃO
    ────────────────────────────────────────────────────────────────── */
 
-/* ( new versin for use IndexedDB)
-Inicializar módulo Storage e depois módulo Pen
-*/
-/* SEÇÃO 15 — INICIALIZAÇÃO */
-
-
-function migrateFromLocalStorage() {
-  if (Storage.backend() !== 'indexeddb') return Promise.resolve();
-  var lsKey = 'meu_diario_v2';
-  var lsMigKey = 'meu_diario_migrated';
-  if (localStorage.getItem(lsMigKey)) return Promise.resolve();
-
-  var raw = localStorage.getItem(lsKey);
-  if (!raw) return Promise.resolve();
-
-  try {
-    var old = JSON.parse(raw);
-    return Promise.all(old.map(function (e) { return Storage.put(e); }))
-      .then( function () {
-        localStorage.setItem(lsMigKey, '1');
-        /* Mantém o localStorage intacto como backup por segurança */
-      }); 
-  } catch (e) {
-    return Promise.resolve();
-  }
-}
-
-Storage.init()
-.then( migrateFromLocalStorage )
-.then( loadData )
-.then( function () {
-  return loadData();
-}).then(function () {
-  Pen.init(
-    document.getElementById('pen-svg'),
-    document.getElementById('pen-layer'),
-    document.getElementById('editor-area')
-  );
-  applyLocale(currentLang);
-  if (entries.length) {
-    var latest = entries.slice().sort(function (a, b) {
-      return new Date(b.updatedAt) - new Date(a.updatedAt);
-    })[0];
-    openEntry(latest.id);
-  }
-});
-
 /* 1. Inicializa o módulo Pen com os elementos do DOM */
-/*Pen.init(
+Pen.init(
   document.getElementById('pen-svg'),
   document.getElementById('pen-layer'),
   document.getElementById('editor-area')
-);*/
+);
 
 /* 2. Carrega dados do localStorage */
 loadData();
