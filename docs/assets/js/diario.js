@@ -1530,6 +1530,24 @@ function fmtShort(iso) {
     { day:'2-digit', month:'short', year:'numeric' });
 }
 
+var mobileShellMq = window.matchMedia('(max-width: 900px)');
+
+function isMobileShell() {
+  return mobileShellMq.matches;
+}
+
+function setSidebarOpen(open) {
+  document.body.classList.toggle('sidebar-open', !!open && isMobileShell());
+}
+
+function syncResponsiveShell() {
+  if (!isMobileShell()) {
+    document.body.classList.remove('sidebar-open');
+  } else if (!currentId) {
+    document.body.classList.add('sidebar-open');
+  }
+}
+
 /** Remove Markdown e LaTeX para exibir como texto puro na sidebar. */
 function stripForSidebar(str) {
   return str.replace(/\*\*?|__?|`|^>\s?|^[-*]\s|\$\$?/gm, '').trim();
@@ -1754,6 +1772,7 @@ function openEntry(id) {
      Com display:none o scrollHeight retorna 0. */
   autoResizeTextarea(document.getElementById('entry-raw'));
   renderList(document.getElementById('search-input').value);
+  setSidebarOpen(false);
 }
 
 function newEntry() {
@@ -1800,6 +1819,7 @@ function deleteEntry() {
   document.getElementById('editor-container').style.display = 'none';
   document.getElementById('welcome').style.display = 'flex';
   renderList();
+  setSidebarOpen(true);
   showToast(t('toast.del'));
 
 }
@@ -2355,6 +2375,10 @@ document.addEventListener('keydown', function (ev) {
     }
   }
   /* Escape — fechar modal de equação */
+  if (ev.key === 'Escape' && document.body.classList.contains('sidebar-open')) {
+    setSidebarOpen(false);
+    return;
+  }
   if (ev.key === 'Escape')
     document.getElementById('eq-overlay').classList.remove('open');
 });
@@ -2384,6 +2408,13 @@ document.getElementById('btn-save').addEventListener('click', function () {
   showToast(t('toast.saved'));
 });
 document.getElementById('btn-delete').addEventListener('click', deleteEntry);
+document.getElementById('btn-sidebar-toggle').addEventListener('click', function () {
+  if (!isMobileShell()) return;
+  setSidebarOpen(!document.body.classList.contains('sidebar-open'));
+});
+document.getElementById('sidebar-scrim').addEventListener('click', function () {
+  setSidebarOpen(false);
+});
 
 /* Busca na sidebar */
 document.getElementById('search-input').addEventListener('input', function (ev) {
@@ -2394,6 +2425,11 @@ document.getElementById('search-input').addEventListener('input', function (ev) 
 document.querySelectorAll('#lang-switcher .lang-btn').forEach(function (btn) {
   btn.addEventListener('click', function () { applyLocale(btn.dataset.lang); });
 });
+
+if (mobileShellMq.addEventListener)
+  mobileShellMq.addEventListener('change', syncResponsiveShell);
+else if (mobileShellMq.addListener)
+  mobileShellMq.addListener(syncResponsiveShell);
 
 /*
  dois eventos customizados 
@@ -2477,5 +2513,7 @@ if (entries.length) {
     .sort(function (a, b) { return new Date(b.updatedAt) - new Date(a.updatedAt); })[0];
   openEntry(latest.id);
 }
+
+syncResponsiveShell();
 
 })(); /* fim da IIFE */
