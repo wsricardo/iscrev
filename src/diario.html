@@ -161,19 +161,17 @@
         <button class="btn-delete" id="btn-delete"><span id="btn-delete-label">Excluir</span></button>
         <button class="btn-save"   id="btn-save"><span id="btn-save-label">Salvar</span></button>
         <!-- Icon Hidden/Show sidebar -->
-        <button class="btn-sidebar-toggle" id="btn-sidebar-toggle">
-          <svg viewBox="0 0 1 1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <line x1="0" y1="0" x2="1" y2="1"/>
-            <line x1="0" y1="1" x2="1" y2="0"/>
-          </svg>
-          <span id="btn-sidebar-toggle-label">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="currentColor" stroke-width="2"
-                  stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="3" width="20" height="18" rx="3"/>
-                <line x1="8" y1="3" x2="8" y2="21"/>
-                <path d="M5 8 L3.5 10 L5 12"/>
-              </svg>
+        <button class="btn-sidebar-toggle" id="btn-sidebar-toggle" type="button"
+                title="Mostrar ou ocultar painel lateral"
+                aria-label="Mostrar ou ocultar painel lateral">
+          <span id="btn-sidebar-toggle-label" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="18" rx="3"/>
+              <line x1="8" y1="3" x2="8" y2="21"/>
+              <path d="M5 8 L3.5 10 L5 12"/>
+            </svg>
           </span>
         </button>
       </div>
@@ -219,6 +217,7 @@
                       placeholder="Escreva aqui…  $inline$ ou $$bloco$$ para LaTeX."
                       spellcheck="false"></textarea>
             <div id="entry-preview"></div>
+            <div id="notebook-tail" aria-hidden="true"></div>
           </div>
         </div>
 

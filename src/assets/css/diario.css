@@ -310,6 +310,7 @@ html,body{
 #entry-preview li{margin-bottom:4px}
 #entry-preview .math-block{background:var(--math-bg);border:1px solid var(--math-bd);border-radius:6px;padding:14px 20px;margin:16px 0;overflow-x:auto;text-align:center}
 #entry-preview .math-inline{display:inline}
+#notebook-tail{width:100%;height:0}
 .katex-display{margin:.4em 0!important}
 
 /* ── SVG de anotações (pen overlay) ──────────────────────────────── */
@@ -696,17 +697,34 @@ html,body{
 .btn-sidebar-toggle{
   background:none;
   border: 1px solid rgba(200,80,40,.35);
-  padding: 5px 12px;
+  padding:5px 10px;
   cursor:pointer;
   position:relative;
-   display:none;
+  display:inline-flex;
   align-items:center;
   justify-content:center;
   width:auto;
   height:28px;
+  min-width:34px;
   border-radius:6px;
   color:#a04020;
+  transition:background .2s,border-color .2s,color .2s;
+  flex-shrink:0;
+}
 
+.btn-sidebar-toggle:hover{
+  background:rgba(200,80,40,.1);
+  border-color:#a04020;
+}
+
+.btn-sidebar-toggle svg{
+  display:block;
+  width:16px;
+  height:16px;
+}
+
+body.sidebar-collapsed .sidebar{
+  display:none;
 }
 
 @media (hover:none), (pointer:coarse){

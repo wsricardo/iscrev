@@ -682,6 +682,7 @@ var Pen = (function () {
     if (e.deltaMode === 1) delta *= 20;
     if (e.deltaMode === 2) delta *= editorAreaEl.clientHeight;
     editorAreaEl.scrollTop += delta;
+    maybeGrowNotebookTail();
     e.preventDefault();
   }
 
@@ -805,6 +806,7 @@ var Pen = (function () {
         0,
         panStartScrollTop - Math.round(e.clientY - panStartY)
       );
+      maybeGrowNotebookTail();
       return;
     }
 
@@ -1536,16 +1538,31 @@ function isMobileShell() {
   return mobileShellMq.matches;
 }
 
+function isSidebarOpen() {
+  return isMobileShell()
+    ? document.body.classList.contains('sidebar-open')
+    : !document.body.classList.contains('sidebar-collapsed');
+}
+
 function setSidebarOpen(open) {
-  document.body.classList.toggle('sidebar-open', !!open && isMobileShell());
+  if (isMobileShell()) {
+    document.body.classList.remove('sidebar-collapsed');
+    document.body.classList.toggle('sidebar-open', !!open);
+    return;
+  }
+
+  document.body.classList.remove('sidebar-open');
+  document.body.classList.toggle('sidebar-collapsed', !open);
 }
 
 function syncResponsiveShell() {
   if (!isMobileShell()) {
     document.body.classList.remove('sidebar-open');
-  } else if (!currentId) {
-    document.body.classList.add('sidebar-open');
+    return;
   }
+
+  document.body.classList.remove('sidebar-collapsed');
+  document.body.classList.toggle('sidebar-open', !currentId);
 }
 
 /** Remove Markdown e LaTeX para exibir como texto puro na sidebar. */
@@ -1634,6 +1651,71 @@ function renderCanonicalSurface() {
   prev.innerHTML = mdToHtml(raw.value);
 }
 
+var currentMode = 'edit';
+var NOTEBOOK_LINE_PX = 28;
+var NOTEBOOK_TAIL_STEP = NOTEBOOK_LINE_PX * 12;
+var NOTEBOOK_TAIL_PAD = NOTEBOOK_LINE_PX * 4;
+var NOTEBOOK_TAIL_TRIGGER = 180;
+var notebookTailExtraPx = 0;
+
+function alignNotebookTail(n) {
+  return Math.max(0, Math.ceil(n / NOTEBOOK_LINE_PX) * NOTEBOOK_LINE_PX);
+}
+
+function getMaxStrokeY() {
+  var strokes = Pen.getStrokes();
+  var maxY = 0;
+
+  for (var i = 0; i < strokes.length; i++) {
+    var pts = strokes[i].pts;
+    for (var j = 0; j < pts.length; j++) {
+      if (pts[j][1] > maxY) maxY = pts[j][1];
+    }
+  }
+  return maxY;
+}
+
+function resetNotebookTail() {
+  notebookTailExtraPx = 0;
+  var tail = document.getElementById('notebook-tail');
+  if (tail) tail.style.height = '0px';
+}
+
+function syncNotebookTail() {
+  var tail = document.getElementById('notebook-tail');
+  if (!tail) return;
+
+  if (currentMode !== 'pen' && currentMode !== 'preview') {
+    tail.style.height = '0px';
+    return;
+  }
+
+  var contentBottom = tail.offsetTop;
+  var neededFromStrokes = Math.max(
+    0,
+    getMaxStrokeY() + NOTEBOOK_TAIL_PAD - contentBottom
+  );
+  var nextExtra = Math.max(
+    notebookTailExtraPx,
+    alignNotebookTail(neededFromStrokes)
+  );
+
+  tail.style.height = nextExtra + 'px';
+}
+
+function maybeGrowNotebookTail() {
+  if (currentMode !== 'pen') return;
+
+  var area = document.getElementById('editor-area');
+  if (!area) return;
+
+  if (area.scrollTop + area.clientHeight < area.scrollHeight - NOTEBOOK_TAIL_TRIGGER)
+    return;
+
+  notebookTailExtraPx += NOTEBOOK_TAIL_STEP;
+  syncNotebookTail();
+}
+
 /**
  * Monta uma superfície temporária de impressão que replica Preview/Pen.
  *
@@ -1715,6 +1797,8 @@ function setMode(m) {
   var fmt     = document.getElementById('fmt-btns');
   var penTool = document.getElementById('pen-toolbar');
 
+  currentMode = m;
+
   /* Atualiza botões do mode-toggle */
   document.getElementById('mode-edit').classList.toggle('active',    m === 'edit');
   document.getElementById('mode-pen').classList.toggle('active',     m === 'pen');
@@ -1726,6 +1810,7 @@ function setMode(m) {
     prev.style.display   = 'none';
     fmt.style.display    = 'flex';
     penTool.style.display= 'none';
+    syncNotebookTail();
     Pen.hideOverlay();
     autoResizeTextarea(raw);
     raw.focus();
@@ -1736,6 +1821,7 @@ function setMode(m) {
     raw.style.opacity    = '1';
     prev.style.display   = 'block';
     fmt.style.display    = 'none';
+    syncNotebookTail();
     Pen.showOverlay();
 
     if (m === 'pen') {
@@ -1765,6 +1851,7 @@ function openEntry(id) {
   document.getElementById('entry-raw').value   = e.body;
   document.getElementById('mood-select').value = e.mood || '';
 
+  resetNotebookTail();
   Pen.load(e.strokes || []);
   updateStats();
   setMode('edit');
@@ -1772,7 +1859,7 @@ function openEntry(id) {
      Com display:none o scrollHeight retorna 0. */
   autoResizeTextarea(document.getElementById('entry-raw'));
   renderList(document.getElementById('search-input').value);
-  setSidebarOpen(false);
+  if (isMobileShell()) setSidebarOpen(false);
 }
 
 function newEntry() {
@@ -1815,11 +1902,12 @@ function deleteEntry() {
 
   saveEntry_store( entries[0] );
   Pen.load([]);
+  resetNotebookTail();
   Pen.deactivate();
   document.getElementById('editor-container').style.display = 'none';
   document.getElementById('welcome').style.display = 'flex';
   renderList();
-  setSidebarOpen(true);
+  if (isMobileShell()) setSidebarOpen(true);
   showToast(t('toast.del'));
 
 }
@@ -2206,8 +2294,11 @@ function autoResizeTextarea(el) {
     if (e.deltaMode === 1) delta *= 20;   /* linhas → pixels  */
     if (e.deltaMode === 2) delta *= area.clientHeight; /* páginas → pixels */
     area.scrollTop += delta;
+    maybeGrowNotebookTail();
     e.preventDefault();
   }, { passive: false });
+
+  area.addEventListener('scroll', maybeGrowNotebookTail, { passive: true });
 }());
 
 /* ──────────────────────────────────────────────────────────────────
@@ -2241,6 +2332,7 @@ Pen._onStrokesChange = function (strokes) {
   e.strokes   = strokes;
   e.updatedAt = new Date().toISOString();
   saveEntry_store(e);    /* persiste só esta entrada, sem tocar as demais */
+  syncNotebookTail();
 };
 
 /* Callback do Pen: chamado após cada traço completo */
@@ -2409,8 +2501,7 @@ document.getElementById('btn-save').addEventListener('click', function () {
 });
 document.getElementById('btn-delete').addEventListener('click', deleteEntry);
 document.getElementById('btn-sidebar-toggle').addEventListener('click', function () {
-  if (!isMobileShell()) return;
-  setSidebarOpen(!document.body.classList.contains('sidebar-open'));
+  setSidebarOpen(!isSidebarOpen());
 });
 document.getElementById('sidebar-scrim').addEventListener('click', function () {
   setSidebarOpen(false);
