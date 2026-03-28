@@ -408,6 +408,12 @@ html,body{
   gap:8px;
 }
 
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
 /* Seletor de idioma ── */
 .lang-switcher{
   display:flex;
@@ -525,6 +531,7 @@ html,body{
   Ícone SVG inline que troca entre expand ↔ compress
   via .fs-icon-expand / .fs-icon-compress controlados por JS.
 */
+#btn-home,
 #btn-fullscreen{
   background:none;
   border:none;
@@ -542,10 +549,14 @@ html,body{
   transition:outline-color .18s, background .18s, color .18s, transform .12s;
   flex-shrink:0;
 }
+#btn-home:hover,
 #btn-fullscreen:hover{
   outline-color:var(--warm);
   color:#a07840;
   transform:translateY(-1px);
+}
+#btn-home{
+  text-decoration:none;
 }
 #btn-fullscreen.is-fullscreen{
   background:var(--warm);
@@ -553,12 +564,14 @@ html,body{
   color:#fff;
   box-shadow:0 2px 8px rgba(200,132,58,.4);
 }
+#btn-home svg,
 #btn-fullscreen svg{
   width:14px;
   height:14px;
   pointer-events:none;
 }
 /* Tooltip reutiliza o mesmo padrão ribbon das pílulas de idioma */
+#btn-home::after,
 #btn-fullscreen::after{
   content:attr(data-label);
   position:absolute;
@@ -579,6 +592,7 @@ html,body{
   transition:opacity .18s, transform .18s;
   z-index:50;
 }
+#btn-home::before,
 #btn-fullscreen::before{
   content:'';
   position:absolute;
@@ -592,6 +606,8 @@ html,body{
   transition:opacity .18s, transform .18s;
   z-index:51;
 }
+#btn-home:hover::after,
+#btn-home:hover::before,
 #btn-fullscreen:hover::after,
 #btn-fullscreen:hover::before{
   opacity:1;

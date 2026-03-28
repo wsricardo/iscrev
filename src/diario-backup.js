@@ -20,7 +20,7 @@
 var I18N = {
   pt: {
     /* Logo */
-    'logo.title':   'Meu Diário',
+    'logo.title':   'iScrev Notes',
     'logo.sub':     'anotações pessoais',
     /* Sidebar */
     'lang.label':   'Idioma:',
@@ -128,7 +128,7 @@ var I18N = {
 
   en: {
     /* Logo */
-    'logo.title':   'My Diary',
+    'logo.title':   'iScrev Notes',
     'logo.sub':     'personal notes',
     /* Sidebar */
     'lang.label':   'Lang:',

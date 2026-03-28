@@ -20,10 +20,11 @@
 var I18N = {
   pt: {
     /* Logo */
-    'logo.title':   'Meu Diário',
+    'logo.title':   'iScrev Notes',
     'logo.sub':     'anotações pessoais',
     /* Sidebar */
     'lang.label':   'Idioma:',
+    'home.link':    'Início',
     'fs.enter':     'Tela cheia',
     'fs.exit':      'Sair da tela cheia',
     'btn.new':      'Nova Entrada',
@@ -130,10 +131,11 @@ var I18N = {
 
   en: {
     /* Logo */
-    'logo.title':   'My Diary',
+    'logo.title':   'iScrev Notes',
     'logo.sub':     'personal notes',
     /* Sidebar */
     'lang.label':   'Lang:',
+    'home.link':    'Home',
     'fs.enter':     'Full screen',
     'fs.exit':      'Exit full screen',
     'btn.new':      'New Entry',
@@ -351,6 +353,14 @@ function doApply(lang) {
       btn.classList.toggle('active', btn.dataset.lang === lang);
     });
 
+    var homeBtn = document.getElementById('btn-home');
+    if (homeBtn) {
+      var homeLabel = t('home.link');
+      homeBtn.setAttribute('data-label', homeLabel);
+      homeBtn.setAttribute('title', homeLabel);
+      homeBtn.setAttribute('aria-label', homeLabel);
+    }
+
     if (typeof Pen !== 'undefined' && Pen.buildToolbar) Pen.buildToolbar();
     if (typeof updateStats === 'function') updateStats();
     if (typeof renderList  === 'function')
@@ -438,24 +448,30 @@ function convertMarkdown(raw) {
   s = s.replace(/^(#{4})\s+(.*)$/gm, '<h4>$2</h4>');
   s = s.replace(/^(#{5})\s+(.*)$/gm, '<h5>$2</h5>');
   s = s.replace(/^(#{6})\s+(.*)$/gm, '<h6>$2</h6>');
+
+  s = s.replace(/\n/g, '<br>');
   //console.log('>' + s)
   
   s = s.replace(/`([^`]+)`/g,
     '<code style="font-family:\'JetBrains Mono\',monospace;font-size:.88em;'
     + 'background:rgba(200,132,58,.12);padding:1px 5px;border-radius:3px">$1</code>');
 
-  var lines = s.split('\n'), out = [], inUl = false;
+  var lines = s.split(/(\n)/), out = [], inUl = false;
   for (var i = 0; i < lines.length; i++) {
     var ln = lines[i];
     if (/^&gt;\s?/.test(ln)) {
       if (inUl) { out.push('</ul>'); inUl = false; }
       out.push('<blockquote>' + ln.replace(/^&gt;\s?/, '') + '</blockquote>');
+
+    } else if ( ln == "\n") {
+      out.push('<br>');
+    
     } else if (/^[-*]\s/.test(ln)) {
       if (!inUl) { out.push('<ul>'); inUl = true; }
       out.push('<li>' + ln.slice(2) + '</li>');
     } else {
       if (inUl) { out.push('</ul>'); inUl = false; }
-      if (ln.trim()) out.push('<p>' + ln + '</p>');
+      if (ln.trim()) out.push('<p>' + ln + '</p>'+'<br>');
     }
   }
   if (inUl) out.push('</ul>');
