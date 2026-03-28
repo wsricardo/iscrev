@@ -52,6 +52,8 @@ var I18N = {
     /* Pen toolbar */
     'pen.color':    'Cor:',
     'pen.width':    'Espessura:',
+    'pen.pan':      'Mão',
+    'pen.pan.t':    'Mão: arraste para rolar a página',
     'pen.eraser':   'Borracha',
     'pen.eraser.t': 'Borracha: arraste sobre um traço para apagá-lo',
     'pen.undo':     'Desfazer',
@@ -163,6 +165,8 @@ var I18N = {
     /* Pen toolbar */
     'pen.color':    'Color:',
     'pen.width':    'Width:',
+    'pen.pan':      'Pan',
+    'pen.pan.t':    'Pan: drag to scroll the page',
     'pen.eraser':   'Eraser',
     'pen.eraser.t': 'Eraser: drag over a stroke to erase it',
     'pen.undo':     'Undo',
@@ -289,6 +293,7 @@ function doApply(lang) {
       ['btn-save-label',    'btn.save',      'text'],
       ['pen-color-label',   'pen.color',     'text'],
       ['pen-width-label',   'pen.width',     'text'],
+      ['pen-pan-label',     'pen.pan',       'text'],
       ['pen-eraser-label',  'pen.eraser',    'text'],
       ['pen-undo-label',    'pen.undo',      'text'],
       ['pen-clear-label',   'pen.clear',     'text'],
@@ -306,6 +311,7 @@ function doApply(lang) {
       ['btn-export-md',     'btn.md.title',  'title'],
       ['btn-export-pdf',    'btn.pdf.title', 'title'],
       ['btn-fullscreen',    'fs.enter',      'title'],
+      ['pen-pan',           'pen.pan.t',     'title'],
       ['pen-eraser',        'pen.eraser.t',  'title'],
       ['pen-undo',          'pen.undo.t',    'title'],
       ['pen-clear',         'pen.clear.t',   'title'],
@@ -522,6 +528,10 @@ var Pen = (function () {
   var penColor   = COLORS[0].hex;
   var penWidth   = WIDTHS[1].v;
   var eraserMode = false;
+  var panMode    = false;
+  var panning    = false;
+  var panStartY  = 0;
+  var panStartScrollTop = 0;
   var drawing    = false;
   var rawPts     = [];         // pontos brutos do traço atual
   var activePath = null;       // <path> SVG sendo desenhado
@@ -665,6 +675,16 @@ var Pen = (function () {
     }
   }
 
+  /** Repassa wheel/trackpad para o único scroll container da aplicação. */
+  function onWheel(e) {
+    if (!editorAreaEl) return;
+    var delta = e.deltaY;
+    if (e.deltaMode === 1) delta *= 20;
+    if (e.deltaMode === 2) delta *= editorAreaEl.clientHeight;
+    editorAreaEl.scrollTop += delta;
+    e.preventDefault();
+  }
+
   /* ── Coordenadas scroll-aware ─────────────────────────────────── */
 
   /**
@@ -749,6 +769,15 @@ var Pen = (function () {
     if (e.button !== undefined && e.button !== 0) return;
     e.preventDefault();
 
+    if (panMode) {
+      panning = true;
+      panStartY = e.clientY;
+      panStartScrollTop = editorAreaEl.scrollTop;
+      svgEl.classList.add('pen-panning');
+      svgEl.setPointerCapture(e.pointerId);
+      return;
+    }
+
     var coord = getDocCoords(e);
 
     /* ── Modo borracha: apaga no pointerdown e captura para arrastar ─ */
@@ -769,6 +798,16 @@ var Pen = (function () {
   }
 
   function onPointerMove(e) {
+    if (panMode) {
+      if (!panning) return;
+      e.preventDefault();
+      editorAreaEl.scrollTop = Math.max(
+        0,
+        panStartScrollTop - Math.round(e.clientY - panStartY)
+      );
+      return;
+    }
+
     e.preventDefault();
 
     /* Borracha arrastada: apaga traços sob o caminho do ponteiro */
@@ -791,6 +830,13 @@ var Pen = (function () {
   }
 
   function onPointerUp(e) {
+    if (panning) {
+      panning = false;
+      svgEl.classList.remove('pen-panning');
+      e.preventDefault();
+      return;
+    }
+
     if (!drawing) return;
     drawing = false;
     e.preventDefault();
@@ -831,6 +877,10 @@ var Pen = (function () {
 
   function onPointerCancel(e) {
     /* Ponteiro cancelado (ex: ligação telefônica em mobile): finaliza traço */
+    if (panning) {
+      panning = false;
+      svgEl.classList.remove('pen-panning');
+    }
     if (drawing) onPointerUp(e);
   }
 
@@ -876,6 +926,13 @@ var Pen = (function () {
     el.textContent = n ? n + ' ' + lbl : '';
   }
 
+  function syncToolButtons() {
+    var panBtn = document.getElementById('pen-pan');
+    if (panBtn) panBtn.classList.toggle('active', panMode);
+    var eraserBtn = document.getElementById('pen-eraser');
+    if (eraserBtn) eraserBtn.classList.toggle('active', eraserMode);
+  }
+
   /* ── API pública ─────────────────────────────────────────────────── */
   return {
 
@@ -902,6 +959,7 @@ var Pen = (function () {
       svgEl.addEventListener('pointerup',     onPointerUp);
       svgEl.addEventListener('pointercancel', onPointerCancel);
       svgEl.addEventListener('click',         onEraserClick);
+      svgEl.addEventListener('wheel',         onWheel, { passive: false });
 
       /* Constrói controles da toolbar */
       this.buildToolbar();
@@ -911,11 +969,14 @@ var Pen = (function () {
     activate: function () {
       svgEl.classList.add('pen-active');
       svgEl.classList.toggle('pen-eraser', eraserMode);
+      svgEl.classList.toggle('pen-pan', !eraserMode && panMode);
+      svgEl.classList.remove('pen-panning');
     },
 
     /** Desativa o modo caneta (apenas overlay visual, sem captura). */
     deactivate: function () {
-      svgEl.classList.remove('pen-active', 'pen-eraser');
+      panning = false;
+      svgEl.classList.remove('pen-active', 'pen-eraser', 'pen-pan', 'pen-panning');
       /* Garante que nenhum traço fica em aberto */
       if (drawing) onPointerUp({ preventDefault: function(){}, pointerId: null });
     },
@@ -972,7 +1033,7 @@ var Pen = (function () {
       penColor   = sanitizeColor(color);
       eraserMode = false;
       svgEl.classList.remove('pen-eraser');
-      document.getElementById('pen-eraser').classList.remove('active');
+      syncToolButtons();
     },
 
     /** Define espessura ativa (clamped ao intervalo [0.5, 8]). */
@@ -980,10 +1041,25 @@ var Pen = (function () {
 
     /** Liga/desliga modo borracha. */
     setEraser: function (on) {
-      eraserMode = on;
-      svgEl.classList.toggle('pen-eraser', on);
+      eraserMode = !!on;
+      if (eraserMode) panMode = false;
+      svgEl.classList.toggle('pen-eraser',
+        eraserMode && svgEl.classList.contains('pen-active'));
+      svgEl.classList.remove('pen-pan', 'pen-panning');
+      syncToolButtons();
       /* pointer-events nos paths permanece 'none':
          o hit-test é geométrico (eraserHitTest), não via DOM */
+    },
+
+    /** Liga/desliga modo mão/pan para rolagem por arraste. */
+    setPan: function (on) {
+      panMode = !!on;
+      if (panMode) eraserMode = false;
+      panning = false;
+      svgEl.classList.remove('pen-eraser', 'pen-panning');
+      svgEl.classList.toggle('pen-pan',
+        panMode && svgEl.classList.contains('pen-active'));
+      syncToolButtons();
     },
 
     /**
@@ -1162,7 +1238,7 @@ var Pen = (function () {
         });
       }
 
-      /* ── Borracha, Desfazer, Limpar ──────────────────────────────
+      /* ── Mão, Borracha, Desfazer, Limpar ─────────────────────────
          cloneNode(true) + replaceChild remove TODOS os listeners
          anteriores. Necessário porque buildToolbar() é chamada mais
          de uma vez (init + applyLocale), e addEventListener empilha
@@ -1178,18 +1254,20 @@ var Pen = (function () {
         return newBtn;
       }
 
-      var eraserBtn = rewire('pen-eraser', function () {
-        var on = !eraserMode;
-        self.setEraser(on);
-        var eb = document.getElementById('pen-eraser');
-        if (eb) eb.classList.toggle('active', on);
-        if (on && colorsEl)
+      rewire('pen-pan', function () {
+        self.setPan(!panMode);
+      });
+
+      rewire('pen-eraser', function () {
+        self.setEraser(!eraserMode);
+        if (eraserMode && colorsEl)
           colorsEl.querySelectorAll('.pen-color-swatch')
             .forEach(function (x) { x.classList.remove('active'); });
       });
 
       rewire('pen-undo',  function () { self.undo();  });
       rewire('pen-clear', function () { self.clear(); });
+      syncToolButtons();
     }
   };
 

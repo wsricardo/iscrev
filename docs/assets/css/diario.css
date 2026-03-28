@@ -330,6 +330,12 @@ html,body{
   pointer-events:all;
   cursor:crosshair;
 }
+#pen-svg.pen-pan{
+  cursor:grab;
+}
+#pen-svg.pen-panning{
+  cursor:grabbing;
+}
 #pen-svg.pen-eraser{
   cursor:cell;
 }
