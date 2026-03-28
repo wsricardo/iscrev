@@ -471,7 +471,7 @@ function convertMarkdown(raw) {
       out.push('<li>' + ln.slice(2) + '</li>');
     } else {
       if (inUl) { out.push('</ul>'); inUl = false; }
-      if (ln.trim()) out.push('<p>' + ln + '</p>'+'<br>');
+      if (ln.trim()) out.push(ln);
     }
   }
   if (inUl) out.push('</ul>');
