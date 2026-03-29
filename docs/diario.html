@@ -3,10 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>iScrev Notes</title>
+<meta name="description" content="iScrev Notes e um diario digital e caderno de anotacoes com Markdown, LaTeX, caneta manuscrita, exportacao e persistencia local, com visual confortavel e sem distracoes.">
+<meta name="robots" content="noindex, follow, max-snippet:-1, max-image-preview:large">
+<meta name="author" content="WSRicardo">
+<meta name="application-name" content="iScrev Notes">
+<meta name="theme-color" content="#c8843a">
+<link rel="canonical" href="https://iscrev.com/diario.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="iScrev Notes | Diario digital e caderno de anotacoes">
+<meta property="og:description" content="Aplicativo web para diario digital e caderno de anotacoes com Markdown, LaTeX, caneta manuscrita e persistencia local.">
+<meta property="og:url" content="https://iscrev.com/diario.html">
+<meta property="og:site_name" content="iScrev Notes">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iScrev Notes | Diario digital e caderno de anotacoes">
+<meta name="twitter:description" content="Aplicativo web para diario digital e caderno de anotacoes com Markdown, LaTeX e caneta manuscrita.">
+<title>iScrev Notes | Diario digital com Markdown, LaTeX e caneta</title>
 
 <!-- Fontes tipográficas -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Dancing+Script:wght@600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
 <!-- KaTeX — carregamento SÍNCRONO (sem defer/async) para garantir
      que katex.renderToString() está disponível imediatamente        -->
@@ -20,7 +38,25 @@
   "applicationCategory": "ProductivityApplication",
   "operatingSystem": "Web",
   "url": "https://iscrev.com/diario.html",
-  "offers": { "@type": "Offer", "price": "0" }
+  "description": "Aplicativo web de diario digital e caderno de anotacoes com Markdown, LaTeX, caneta manuscrita, exportacao e persistencia local.",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "BRL"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "WSRicardo",
+    "url": "https://www.wsricardo.com.br"
+  },
+  "featureList": [
+    "Edicao de texto com Markdown leve",
+    "Equacoes LaTeX inline e em bloco",
+    "Anotacoes manuscritas em SVG",
+    "Exportacao em Markdown e PDF",
+    "Persistencia local com IndexedDB e fallback para localStorage"
+  ]
 }
 </script>
 
@@ -29,6 +65,7 @@
 
 </head>
 <body>
+<a class="skip-link" href="#main-content">Pular para o conteudo principal</a>
 <div class="app">
 
   <!-- ── Sidebar ─────────────────────────────────────────────────── -->
@@ -129,7 +166,7 @@
 
 
   <!-- ── Main ────────────────────────────────────────────────────── -->
-  <main class="main">
+  <main class="main" id="main-content" tabindex="-1">
 
     <!-- Tela de boas-vindas (sem entrada selecionada) -->
     <div class="welcome" id="welcome">

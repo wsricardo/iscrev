@@ -28,6 +28,36 @@ html,body{
   height:100dvh;
 }
 
+.skip-link{
+  position:absolute;
+  left:16px;
+  top:-64px;
+  z-index:320;
+  padding:10px 14px;
+  border-radius:999px;
+  background:var(--warm);
+  color:#fff;
+  box-shadow:0 16px 34px rgba(78,45,20,.18);
+  transition:top .2s ease;
+}
+
+.skip-link:focus{
+  top:16px;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible{
+  outline:3px solid rgba(200,132,58,.7);
+  outline-offset:3px;
+}
+
+main:focus{
+  outline:none;
+}
+
 /* ── Sidebar ─────────────────────────────────────────────────────── */
 .sidebar{width:280px;min-width:280px;background:#1c1208;display:flex;flex-direction:column;border-right:1px solid #3a2a12;overflow:hidden}
 .sidebar-scrim{
