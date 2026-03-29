@@ -19,7 +19,19 @@
                     <span class="brand-sub">texto, fórmulas e traços em harmonia</span>
                 </a>
 
-                <div class="nav-group">
+                <button class="nav-toggle" type="button"
+                        aria-label="Abrir menu"
+                        aria-expanded="false"
+                        aria-haspopup="menu"
+                        data-open-label="Abrir menu"
+                        data-close-label="Fechar menu"
+                        aria-controls="site-nav-group">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <div class="nav-group" id="site-nav-group">
                     <ul class="nav-menu">
                         <li><a class="nav-link" href="index.html">Início</a></li>
                         <li><a class="nav-link active" href="sobre.html" aria-current="page">Sobre</a></li>
@@ -216,5 +228,6 @@
             </div>
         </footer>
     </div>
+    <script src="assets/js/site-nav.js"></script>
 </body>
 </html>
