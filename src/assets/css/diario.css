@@ -723,8 +723,10 @@ html,body{
   height:16px;
 }
 
-body.sidebar-collapsed .sidebar{
-  display:none;
+@media(min-width:901px){
+  body.sidebar-collapsed .sidebar{
+    display:none;
+  }
 }
 
 @media (hover:none), (pointer:coarse){
@@ -750,6 +752,7 @@ body.sidebar-collapsed .sidebar{
     box-shadow:none;
   }
   body.sidebar-open .sidebar{
+    display:flex;
     transform:translateX(0);
     box-shadow:10px 0 30px rgba(0,0,0,.28);
   }
@@ -820,7 +823,46 @@ body.sidebar-collapsed .sidebar{
 
 /* ── Responsivo ──────────────────────────────────────────────────── */
 @media(max-width:640px){
-  .sidebar{width:220px;min-width:220px}
+  .sidebar{
+    width:min(88vw, 240px);
+    min-width:0;
+  }
+  .sidebar-header{
+    padding:20px 16px 14px;
+  }
+  .header-controls{
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px 8px;
+  }
+  .lang-switcher{
+    width:100%;
+    justify-content:center;
+  }
+  .header-actions{
+    width:100%;
+    justify-content:center;
+  }
+  .lang-btn{
+    width:56px;
+  }
+  #btn-home,
+  #btn-fullscreen{
+    width:30px;
+    height:28px;
+  }
+  .btn-new,
+  .btn-import{
+    width:calc(100% - 32px);
+    margin-left:16px;
+    margin-right:16px;
+  }
+  .search-wrap{
+    padding:12px 16px 10px;
+  }
+  .search-icon{
+    left:28px;
+  }
   .notebook-bg{padding-left:58px}
   .stats-bar{padding-left:58px}
 }

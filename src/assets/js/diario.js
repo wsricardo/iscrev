@@ -2128,6 +2128,27 @@ function exportMarkdown() {
   showToast(t('toast.md'));
 }
 
+function collectPdfExportModel(entry) {
+  var titleInput = document.getElementById('entry-title');
+  var dateDisplay = document.getElementById('entry-date-display');
+  var preview = document.getElementById('entry-preview');
+  var editorWrap = document.querySelector('.editor-wrap');
+
+  return {
+    title: (titleInput && titleInput.value.trim())
+      ? titleInput.value.trim()
+      : (entry.title || t('list.untitled')),
+    dateText: dateDisplay
+      ? dateDisplay.textContent + (entry.mood ? '  ' + entry.mood : '')
+      : fmtLong(entry.updatedAt),
+    previewHtml: preview ? preview.innerHTML : '',
+    strokes: Pen.getStrokes(),
+    surfaceWidthPx: editorWrap
+      ? Math.max(1, Math.round(editorWrap.getBoundingClientRect().width))
+      : 1
+  };
+}
+
 /**
  * Exporta como PDF via window.print().
  * Cria uma superfície temporária de impressão que replica Preview/Pen
@@ -2136,25 +2157,53 @@ function exportMarkdown() {
 function exportPDF() {
   if (!currentId) return;
   var e = entries.filter(function (x) { return x.id === currentId; })[0];
+  var model;
+  var exporter = window.PdfExporter;
   if (!e) return;
 
   saveEntry();
   renderCanonicalSurface();
+  model = collectPdfExportModel(e);
 
-  /* 1. Monta stage temporário fiel ao Preview/Pen */
-  var printStage = buildPrintStage(e);
-  if (!printStage) return;
+  function fallbackPrint() {
+    var printStage = buildPrintStage(e);
+    if (!printStage) return;
 
-  /* 2. Impressão */
-  document.body.classList.add('print-exporting');
-  try {
-    window.print();
-  } finally {
-    document.body.classList.remove('print-exporting');
-    if (printStage.parentNode) printStage.parentNode.removeChild(printStage);
+    document.body.classList.add('print-exporting');
+    try {
+      window.print();
+    } finally {
+      document.body.classList.remove('print-exporting');
+      if (printStage.parentNode) printStage.parentNode.removeChild(printStage);
+    }
   }
 
-  showToast(t('toast.pdf'));
+  /* Quando há anotações manuscritas, a geometria canônica do preview
+     precisa ser preservada integralmente. A exportação paginada atual
+     recompõe blocos do DOM em novas páginas, o que pode deslocar
+     coordenadas absolutas dos traços. Nesses casos, usamos o fluxo
+     clássico buildPrintStage() + window.print(), que replica a mesma
+     superfície vista em Preview/Pen. */
+  if (model.strokes && model.strokes.length) {
+    fallbackPrint();
+    showToast(t('toast.pdf'));
+    return;
+  }
+
+  if (!exporter || typeof exporter.exportEntry !== 'function') {
+    fallbackPrint();
+    showToast(t('toast.pdf'));
+    return;
+  }
+
+  exporter.exportEntry(model, { format: 'a4', marginMm: 12 })
+  .catch(function () {
+    fallbackPrint();
+  })
+  .then(function () {
+    document.body.classList.remove('print-exporting');
+    showToast(t('toast.pdf'));
+  });
 }
 
 document.getElementById('btn-export-md').addEventListener('click',  exportMarkdown);

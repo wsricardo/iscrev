@@ -1,30 +1,9 @@
-( function() {
-    'use strict';
+(function () {
+'use strict';
 
-    // Data
-    var uiLeftSideBar = document.getElementById('sidebar');
-    
-    
+/* A sidebar do diario e controlada exclusivamente por diario.js via
+   classes no <body> (sidebar-open / sidebar-collapsed). Mantemos este
+   arquivo como placeholder para futuros helpers de UI, sem alterar
+   style.display inline para nao conflitar com o drawer responsivo. */
 
-    // Functions
-    function toggleSideBar() {
-        if (uiLeftSideBar.style.display === 'none') {
-            uiLeftSideBar.style.display = 'flex';
-        } else {
-            uiLeftSideBar.style.display = 'none';
-        }
-    }
-
-    
-    
-    // Events Button Listener
-
-    document.getElementById('btn-sidebar-toggle').addEventListener('click', toggleSideBar);
-    
-
-    
-    // Init
-
-    
-
-})();
+}());
