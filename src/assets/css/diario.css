@@ -385,6 +385,23 @@ main:focus{
 .latex-hint{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:rgba(26,18,9,.32)}
 .latex-hint b{color:var(--rust)}
 
+.site-legal-bar{
+  flex-shrink:0;
+  padding:10px 24px 12px 96px;
+  border-top:1px solid rgba(200,132,58,.12);
+  background:rgba(237,230,208,.82);
+  color:rgba(26,18,9,.62);
+  font-size:.75rem;
+  line-height:1.65;
+}
+
+.site-legal-bar a{
+  color:var(--rust);
+  text-decoration:underline;
+  text-decoration-thickness:1px;
+  text-underline-offset:3px;
+}
+
 /* ── Welcome ─────────────────────────────────────────────────────── */
 .welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;position:relative;z-index:1;text-align:center}
 .welcome-icon{font-size:4rem;margin-bottom:16px}
@@ -895,4 +912,5 @@ main:focus{
   }
   .notebook-bg{padding-left:58px}
   .stats-bar{padding-left:58px}
+  .site-legal-bar{padding-left:58px;padding-right:16px}
 }

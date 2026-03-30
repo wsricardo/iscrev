@@ -588,6 +588,14 @@ main{
     margin-bottom:12px;
 }
 
+.section-head h1,
+.section-copy h1,
+.story-copy h1{
+    font-size:clamp(2rem, 3.4vw, 3rem);
+    line-height:1.04;
+    margin-bottom:12px;
+}
+
 .section-head p{
     line-height:1.8;
     color:var(--ink-soft);
@@ -731,6 +739,32 @@ main{
     color:var(--ink);
 }
 
+.policy-stack{
+    display:grid;
+    gap:24px;
+}
+
+.policy-bullets{
+    display:grid;
+    gap:10px;
+    padding-left:20px;
+    color:var(--ink-soft);
+    line-height:1.75;
+}
+
+.policy-bullets li::marker{
+    color:var(--warm);
+}
+
+.policy-note{
+    padding:18px 20px;
+    border-radius:var(--radius-lg);
+    border:1px solid rgba(139,58,31,.12);
+    background:rgba(255,255,255,.54);
+    color:var(--ink-soft);
+    line-height:1.75;
+}
+
 .site-footer{
     margin-top:28px;
     padding:30px 32px;
@@ -783,6 +817,23 @@ main{
     height:6px;
     border-radius:50%;
     background:var(--warm);
+}
+
+.footer-legal-summary{
+    padding-top:12px;
+    border-top:1px solid rgba(139,58,31,.12);
+}
+
+.footer-legal-summary p{
+    max-width:none;
+    font-size:.94rem;
+}
+
+.footer-legal-summary a{
+    color:var(--rust);
+    text-decoration:underline;
+    text-decoration-thickness:1px;
+    text-underline-offset:3px;
 }
 
 @media (max-width:980px){
