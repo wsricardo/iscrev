@@ -106,14 +106,19 @@
                     <div class="story-copy">
                         <p>
                             O iScrev Notes foi concebido para manter o controle do conteúdo o mais próximo possível do usuário.
-                            Por isso, entradas, preferências e traços são guardados principalmente no próprio navegador,
-                            reduzindo a necessidade de coleta centralizada de dados.
+                            Por isso, o uso básico do aplicativo não exige criação de conta, cadastro ou envio obrigatório
+                            de dados pessoais para um banco central do projeto.
                         </p>
                         <p>
-                            Ao mesmo tempo, o site depende de alguns recursos técnicos externos, como Google Fonts e jsDelivr,
-                            para carregar tipografia e KaTeX. Esta página descreve essas camadas com transparência e organiza
-                            as regras básicas de uso do aplicativo, considerando a LGPD e exigências práticas de plataformas
-                            como o Google AdSense.
+                            Em seu funcionamento normal, entradas, traços manuscritos e preferências do editor permanecem
+                            armazenados principalmente no próprio navegador do usuário, por meio de recursos locais como
+                            IndexedDB e, quando necessário, localStorage. Isso significa que, em regra, o servidor do projeto
+                            não recebe nem mantém em banco próprio o conteúdo pessoal escrito no diário.
+                        </p>
+                        <p>
+                            Ainda assim, o site depende de alguns recursos técnicos externos, como Google Fonts, jsDelivr e KaTeX,
+                            e pode exibir anúncios do Google AdSense. Esta página descreve essas camadas com transparência,
+                            considerando a LGPD, outras normas aplicáveis de privacidade e exigências do Google para sites com publicidade.
                         </p>
                     </div>
 
@@ -127,12 +132,12 @@
                             Site institucional, páginas públicas e aplicativo web em <code>diario.html</code>.
                         </li>
                         <li>
-                            <strong>Canal provisório</strong>
-                            Até a publicação de um contato dedicado, solicitações podem usar os canais públicos indicados em <a href="https://www.wsricardo.com.br">wsricardo.com.br</a>.
+                            <strong>Uso sem conta</strong>
+                            O iScrev Notes não exige login, perfil de usuário ou cadastro para uso básico do aplicativo.
                         </li>
                         <li>
-                            <strong>Leitura importante</strong>
-                            Se o site passar a usar publicidade, formulários adicionais ou analytics, esta página deverá ser atualizada.
+                            <strong>Canal de contato</strong>
+                            Solicitações sobre privacidade e uso do site podem ser enviadas para <a href="mailto:iscrev.tech@gmail.com">iscrev.tech@gmail.com</a> ou pela <a href="contato.html">página de contato</a>.
                         </li>
                     </ul>
                 </div>
@@ -143,50 +148,61 @@
                     <p class="eyebrow">Política de Privacidade</p>
                     <h2>Quais dados podem ser tratados</h2>
                     <p>
-                        O iScrev Notes busca operar com coleta mínima. Ainda assim, algumas informações podem ser tratadas
-                        para que o serviço funcione com estabilidade, carregue recursos visuais e preserve as anotações locais do usuário.
+                        O iScrev Notes busca operar com tratamento mínimo de dados. Ainda assim, algumas informações podem estar
+                        envolvidas para que o site funcione, preserve anotações locais, carregue recursos externos e exiba publicidade
+                        quando disponível.
                     </p>
                 </div>
 
                 <div class="policy-stack">
                     <div class="cards-grid">
                         <article class="mini-card">
-                            <h3>Dados salvos localmente</h3>
+                            <h3>Dados locais do aplicativo</h3>
                             <p>
                                 Entradas, traços da caneta, idioma ativo e preferências do editor são armazenados principalmente
-                                em <code>IndexedDB</code> e, em cenários de fallback, em <code>localStorage</code>, dentro do navegador do usuário.
+                                em <code>IndexedDB</code> e, em cenários de fallback, em <code>localStorage</code>, no próprio navegador do usuário.
                             </p>
                         </article>
 
                         <article class="mini-card">
-                            <h3>Dados técnicos de acesso</h3>
+                            <h3>Dados técnicos de navegação</h3>
                             <p>
-                                Como em qualquer site estático, provedores de hospedagem, CDN e carregamento de fontes podem
-                                registrar IP, data, navegador, sistema operacional e requisições técnicas para entregar o conteúdo.
+                                Como em qualquer site, provedores de hospedagem, CDN, carregamento de fontes e bibliotecas podem
+                                processar IP, data, navegador, sistema operacional e requisições técnicas para entregar o conteúdo.
                             </p>
                         </article>
 
                         <article class="mini-card">
-                            <h3>Cookies e publicidade</h3>
+                            <h3>Publicidade e cookies</h3>
                             <p>
-                                Nesta fase, o site não depende de uma camada própria de anúncios. Se Google AdSense ou serviços
-                                semelhantes forem ativados no futuro, esta política será atualizada para explicar cookies, personalização e escolhas do usuário.
+                                O site pode exibir anúncios do Google AdSense. Nessa hipótese, o Google e parceiros podem usar cookies,
+                                armazenamento local e tecnologias semelhantes para medir, entregar e, quando permitido, personalizar anúncios
+                                com base em visitas a este e a outros sites.
                             </p>
                         </article>
                     </div>
 
                     <div class="story-layout">
                         <div class="story-copy">
-                            <h2>Finalidades, bases e direitos</h2>
+                            <h2>Finalidades, bases legais e direitos</h2>
                             <p>
-                                Os dados locais existem para executar o próprio serviço solicitado pelo usuário: abrir entradas,
-                                salvar conteúdo, restaurar sessões, exibir o idioma escolhido e permitir exportação. Dados técnicos
-                                de entrega podem ser tratados para segurança, estabilidade, prevenção de abuso e funcionamento da interface.
+                                Os dados locais existem para executar o serviço solicitado pelo usuário: abrir entradas, salvar conteúdo,
+                                restaurar sessões, lembrar idioma e preferências e permitir exportação. Dados técnicos de navegação podem
+                                ser tratados para segurança, estabilidade, compatibilidade, prevenção de abuso, entrega de recursos e exibição de anúncios.
                             </p>
                             <p>
-                                Quando aplicável, o tratamento busca se apoiar nas bases legais adequadas da LGPD, especialmente
-                                execução do serviço, atendimento de interesses legítimos compatíveis com segurança e operação, e consentimento
-                                quando algum recurso opcional depender dele.
+                                Quando aplicável, o tratamento busca se apoiar nas bases legais adequadas, especialmente execução do serviço,
+                                interesse legítimo compatível com segurança e operação, cumprimento de obrigações legais e consentimento
+                                quando tecnologias opcionais de publicidade ou preferências legais dependerem dele.
+                            </p>
+                            <p>
+                                Para usuários em jurisdições em que consentimento prévio seja exigido para tecnologias de publicidade,
+                                o site deverá utilizar mecanismo compatível de consentimento antes da ativação dessas tecnologias, nos termos da legislação aplicável.
+                            </p>
+                            <p>
+                                O uso de cookies de publicidade pelo Google permite que o Google e seus parceiros exibam anúncios
+                                com base nas visitas do usuário a este site e/ou a outros sites na internet, sempre observado o regime
+                                jurídico aplicável e as escolhas de consentimento ou preferência feitas pelo usuário.
                             </p>
                             <ul class="policy-bullets">
                                 <li>Direito de confirmação, acesso e correção de dados pessoais tratados.</li>
@@ -198,28 +214,30 @@
 
                         <ul class="detail-list">
                             <li>
-                                <strong>Compartilhamento</strong>
-                                O projeto pode depender tecnicamente de Google Fonts, Google Fonts CDN, jsDelivr e KaTeX para entrega de recursos de interface e matemática.
+                                <strong>Servidor do projeto</strong>
+                                Em regra, o conteúdo do diário não é armazenado em servidor próprio do projeto durante o uso normal do app.
+                            </li>
+                            <li>
+                                <strong>Contato voluntário</strong>
+                                Se o usuário enviar e-mail, o projeto poderá tratar nome, endereço eletrônico e conteúdo da mensagem para responder ao contato.
+                            </li>
+                            <li>
+                                <strong>Terceiros e publicidade</strong>
+                                O projeto pode depender tecnicamente de Google Fonts, jsDelivr, KaTeX e Google AdSense para recursos de interface, matemática e monetização.
                             </li>
                             <li>
                                 <strong>Transferência internacional</strong>
-                                Alguns desses provedores podem operar infraestrutura fora do Brasil, o que pode envolver transferências internacionais de dados técnicos.
+                                Alguns desses provedores podem operar infraestrutura fora do Brasil, o que pode envolver tratamento ou transferência internacional de dados técnicos.
                             </li>
                             <li>
                                 <strong>Retenção</strong>
-                                Entradas locais permanecem no navegador até exclusão pelo próprio usuário, limpeza dos dados do navegador ou remoção manual no app.
-                            </li>
-                            <li>
-                                <strong>Segurança</strong>
-                                O projeto busca reduzir exposição mantendo o conteúdo do diário predominantemente no dispositivo do usuário, mas nenhum ambiente web pode prometer risco zero.
+                                Entradas locais permanecem no navegador até exclusão pelo próprio usuário, limpeza dos dados do navegador ou remoção manual no app; mensagens de contato podem ser retidas pelo tempo necessário para atendimento e obrigações legais.
                             </li>
                         </ul>
                     </div>
 
                     <div class="policy-note">
-                        Se recursos de publicidade, analytics, login, sincronização remota ou formulários de contato forem adicionados depois,
-                        esta política deverá ser ampliada para descrever com mais precisão o tratamento, a retenção, o compartilhamento
-                        e os mecanismos de consentimento quando exigidos.
+                        O usuário pode gerenciar preferências de anúncios nas configurações do Google em <a href="https://adssettings.google.com/" rel="noopener noreferrer">adssettings.google.com</a>. Também pode controlar cookies e armazenamento local nas configurações do navegador e, quando aplicável, buscar mecanismos adicionais de desativação oferecidos por terceiros, como <a href="https://www.aboutads.info/" rel="noopener noreferrer">aboutads.info</a>. Se novos serviços de medição, login, sincronização remota ou formulários forem adicionados depois, esta política deverá ser revisada.
                     </div>
                 </div>
             </section>
@@ -304,37 +322,60 @@
             <section class="main-section">
                 <div class="section-head">
                     <p class="eyebrow">Exercício de direitos</p>
-                    <h2>Como usar esta página na prática</h2>
+                    <h2>Como solicitar informações, correções ou exclusão</h2>
                     <p>
-                        Esta versão inicial já serve como base pública de transparência, mas ainda pode ser fortalecida com um canal
-                        dedicado de contato, uma página própria de contato e eventuais ajustes após revisão jurídica específica.
+                        Nos termos da legislação aplicável, o titular pode solicitar informações sobre eventual tratamento de dados pessoais,
+                        inclusive confirmação de tratamento, acesso, correção, anonimização, bloqueio, eliminação, oposição e esclarecimentos
+                        sobre compartilhamento, quando cabíveis.
                     </p>
                 </div>
 
                 <div class="story-layout">
                     <div class="story-copy">
                         <p>
-                            Se você precisar esclarecer tratamento de dados, apontar inconsistências ou exercer direitos previstos na LGPD,
-                            use os canais públicos do responsável até que um endereço dedicado de privacidade seja publicado.
+                            Solicitações relacionadas a dados efetivamente controlados pelo projeto, como mensagens enviadas por e-mail
+                            ou registros de contato eventualmente mantidos pelo responsável, podem ser encaminhadas para
+                            <a href="mailto:iscrev.tech@gmail.com">iscrev.tech@gmail.com</a> ou pela <a href="contato.html">página de contato</a>.
                         </p>
                         <p>
-                            Como o app guarda o conteúdo principalmente no próprio navegador, muitas ações práticas também podem ser feitas
-                            diretamente pelo usuário, como excluir entradas, limpar dados locais e exportar cópias antes de qualquer remoção.
+                            É importante destacar, porém, que o conteúdo do diário, os traços manuscritos e grande parte das preferências
+                            do aplicativo permanecem armazenados localmente no navegador do próprio usuário, sem envio ordinário para servidor
+                            próprio do projeto. Nesses casos, o responsável pelo site pode não ter acesso técnico a esses dados e, portanto,
+                            não consegue visualizar, alterar ou excluir remotamente informações que existam apenas no dispositivo do titular.
+                        </p>
+                        <p>
+                            Para dados mantidos apenas localmente no navegador, o próprio usuário pode exercer controle direto,
+                            por exemplo ao excluir entradas no aplicativo, exportar conteúdos antes da remoção ou limpar os dados
+                            de navegação do navegador e do dispositivo utilizado.
+                        </p>
+                        <p>
+                            Quando houver tratamento de dados sob controle direto do projeto, as solicitações serão analisadas
+                            e respondidas em prazo razoável e conforme a legislação aplicável. Se o titular entender que seu pedido
+                            não foi adequadamente atendido, poderá também buscar os meios legais e administrativos cabíveis perante
+                            a autoridade competente de proteção de dados.
                         </p>
                     </div>
 
                     <ul class="detail-list">
                         <li>
-                            <strong>Recomendação para a próxima versão</strong>
-                            Publicar um e-mail específico de contato e uma página de contato reforça conformidade, confiança e prontidão para AdSense.
+                            <strong>E-mail para privacidade e contato</strong>
+                            <a href="mailto:iscrev.tech@gmail.com">iscrev.tech@gmail.com</a>
                         </li>
                         <li>
-                            <strong>Canal provisório</strong>
-                            <a href="https://www.wsricardo.com.br">https://www.wsricardo.com.br</a>
+                            <strong>Página de apoio</strong>
+                            <a href="contato.html">Contato</a>
                         </li>
                         <li>
-                            <strong>Escopo desta versão</strong>
-                            Documento inicial informativo, a ser refinado junto com a evolução técnica e editorial do projeto.
+                            <strong>Informações úteis no pedido</strong>
+                            Nome, forma de contato para retorno e descrição objetiva da solicitação.
+                        </li>
+                        <li>
+                            <strong>Limitação importante</strong>
+                            Dados guardados exclusivamente no navegador do usuário podem depender de ação direta do próprio titular no dispositivo.
+                        </li>
+                        <li>
+                            <strong>Autoridade supervisora</strong>
+                            ANPD - Autoridade Nacional de Proteção de Dados, sem prejuízo de outros meios legais cabíveis.
                         </li>
                     </ul>
                 </div>
@@ -364,7 +405,7 @@
 
             <div class="footer-legal-summary">
                 <p>
-                    Privacidade e uso responsável: o iScrev Notes salva entradas e preferências principalmente no seu próprio navegador, pode depender de provedores técnicos como Google Fonts e jsDelivr para carregar recursos visuais e matemáticos, e atualizará esta política se novos serviços de medição ou publicidade forem ativados; veja a <a href="privacidade.html#privacidade">Política de Privacidade</a> e os <a href="privacidade.html#termos">Termos de Uso</a> para detalhes sobre tratamento de dados, direitos do titular e regras de utilização.
+                    Privacidade e uso responsável: o iScrev Notes salva entradas e preferências principalmente no seu próprio navegador, pode depender de provedores técnicos como Google Fonts e jsDelivr para carregar recursos visuais e matemáticos e pode exibir anúncios do Google AdSense; veja a <a href="privacidade.html#privacidade">Política de Privacidade</a> e os <a href="privacidade.html#termos">Termos de Uso</a> para detalhes sobre tratamento de dados, cookies, direitos do titular e regras de utilização.
                 </p>
             </div>
 

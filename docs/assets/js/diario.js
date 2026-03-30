@@ -78,6 +78,9 @@ var I18N = {
     'stats.word':   'palavra',
     'stats.words':  'palavras',
     'stats.hint':   'LaTeX: <b>$inline$</b> · <b>$$bloco$$</b>',
+    'legal.prefix': 'Privacidade e uso:',
+    'legal.privacy':'Política',
+    'legal.terms':  'Termos',
     /* Equation dialog */
     'eq.title':     'Inserir Equação LaTeX',
     'eq.desc':      'Digite o código LaTeX e confira a pré-visualização em tempo real.',
@@ -191,6 +194,9 @@ var I18N = {
     'stats.word':   'word',
     'stats.words':  'words',
     'stats.hint':   'LaTeX: <b>$inline$</b> · <b>$$block$$</b>',
+    'legal.prefix': 'Privacy & use:',
+    'legal.privacy':'Policy',
+    'legal.terms':  'Terms',
     /* Equation dialog */
     'eq.title':     'Insert LaTeX Equation',
     'eq.desc':      'Type the LaTeX code and check the live preview.',
@@ -298,6 +304,9 @@ function doApply(lang) {
       ['pen-undo-label',    'pen.undo',      'text'],
       ['pen-clear-label',   'pen.clear',     'text'],
       ['latex-hint',        'stats.hint',    'html'],
+      ['legal-prefix',      'legal.prefix',  'text'],
+      ['legal-privacy-label','legal.privacy','text'],
+      ['legal-terms-label', 'legal.terms',   'text'],
       ['eq-title',          'eq.title',      'text'],
       ['eq-desc',           'eq.desc',       'text'],
       ['eq-inline-btn',     'eq.inline',     'text'],
@@ -333,6 +342,20 @@ function doApply(lang) {
 
     var ew = document.getElementById('eq-waiting');
     if (ew) ew.textContent = t('eq.waiting');
+
+    var legalPrivacy = document.getElementById('legal-privacy-link');
+    if (legalPrivacy) {
+      legalPrivacy.href = lang === 'pt'
+        ? 'privacidade.html#privacidade'
+        : 'privacy.html#privacy-policy';
+    }
+
+    var legalTerms = document.getElementById('legal-terms-link');
+    if (legalTerms) {
+      legalTerms.href = lang === 'pt'
+        ? 'privacidade.html#termos'
+        : 'privacy.html#terms-of-use';
+    }
 
     var MOODS = [
       { v:'',    k:'mood.default'    },
