@@ -1,5 +1,7 @@
 # iScrev
 
+[Read this in English](EN.md)
+
 ---
 
 ## iScrev Notes
