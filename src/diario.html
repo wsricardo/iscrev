@@ -20,6 +20,7 @@
 <meta name="twitter:description" content="Aplicativo web para diario digital e caderno de anotacoes com Markdown, LaTeX e caneta manuscrita.">
 <title>iScrev Notes | Diario digital com Markdown, LaTeX e caneta</title>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="/manifest.json" />
 
 <!-- Fontes tipográficas -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -337,8 +338,23 @@
 
 <!-- Script principal — após o DOM para garantir que todos os
      elementos existam quando os addEventListener forem registrados -->
-<script src="assets/js/pdf-exporter.js"></script>
-<script src="assets/js/diario.js"></script>
-<script src="assets/js/ui.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+  navigator.serviceWorker
+    .register('/service-worker.js')
+    .then( function (registration ) {
+      console.log("Service Worker registrado com sucesso", registration);
+    })
+    .catch( function( err ) {
+      console.log("Erro ao registrar Service Worker", err);
+    });
+} else {
+  console.log("Service Worker não suportado");
+
+}
+</script>
+<script type="module" src="assets/js/pdf-exporter.js"></script>
+<script type="module" src="assets/js/diario.js"></script>
+<script type="module" src="assets/js/ui.js"></script>
 </body>
 </html>

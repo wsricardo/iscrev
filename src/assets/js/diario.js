@@ -17,6 +17,8 @@
    • Detecção automática via navigator.language na primeira visita
 ══════════════════════════════════════════════════════════════════ */
 
+
+
 var I18N = {
   pt: {
     /* Logo */

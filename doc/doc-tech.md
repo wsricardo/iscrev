@@ -208,7 +208,7 @@ Acesse `http://localhost:8000/diario.html` (ou a porta indicada pelo servidor).
 ## 7. Possíveis Melhorias Futuras
 
 -   **Modularização para ES6:** Refatorar o monolítico `diario.js` em módulos ES6 (`pen.js`, `storage.js`, etc.) para melhorar a manutenibilidade. Isso introduziria a necessidade de um servidor local para todos os desenvolvedores, mas o projeto já tem essa premissa.
--   **Service Worker (PWA):** Implementar um Service Worker para cachear os assets da aplicação (HTML, CSS, JS, fontes), permitindo o uso totalmente offline após a primeira visita e melhorando a performance.
+-   **Service Worker (PWA):** A aplicação já conta com um Service Worker que provê capacidade offline básica através do cache de assets. Melhorias futuras podem incluir estratégias de cache mais dinâmicas (como *stale-while-revalidate*) e sincronização em segundo plano.
 -   **Âncora Semântica de Traços:** Atualmente, os traços são armazenados com coordenadas absolutas. Uma arquitetura mais robusta armazenaria a posição dos traços de forma relativa ao bloco de texto mais próximo, tornando-os resilientes a edições de texto e reflows.
 -   **Compressão de Traços:** Antes de converter para Base64 na exportação, aplicar um algoritmo de compressão (como `CompressionStream API`) ao JSON dos traços para reduzir o tamanho do arquivo `.md`.
 -   **Douglas-Peucker Iterativo:** A implementação atual do algoritmo de simplificação é recursiva. Convertê-la para uma versão iterativa (usando uma pilha explícita) eliminaria o risco teórico de *stack overflow* em traços extremamente complexos.

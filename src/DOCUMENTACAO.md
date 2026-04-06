@@ -546,7 +546,7 @@ O estado atual do projeto sugere varios caminhos plausiveis de evolucao.
 ### 10.1 Curto prazo
 
 - consolidar trechos legados comentados em `diario.js`;
-- revisar pontos onde ainda ha chamadas antigas ou duplicadas;
+- **PWA e Service Worker:** Aprimorar o Service Worker atual com estratégias de cache mais robustas (como *stale-while-revalidate*) e garantir uma experiência offline completa e confiável.
 - sincronizar sistematicamente `src/` e `docs/`;
 - revisar e aprofundar esta documentacao em conjunto com o historico tecnico;
 - revisar acessibilidade dos controles e menus.
@@ -554,12 +554,6 @@ O estado atual do projeto sugere varios caminhos plausiveis de evolucao.
 ### 10.2 Medio prazo
 
 - modularizar `diario.js` em arquivos menores por responsabilidade;
-- evoluir o parser Markdown mantendo a filosofia de leveza;
-- melhorar o alinhamento semantico entre traços e conteudo exportado;
-- fortalecer a exportacao de PDF com mais previsibilidade entre navegadores;
-- introduzir testes funcionais manuais sistematizados ou testes automatizados leves.
-
-### 10.3 Longo prazo
 
 - transformar o app em PWA real com cache estrategico;
 - empacotar fontes e KaTeX localmente para reduzir dependencia externa;

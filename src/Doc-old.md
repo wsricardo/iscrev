@@ -1,3 +1,11 @@
+> **AVISO: DOCUMENTAÇÃO LEGADA**
+> Este documento descreve uma versão anterior do iScrev Notes que era um arquivo único e usava exclusivamente `localStorage`. A arquitetura atual é modular, utiliza IndexedDB e possui funcionalidades adicionais.
+> 
+> Para a documentação atualizada, consulte:
+> - **Documentação Técnica Principal (`src/DOCUMENTACAO.md`)**
+> - **Histórico Técnico Completo (`src/iScrev-Notes-Historico-Tecnico.md`)**
+
+---
 # Meu Diário — Documentação de Arquitetura e Implementação
 
 > **Arquivo:** `diario.html` · **~2.730 linhas** · **~110 KB**  

@@ -116,7 +116,7 @@ O `<head>` atual está incompleto. Abaixo está o bloco completo que cada págin
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "iScrev Notes",
-    "url": "https://seudominio.com/diario.html",
+    "url": "https://www.iscrev.com/diario.html",
     "description": "Diário digital com Markdown, LaTeX e anotações manuscritas",
     "applicationCategory": "ProductivityApplication",
     "operatingSystem": "Web",
@@ -128,7 +128,7 @@ O `<head>` atual está incompleto. Abaixo está o bloco completo que cada págin
     },
     "author": {
       "@type": "Person",
-      "name": "Wandeson Ricardo",
+      "name": "Wandeson Ricardo", 
       "url": "https://www.wsricardo.com.br"
     }
   }
@@ -177,7 +177,7 @@ A imagem `og-cover.jpg` é exibida quando o link é compartilhado no WhatsApp, T
 │   └──────────────────┘                                      │
 │                                                             │
 │   seudominio.com                                            │
-└─────────────────────────────────────────────────────────────┘
+└─────────────────────────────────────────────────────────────┘ 
 ```
 
 Ferramentas gratuitas para criar: **Figma** (figma.com), **Canva** ou **GIMP**.

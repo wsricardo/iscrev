@@ -21,7 +21,7 @@ O aplicativo principal, `diario.html`, oferece um conjunto integrado de ferramen
 -   📝 **Editor Híbrido:** Escreva com texto puro, formate com **Markdown** e adicione equações matemáticas complexas com **LaTeX** (`$...$` para inline e `$$...$$` para bloco).
 -   ✒️ **Caneta Manuscrita:** Mude para o modo "Caneta" para desenhar, rabiscar ou fazer anotações manuscritas diretamente sobre a área de texto, usando uma caneta SVG com suavização de traços.
 -   🔐 **Privacidade Total (Local-First):** Seus dados são salvos no seu navegador usando IndexedDB, garantindo total privacidade e funcionamento offline.
--   💾 **Importe e Exporte:** Faça backup de suas entradas como arquivos `.md`, que incluem as anotações manuscritas embutidas. Exporte também para `.pdf` para compartilhamento e impressão.
+-   💾 **Importe e Exporte:** Faça backup de suas entradas como arquivos `.md`, que incluem as anotações manuscritas embutidas. Exporte também para `.pdf` para compartilhamento e impressão. 
 -   🌐 **Multi-idioma:** A interface está disponível em Português e Inglês, com detecção automática baseada no idioma do seu navegador.
 -   🚫 **Zero Complicação:** Sem frameworks, sem etapa de build, sem dependências externas (exceto fontes e KaTeX via CDN). Apenas abra no navegador e comece a usar.
 -   📱 **Design Responsivo:** A interface se adapta para uso em desktops, tablets e smartphones.
