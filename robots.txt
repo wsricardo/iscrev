@@ -1,10 +1,7 @@
 # robots.txt — iScrev Notes
-# https://iscrev.com/robots.txt
+# https://www.iscrev.com/robots.txt
 
 User-agent: *
 Allow: /
 
-# Não indexar o app em si (conteúdo dinâmico do usuário, sem valor de SEO)
-Disallow: /diario.html
-
-Sitemap: https://iscrev.com/sitemap.xml
+Sitemap: https://www.iscrev.com/sitemap.xml
