@@ -1069,7 +1069,7 @@ main:focus{
   .search-icon{
     left:28px;
   }
-  .notebook-bg{padding-left:58px}
+  .notebook-bg{padding-left:58px; background-image: linear-gradient( to right, transparent 49px, rgba(200,60,40,.18) 49px, rgba(200,60,40,.18) 50.5px, transparent 50.5px );}
   .stats-bar{padding-left:58px}
   .site-legal-bar{padding-left:58px;padding-right:16px}
   .welcome{

@@ -14,6 +14,7 @@
 <meta property="og:description" content="Aplicativo web para diario digital e caderno de anotacoes com Markdown, LaTeX, caneta manuscrita e persistencia local.">
 <meta property="og:url" content="https://www.iscrev.com/diario.html">
 <meta property="og:site_name" content="iScrev Notes">
+<meta property="og:image" content="assets/img/og-image.png">
 <meta property="og:locale" content="pt_BR">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iScrev Notes | Diario digital e caderno de anotacoes">
@@ -316,6 +317,10 @@
           <a id="legal-privacy-link" href="privacidade.html#privacidade"><span id="legal-privacy-label">Política</span></a>
           <span id="legal-sep" aria-hidden="true"> · </span>
           <a id="legal-terms-link" href="privacidade.html#termos"><span id="legal-terms-label">Termos</span></a>
+          <span id="legal-support-sep" aria-hidden="true"> · </span>
+          <button class="legal-link-btn" id="legal-support-trigger" type="button" aria-haspopup="dialog" aria-controls="support-overlay">
+            <span id="legal-support-label">Apoie</span>
+          </button>
         </p>
       </footer>
 
@@ -346,6 +351,23 @@
     <div class="eq-dialog-btns">
       <button class="eq-btn-cancel" id="eq-cancel">Cancelar</button>
       <button class="eq-btn-insert" id="eq-insert">Inserir</button>
+    </div>
+  </div>
+</div>
+
+<div class="support-overlay" id="support-overlay" aria-hidden="true">
+  <div class="support-dialog" role="dialog" aria-modal="true" aria-labelledby="support-title" aria-describedby="support-desc support-note">
+    <h3 id="support-title">Ajude a manter o iScrev Notes vivo</h3>
+    <p id="support-desc">Se o iScrev Notes te ajuda a escrever e organizar ideias, você pode apoiar a manutenção do projeto.</p>
+    <ul class="support-points">
+      <li id="support-point-1">Seu apoio ajuda com domínio, hospedagem e melhorias do app.</li>
+      <li id="support-point-2">Os pagamentos acontecem na página de apoio, separada do diário.</li>
+      <li id="support-point-3">Suas notas continuam aqui enquanto você decide com calma.</li>
+    </ul>
+    <p class="support-note" id="support-note">A página de apoio abre em outra aba para preservar sua sessão atual.</p>
+    <div class="support-dialog-btns">
+      <button class="eq-btn-cancel support-btn-secondary" id="support-close" type="button">Agora não</button>
+      <a class="eq-btn-insert support-btn-primary" id="support-page-link" href="support.html" target="_blank" rel="noopener noreferrer">Abrir página de apoio</a>
     </div>
   </div>
 </div>
