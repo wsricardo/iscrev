@@ -6,8 +6,10 @@ var SURFACE_PAD_TOP = 28;
 var DEFAULTS = {
   format: 'a4',
   marginMm: 12,
-  cleanupDelayMs: 1500,
-  resourceTimeoutMs: 1800
+  cleanupDelayMs: 45000,
+  resourceTimeoutMs: 2500,
+  focusDelayMs: 800,
+  minDialogMs: 350
 };
 
 var PAGE_FORMATS = {
@@ -81,6 +83,7 @@ var EXPORT_SURFACE_CSS = [
     'overflow:visible;',
     'text-align:center;',
     'page-break-inside:avoid;',
+    'break-inside:avoid;',
   '}',
   '.pdfx-surface .math-inline{display:inline;}',
   '.pdfx-spacer-block{height:0;margin:0;padding:0;}',
@@ -114,9 +117,14 @@ function escapeHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
+function escapeStyleText(text) {
+  return String(text || '').replace(/<\/style/gi, '<\\/style');
+}
+
 function normalizeOptions(opts) {
   var next = {};
   var key;
+
   for (key in DEFAULTS) next[key] = DEFAULTS[key];
   opts = opts || {};
   for (key in opts) next[key] = opts[key];
@@ -124,8 +132,14 @@ function normalizeOptions(opts) {
   if (!PAGE_FORMATS[next.format]) next.format = DEFAULTS.format;
   next.page = PAGE_FORMATS[next.format];
   next.marginMm = Math.max(6, parseFloat(next.marginMm) || DEFAULTS.marginMm);
-  next.printableWidthPx  = Math.max(1, Math.round(mmToPx(next.page.widthMm  - next.marginMm * 2)));
-  next.printableHeightPx = Math.max(1, Math.round(mmToPx(next.page.heightMm - next.marginMm * 2)));
+  next.printableWidthPx = Math.max(
+    1,
+    Math.round(mmToPx(next.page.widthMm - next.marginMm * 2))
+  );
+  next.printableHeightPx = Math.max(
+    1,
+    Math.round(mmToPx(next.page.heightMm - next.marginMm * 2))
+  );
   return next;
 }
 
@@ -133,10 +147,11 @@ function buildExportModel(input) {
   if (!input) throw new Error('pdf_exporter_missing_model');
 
   var model = {
-    title:         input.title || '',
-    dateText:      input.dateText || '',
-    previewHtml:   input.previewHtml || '',
-    strokes:       Array.isArray(input.strokes) ? input.strokes : [],
+    title: input.title || '',
+    dateText: input.dateText || '',
+    lang: input.lang || document.documentElement.lang || 'pt-BR',
+    previewHtml: input.previewHtml || '',
+    strokes: Array.isArray(input.strokes) ? input.strokes : [],
     surfaceWidthPx: Math.max(1, Math.round(input.surfaceWidthPx || 0))
   };
 
@@ -158,12 +173,40 @@ function isBlockElement(node) {
   return /^(P|DIV|UL|OL|BLOCKQUOTE|H1|H2|H3|H4|H5|H6|PRE|TABLE|HR)$/i.test(node.tagName);
 }
 
+function sanitizePreviewTree(root) {
+  Array.prototype.slice.call(
+    root.querySelectorAll('script,iframe,object,embed,meta,link,style')
+  ).forEach(function (node) {
+    if (node.parentNode) node.parentNode.removeChild(node);
+  });
+
+  Array.prototype.slice.call(root.querySelectorAll('*')).forEach(function (node) {
+    Array.prototype.slice.call(node.attributes).forEach(function (attr) {
+      var name = attr.name.toLowerCase();
+      var value = attr.value || '';
+
+      if (name.indexOf('on') === 0) {
+        node.removeAttribute(attr.name);
+        return;
+      }
+
+      if ((name === 'href' || name === 'src' || name === 'xlink:href')
+          && /^\s*javascript:/i.test(value)) {
+        node.removeAttribute(attr.name);
+      }
+    });
+  });
+
+  return root;
+}
+
 function normalizePreviewBlocks(previewHtml) {
   var root = document.createElement('div');
   var blocks = [];
   var flow = null;
 
   root.innerHTML = previewHtml || '';
+  sanitizePreviewTree(root);
 
   function flushFlow() {
     if (!flow) return;
@@ -493,18 +536,66 @@ function buildPagesMarkup(model, pages, scale) {
   return wrapper.innerHTML;
 }
 
+function shouldCloneStyleTag(node) {
+  var text = node.textContent || '';
+  return /katex|font-face/i.test(text);
+}
+
+function shouldCloneStylesheet(link) {
+  var href = link.getAttribute('href') || '';
+  var url;
+
+  if (!href) return false;
+  if (/katex|fonts\.googleapis\.com/i.test(href)) return true;
+
+  try {
+    url = new URL(href, document.baseURI);
+    return url.origin === window.location.origin && /\.css(?:$|[?#])/i.test(url.pathname);
+  } catch (err) {
+    return false;
+  }
+}
+
+function collectHeadAssets() {
+  var assets = [];
+
+  Array.prototype.slice.call(
+    document.querySelectorAll('link[rel="stylesheet"], style')
+  ).forEach(function (node) {
+    if (node.tagName === 'STYLE') {
+      if (!shouldCloneStyleTag(node)) return;
+      assets.push('<style>' + escapeStyleText(node.textContent) + '</style>');
+      return;
+    }
+
+    if (!shouldCloneStylesheet(node)) return;
+
+    try {
+      assets.push(
+        '<link rel="stylesheet" href="'
+        + escapeHtml(new URL(node.getAttribute('href'), document.baseURI).href)
+        + '">'
+      );
+    } catch (err) {}
+  });
+
+  return assets.join('');
+}
+
 function buildPrintHtml(model, pages, opts, scale) {
   var css = EXPORT_SURFACE_CSS + buildPrintCss(model, opts, scale);
+  var lang = escapeHtml(model.lang || document.documentElement.lang || 'pt-BR');
+  var headAssets = collectHeadAssets();
+
   return [
     '<!DOCTYPE html>',
-    '<html lang="pt-BR">',
+    '<html lang="' + lang + '">',
     '<head>',
       '<meta charset="UTF-8">',
       '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
       '<title>' + escapeHtml(model.title || 'Export PDF') + '</title>',
-      '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">',
-      '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Dancing+Script:wght@600&family=JetBrains+Mono:wght@400;500&display=swap">',
-      '<style>' + css + '</style>',
+      headAssets,
+      '<style>' + escapeStyleText(css) + '</style>',
     '</head>',
     '<body>',
       buildPagesMarkup(model, pages, scale),
@@ -545,7 +636,98 @@ function waitForPrintable(doc, timeoutMs) {
 
   return waitForStyles(doc, timeoutMs)
     .then(function () { return fontsReady; })
-    .then(function () { return delay(120); });
+    .then(function () { return delay(180); });
+}
+
+function waitForPrintLifecycle(targetWin, opts) {
+  opts = opts || {};
+
+  return new Promise(function (resolve, reject) {
+    var ownerWin = opts.ownerWindow || window;
+    var ownerDoc = ownerWin.document || document;
+    var done = false;
+    var startedAt = Date.now();
+    var cleanupFns = [];
+    var finishDelayMs = Math.max(200, opts.focusDelayMs || DEFAULTS.focusDelayMs);
+    var minDialogMs = Math.max(250, opts.minDialogMs || DEFAULTS.minDialogMs);
+    var fallbackMs = Math.max(5000, opts.cleanupDelayMs || DEFAULTS.cleanupDelayMs);
+
+    function cleanup() {
+      while (cleanupFns.length) cleanupFns.pop()();
+    }
+
+    function finish() {
+      if (done) return;
+      done = true;
+      cleanup();
+      resolve();
+    }
+
+    function fail(err) {
+      if (done) return;
+      done = true;
+      cleanup();
+      reject(err);
+    }
+
+    function finishSoon() {
+      setTimeout(finish, finishDelayMs);
+    }
+
+    function maybeFinish() {
+      if (Date.now() - startedAt < minDialogMs) return;
+      finishSoon();
+    }
+
+    function onAfterPrint() {
+      finishSoon();
+    }
+
+    function onFocus() {
+      maybeFinish();
+    }
+
+    function onVisibilityChange() {
+      if (ownerDoc.visibilityState === 'visible') maybeFinish();
+    }
+
+    if (!targetWin || typeof targetWin.print !== 'function') {
+      fail(new Error('pdf_exporter_print_unavailable'));
+      return;
+    }
+
+    if (typeof targetWin.addEventListener === 'function') {
+      targetWin.addEventListener('afterprint', onAfterPrint);
+      cleanupFns.push(function () {
+        targetWin.removeEventListener('afterprint', onAfterPrint);
+      });
+    }
+
+    if (typeof ownerWin.addEventListener === 'function') {
+      ownerWin.addEventListener('focus', onFocus);
+      cleanupFns.push(function () {
+        ownerWin.removeEventListener('focus', onFocus);
+      });
+    }
+
+    if (ownerDoc && typeof ownerDoc.addEventListener === 'function') {
+      ownerDoc.addEventListener('visibilitychange', onVisibilityChange);
+      cleanupFns.push(function () {
+        ownerDoc.removeEventListener('visibilitychange', onVisibilityChange);
+      });
+    }
+
+    var timeoutId = setTimeout(finish, fallbackMs);
+    cleanupFns.push(function () { clearTimeout(timeoutId); });
+
+    try {
+      if (typeof targetWin.focus === 'function') targetWin.focus();
+      targetWin.print();
+      if (typeof opts.onDispatched === 'function') opts.onDispatched();
+    } catch (err) {
+      fail(err);
+    }
+  });
 }
 
 function cleanupFrame(frame) {
@@ -555,14 +737,49 @@ function cleanupFrame(frame) {
 function printInIframe(html, opts) {
   return new Promise(function (resolve, reject) {
     var frame = document.createElement('iframe');
-    var doc;
-    var win;
+    var ready = false;
     var cleaned = false;
 
     function cleanup() {
       if (cleaned) return;
       cleaned = true;
       cleanupFrame(frame);
+    }
+
+    function finishReady() {
+      var doc;
+      var win;
+
+      if (ready) return;
+      ready = true;
+
+      try {
+        doc = frame.contentDocument || frame.contentWindow.document;
+        win = frame.contentWindow;
+      } catch (err) {
+        cleanup();
+        reject(err);
+        return;
+      }
+
+      waitForPrintable(doc, opts.resourceTimeoutMs)
+        .then(function () {
+          return waitForPrintLifecycle(win, {
+            ownerWindow: window,
+            cleanupDelayMs: opts.cleanupDelayMs,
+            focusDelayMs: opts.focusDelayMs,
+            minDialogMs: opts.minDialogMs,
+            onDispatched: opts.onDispatched
+          });
+        })
+        .then(function () {
+          cleanup();
+          resolve();
+        })
+        .catch(function (err) {
+          cleanup();
+          reject(err);
+        });
     }
 
     frame.style.position = 'fixed';
@@ -572,42 +789,27 @@ function printInIframe(html, opts) {
     frame.style.height = '0';
     frame.style.border = '0';
     frame.style.opacity = '0';
+    frame.style.pointerEvents = 'none';
     frame.setAttribute('aria-hidden', 'true');
+    frame.setAttribute('tabindex', '-1');
+    frame.addEventListener('load', finishReady, { once: true });
 
     document.body.appendChild(frame);
 
     try {
-      doc = frame.contentWindow.document;
-      doc.open();
-      doc.write(html);
-      doc.close();
-      win = frame.contentWindow;
+      if ('srcdoc' in frame) {
+        frame.srcdoc = html;
+      } else {
+        var doc = frame.contentWindow.document;
+        doc.open();
+        doc.write(html);
+        doc.close();
+        setTimeout(finishReady, 0);
+      }
     } catch (err) {
       cleanup();
       reject(err);
-      return;
     }
-
-    waitForPrintable(doc, opts.resourceTimeoutMs)
-      .then(function () {
-        if (!win || typeof win.print !== 'function')
-          throw new Error('pdf_exporter_print_unavailable');
-
-        if ('onafterprint' in win) {
-          win.onafterprint = function () {
-            cleanup();
-          };
-        }
-
-        win.focus();
-        win.print();
-        setTimeout(cleanup, opts.cleanupDelayMs);
-        resolve();
-      })
-      .catch(function (err) {
-        cleanup();
-        reject(err);
-      });
   });
 }
 
@@ -628,14 +830,21 @@ function exportEntry(input, options) {
     Math.max(1, pageHeightLogicalPx - SURFACE_PAD_TOP)
   );
   var pages = paginateBlocks(measuredWithTail.blocks, pageHeightLogicalPx);
-  var html = buildPrintHtml(model, pages, opts, scale);
+  var html;
 
   if (!pages.length) throw new Error('pdf_exporter_empty_document');
+
+  html = buildPrintHtml(model, pages, opts, scale);
   return printInIframe(html, opts);
 }
 
+function isSupported() {
+  return !!(document && document.body && typeof window.print === 'function');
+}
+
 global.PdfExporter = {
-  exportEntry: exportEntry
+  exportEntry: exportEntry,
+  isSupported: isSupported
 };
 
 }(window));

@@ -20,7 +20,7 @@
 <meta name="twitter:description" content="Aplicativo web para diario digital e caderno de anotacoes com Markdown, LaTeX e caneta manuscrita.">
 <title>iScrev Notes | Diario digital com Markdown, LaTeX e caneta</title>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 
 <!-- Fontes tipográficas -->
@@ -170,16 +170,43 @@
 
   <!-- ── Main ────────────────────────────────────────────────────── -->
   <main class="main" id="main-content" tabindex="-1">
+    <div class="main-shellbar">
+      <button class="btn-sidebar-toggle" id="btn-sidebar-toggle" type="button"
+              data-label="Ocultar lista de entradas"
+              title="Ocultar lista de entradas"
+              aria-label="Ocultar lista de entradas"
+              aria-controls="sidebar"
+              aria-expanded="true">
+        <span class="btn-sidebar-toggle-label" id="btn-sidebar-toggle-label" aria-hidden="true">
+          <svg id="sidebar-toggle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2.75" y="3.5" width="18.5" height="17" rx="3"/>
+            <line x1="8.5" y1="3.5" x2="8.5" y2="20.5"/>
+            <polyline points="15,8 11,12 15,16"/>
+          </svg>
+        </span>
+        <span class="sr-only" id="btn-sidebar-toggle-text">Ocultar lista de entradas</span>
+      </button>
+    </div>
 
     <!-- Tela de boas-vindas (sem entrada selecionada) -->
     <div class="welcome" id="welcome">
       <div class="welcome-icon">📖</div>
       <h2 id="welcome-title">Bem-vindo ao seu diário</h2>
       <p  id="welcome-sub">Selecione uma entrada ou crie uma nova.</p>
+      <div class="welcome-actions">
+        <button class="welcome-action welcome-action-primary" id="welcome-new" type="button">
+          <span id="welcome-new-label">Nova Entrada</span>
+        </button>
+        <button class="welcome-action welcome-action-secondary" id="welcome-import" type="button">
+          <span id="welcome-import-label">Importar .md</span>
+        </button>
+      </div>
     </div>
 
     <!-- Container do editor -->
-    <div id="editor-container" style="display:none;flex-direction:column;height:100%">
+    <div id="editor-container" style="display:none;flex-direction:column;flex:1;min-height:0">
 
       <!-- Toolbar principal -->
       <div class="toolbar">
@@ -211,20 +238,6 @@
         <div class="toolbar-sep"></div>
         <button class="btn-delete" id="btn-delete"><span id="btn-delete-label">Excluir</span></button>
         <button class="btn-save"   id="btn-save"><span id="btn-save-label">Salvar</span></button>
-        <!-- Icon Hidden/Show sidebar -->
-        <button class="btn-sidebar-toggle" id="btn-sidebar-toggle" type="button"
-                title="Mostrar ou ocultar painel lateral"
-                aria-label="Mostrar ou ocultar painel lateral">
-          <span id="btn-sidebar-toggle-label" aria-hidden="true">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2"
-                stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="3" width="20" height="18" rx="3"/>
-              <line x1="8" y1="3" x2="8" y2="21"/>
-              <path d="M5 8 L3.5 10 L5 12"/>
-            </svg>
-          </span>
-        </button>
       </div>
 
       <!-- Toolbar da caneta (visível apenas no modo caneta) -->
@@ -339,8 +352,23 @@
 
 <!-- Script principal — após o DOM para garantir que todos os
      elementos existam quando os addEventListener forem registrados -->
-<script src="assets/js/pdf-exporter.js"></script>
-<script src="assets/js/diario.js"></script>
-<script src="assets/js/ui.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+  navigator.serviceWorker
+    .register('/service-worker.js')
+    .then( function (registration ) {
+      console.log("Service Worker registrado com sucesso", registration);
+    })
+    .catch( function( err ) {
+      console.log("Erro ao registrar Service Worker", err);
+    });
+} else {
+  console.log("Service Worker não suportado");
+
+}
+</script>
+<script type="module" src="assets/js/pdf-exporter.js"></script>
+<script type="module" src="assets/js/diario.js"></script>
+<script type="module" src="assets/js/ui.js"></script>
 </body>
 </html>

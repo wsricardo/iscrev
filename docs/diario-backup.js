@@ -17,8 +17,6 @@
    • Detecção automática via navigator.language na primeira visita
 ══════════════════════════════════════════════════════════════════ */
 
-
-
 var I18N = {
   pt: {
     /* Logo */
@@ -26,9 +24,6 @@ var I18N = {
     'logo.sub':     'anotações pessoais',
     /* Sidebar */
     'lang.label':   'Idioma:',
-    'home.link':    'Início',
-    'sidebar.show': 'Mostrar lista de entradas',
-    'sidebar.hide': 'Ocultar lista de entradas',
     'fs.enter':     'Tela cheia',
     'fs.exit':      'Sair da tela cheia',
     'btn.new':      'Nova Entrada',
@@ -56,8 +51,6 @@ var I18N = {
     /* Pen toolbar */
     'pen.color':    'Cor:',
     'pen.width':    'Espessura:',
-    'pen.pan':      'Mão',
-    'pen.pan.t':    'Mão: arraste para rolar a página',
     'pen.eraser':   'Borracha',
     'pen.eraser.t': 'Borracha: arraste sobre um traço para apagá-lo',
     'pen.undo':     'Desfazer',
@@ -82,9 +75,6 @@ var I18N = {
     'stats.word':   'palavra',
     'stats.words':  'palavras',
     'stats.hint':   'LaTeX: <b>$inline$</b> · <b>$$bloco$$</b>',
-    'legal.prefix': 'Privacidade e uso:',
-    'legal.privacy':'Política',
-    'legal.terms':  'Termos',
     /* Equation dialog */
     'eq.title':     'Inserir Equação LaTeX',
     'eq.desc':      'Digite o código LaTeX e confira a pré-visualização em tempo real.',
@@ -110,17 +100,13 @@ var I18N = {
     'toast.saved':  'Salvo ✓',
     'toast.del':    'Entrada excluída.',
     'toast.md':     'Markdown baixado ✓',
-    'toast.pdf':    'Diálogo de impressão aberto. Use "Salvar em PDF" no navegador.',
-    'toast.pdfErr': 'Não foi possível preparar a impressão desta entrada.',
-    'toast.pdfUnavailable': 'A impressão não está disponível neste navegador.',
+    'toast.pdf':    'PDF gerado ✓',
     'toast.eq':     'Equação inserida ✓',
     'toast.imported':  'Entrada importada ✓',
     'toast.importErr': 'Arquivo inválido ou corrompido.',
     'toast.limit':  'Limite de traços atingido (500).',
     'toast.undo':   'Traço removido ↩',
     'toast.clear':  'Anotações limpas ✓',
-    'toast.quotaExceeded': 'Armazenamento cheio. Exporte e exclua entradas antigas.',
-    'toast.storageError':  'Erro ao salvar. Verifique o armazenamento do browser.',
     /* Confirms */
     'cf.del':       'Excluir esta entrada permanentemente?',
     'cf.clear':     'Apagar todas as anotações desta entrada?',
@@ -146,9 +132,6 @@ var I18N = {
     'logo.sub':     'personal notes',
     /* Sidebar */
     'lang.label':   'Lang:',
-    'home.link':    'Home',
-    'sidebar.show': 'Show entry list',
-    'sidebar.hide': 'Hide entry list',
     'fs.enter':     'Full screen',
     'fs.exit':      'Exit full screen',
     'btn.new':      'New Entry',
@@ -176,8 +159,6 @@ var I18N = {
     /* Pen toolbar */
     'pen.color':    'Color:',
     'pen.width':    'Width:',
-    'pen.pan':      'Pan',
-    'pen.pan.t':    'Pan: drag to scroll the page',
     'pen.eraser':   'Eraser',
     'pen.eraser.t': 'Eraser: drag over a stroke to erase it',
     'pen.undo':     'Undo',
@@ -202,9 +183,6 @@ var I18N = {
     'stats.word':   'word',
     'stats.words':  'words',
     'stats.hint':   'LaTeX: <b>$inline$</b> · <b>$$block$$</b>',
-    'legal.prefix': 'Privacy & use:',
-    'legal.privacy':'Policy',
-    'legal.terms':  'Terms',
     /* Equation dialog */
     'eq.title':     'Insert LaTeX Equation',
     'eq.desc':      'Type the LaTeX code and check the live preview.',
@@ -230,17 +208,13 @@ var I18N = {
     'toast.saved':  'Saved ✓',
     'toast.del':    'Entry deleted.',
     'toast.md':     'Markdown downloaded ✓',
-    'toast.pdf':    'Print dialog opened. Use your browser\'s "Save as PDF".',
-    'toast.pdfErr': 'Could not prepare printing for this entry.',
-    'toast.pdfUnavailable': 'Printing is not available in this browser.',
+    'toast.pdf':    'PDF generated ✓',
     'toast.eq':     'Equation inserted ✓',
     'toast.imported':  'Entry imported ✓',
     'toast.importErr': 'Invalid or corrupted file.',
     'toast.limit':  'Stroke limit reached (500).',
     'toast.undo':   'Stroke undone ↩',
     'toast.clear':  'Annotations cleared ✓',
-    'toast.quotaExceeded': 'Storage full. Export and delete old entries.',
-'toast.storageError':  'Error saving. Check your browser\'s storage.',
     /* Confirms */
     'cf.del':       'Permanently delete this entry?',
     'cf.clear':     'Clear all annotations for this entry?',
@@ -298,8 +272,6 @@ function doApply(lang) {
       ['logo-sub',          'logo.sub',      'text'],
       ['btn-new-label',     'btn.new',       'text'],
       ['btn-import-label',  'btn.import',    'text'],
-      ['welcome-new-label', 'btn.new',       'text'],
-      ['welcome-import-label','btn.import',  'text'],
       ['welcome-title',     'welcome.title', 'text'],
       ['welcome-sub',       'welcome.sub',   'text'],
       ['btn-eq-label',      'btn.eq',        'text'],
@@ -311,14 +283,10 @@ function doApply(lang) {
       ['btn-save-label',    'btn.save',      'text'],
       ['pen-color-label',   'pen.color',     'text'],
       ['pen-width-label',   'pen.width',     'text'],
-      ['pen-pan-label',     'pen.pan',       'text'],
       ['pen-eraser-label',  'pen.eraser',    'text'],
       ['pen-undo-label',    'pen.undo',      'text'],
       ['pen-clear-label',   'pen.clear',     'text'],
       ['latex-hint',        'stats.hint',    'html'],
-      ['legal-prefix',      'legal.prefix',  'text'],
-      ['legal-privacy-label','legal.privacy','text'],
-      ['legal-terms-label', 'legal.terms',   'text'],
       ['eq-title',          'eq.title',      'text'],
       ['eq-desc',           'eq.desc',       'text'],
       ['eq-inline-btn',     'eq.inline',     'text'],
@@ -332,7 +300,6 @@ function doApply(lang) {
       ['btn-export-md',     'btn.md.title',  'title'],
       ['btn-export-pdf',    'btn.pdf.title', 'title'],
       ['btn-fullscreen',    'fs.enter',      'title'],
-      ['pen-pan',           'pen.pan.t',     'title'],
       ['pen-eraser',        'pen.eraser.t',  'title'],
       ['pen-undo',          'pen.undo.t',    'title'],
       ['pen-clear',         'pen.clear.t',   'title'],
@@ -354,22 +321,6 @@ function doApply(lang) {
 
     var ew = document.getElementById('eq-waiting');
     if (ew) ew.textContent = t('eq.waiting');
-
-    var legalPrivacy = document.getElementById('legal-privacy-link');
-    if (legalPrivacy) {
-      legalPrivacy.href = lang === 'pt'
-        ? 'privacidade.html#privacidade'
-        : 'privacy.html#privacy-policy';
-    }
-
-    var legalTerms = document.getElementById('legal-terms-link');
-    if (legalTerms) {
-      legalTerms.href = lang === 'pt'
-        ? 'privacidade.html#termos'
-        : 'privacy.html#terms-of-use';
-    }
-
-    syncSidebarToggleControl();
 
     var MOODS = [
       { v:'',    k:'mood.default'    },
@@ -395,14 +346,6 @@ function doApply(lang) {
     document.querySelectorAll('#lang-switcher .lang-btn').forEach(function (btn) {
       btn.classList.toggle('active', btn.dataset.lang === lang);
     });
-
-    var homeBtn = document.getElementById('btn-home');
-    if (homeBtn) {
-      var homeLabel = t('home.link');
-      homeBtn.setAttribute('data-label', homeLabel);
-      homeBtn.setAttribute('title', homeLabel);
-      homeBtn.setAttribute('aria-label', homeLabel);
-    }
 
     if (typeof Pen !== 'undefined' && Pen.buildToolbar) Pen.buildToolbar();
     if (typeof updateStats === 'function') updateStats();
@@ -491,30 +434,24 @@ function convertMarkdown(raw) {
   s = s.replace(/^(#{4})\s+(.*)$/gm, '<h4>$2</h4>');
   s = s.replace(/^(#{5})\s+(.*)$/gm, '<h5>$2</h5>');
   s = s.replace(/^(#{6})\s+(.*)$/gm, '<h6>$2</h6>');
-
-  s = s.replace(/\n/g, '<br>');
   //console.log('>' + s)
   
   s = s.replace(/`([^`]+)`/g,
     '<code style="font-family:\'JetBrains Mono\',monospace;font-size:.88em;'
     + 'background:rgba(200,132,58,.12);padding:1px 5px;border-radius:3px">$1</code>');
 
-  var lines = s.split(/(\n)/), out = [], inUl = false;
+  var lines = s.split('\n'), out = [], inUl = false;
   for (var i = 0; i < lines.length; i++) {
     var ln = lines[i];
     if (/^&gt;\s?/.test(ln)) {
       if (inUl) { out.push('</ul>'); inUl = false; }
       out.push('<blockquote>' + ln.replace(/^&gt;\s?/, '') + '</blockquote>');
-
-    } else if ( ln == "\n") {
-      out.push('<br>');
-    
     } else if (/^[-*]\s/.test(ln)) {
       if (!inUl) { out.push('<ul>'); inUl = true; }
       out.push('<li>' + ln.slice(2) + '</li>');
     } else {
       if (inUl) { out.push('</ul>'); inUl = false; }
-      if (ln.trim()) out.push(ln );
+      if (ln.trim()) out.push('<p>' + ln + '</p>');
     }
   }
   if (inUl) out.push('</ul>');
@@ -565,10 +502,6 @@ var Pen = (function () {
   var penColor   = COLORS[0].hex;
   var penWidth   = WIDTHS[1].v;
   var eraserMode = false;
-  var panMode    = false;
-  var panning    = false;
-  var panStartY  = 0;
-  var panStartScrollTop = 0;
   var drawing    = false;
   var rawPts     = [];         // pontos brutos do traço atual
   var activePath = null;       // <path> SVG sendo desenhado
@@ -712,17 +645,6 @@ var Pen = (function () {
     }
   }
 
-  /** Repassa wheel/trackpad para o único scroll container da aplicação. */
-  function onWheel(e) {
-    if (!editorAreaEl) return;
-    var delta = e.deltaY;
-    if (e.deltaMode === 1) delta *= 20;
-    if (e.deltaMode === 2) delta *= editorAreaEl.clientHeight;
-    editorAreaEl.scrollTop += delta;
-    maybeGrowNotebookTail();
-    e.preventDefault();
-  }
-
   /* ── Coordenadas scroll-aware ─────────────────────────────────── */
 
   /**
@@ -807,15 +729,6 @@ var Pen = (function () {
     if (e.button !== undefined && e.button !== 0) return;
     e.preventDefault();
 
-    if (panMode) {
-      panning = true;
-      panStartY = e.clientY;
-      panStartScrollTop = editorAreaEl.scrollTop;
-      svgEl.classList.add('pen-panning');
-      svgEl.setPointerCapture(e.pointerId);
-      return;
-    }
-
     var coord = getDocCoords(e);
 
     /* ── Modo borracha: apaga no pointerdown e captura para arrastar ─ */
@@ -836,17 +749,6 @@ var Pen = (function () {
   }
 
   function onPointerMove(e) {
-    if (panMode) {
-      if (!panning) return;
-      e.preventDefault();
-      editorAreaEl.scrollTop = Math.max(
-        0,
-        panStartScrollTop - Math.round(e.clientY - panStartY)
-      );
-      maybeGrowNotebookTail();
-      return;
-    }
-
     e.preventDefault();
 
     /* Borracha arrastada: apaga traços sob o caminho do ponteiro */
@@ -869,13 +771,6 @@ var Pen = (function () {
   }
 
   function onPointerUp(e) {
-    if (panning) {
-      panning = false;
-      svgEl.classList.remove('pen-panning');
-      e.preventDefault();
-      return;
-    }
-
     if (!drawing) return;
     drawing = false;
     e.preventDefault();
@@ -916,10 +811,6 @@ var Pen = (function () {
 
   function onPointerCancel(e) {
     /* Ponteiro cancelado (ex: ligação telefônica em mobile): finaliza traço */
-    if (panning) {
-      panning = false;
-      svgEl.classList.remove('pen-panning');
-    }
     if (drawing) onPointerUp(e);
   }
 
@@ -965,13 +856,6 @@ var Pen = (function () {
     el.textContent = n ? n + ' ' + lbl : '';
   }
 
-  function syncToolButtons() {
-    var panBtn = document.getElementById('pen-pan');
-    if (panBtn) panBtn.classList.toggle('active', panMode);
-    var eraserBtn = document.getElementById('pen-eraser');
-    if (eraserBtn) eraserBtn.classList.toggle('active', eraserMode);
-  }
-
   /* ── API pública ─────────────────────────────────────────────────── */
   return {
 
@@ -998,7 +882,6 @@ var Pen = (function () {
       svgEl.addEventListener('pointerup',     onPointerUp);
       svgEl.addEventListener('pointercancel', onPointerCancel);
       svgEl.addEventListener('click',         onEraserClick);
-      svgEl.addEventListener('wheel',         onWheel, { passive: false });
 
       /* Constrói controles da toolbar */
       this.buildToolbar();
@@ -1008,28 +891,13 @@ var Pen = (function () {
     activate: function () {
       svgEl.classList.add('pen-active');
       svgEl.classList.toggle('pen-eraser', eraserMode);
-      svgEl.classList.toggle('pen-pan', !eraserMode && panMode);
-      svgEl.classList.remove('pen-panning');
     },
 
     /** Desativa o modo caneta (apenas overlay visual, sem captura). */
     deactivate: function () {
-      panning = false;
-      svgEl.classList.remove('pen-active', 'pen-eraser', 'pen-pan', 'pen-panning');
+      svgEl.classList.remove('pen-active', 'pen-eraser');
       /* Garante que nenhum traço fica em aberto */
       if (drawing) onPointerUp({ preventDefault: function(){}, pointerId: null });
-    },
-
-    /** Torna o overlay visível nas superfícies canônicas (preview/pen). */
-    showOverlay: function () {
-      svgEl.classList.add('pen-visible');
-      syncScroll();
-    },
-
-    /** Oculta completamente o overlay no modo edição-fonte. */
-    hideOverlay: function () {
-      this.deactivate();
-      svgEl.classList.remove('pen-visible');
     },
 
     /**
@@ -1072,7 +940,7 @@ var Pen = (function () {
       penColor   = sanitizeColor(color);
       eraserMode = false;
       svgEl.classList.remove('pen-eraser');
-      syncToolButtons();
+      document.getElementById('pen-eraser').classList.remove('active');
     },
 
     /** Define espessura ativa (clamped ao intervalo [0.5, 8]). */
@@ -1080,83 +948,10 @@ var Pen = (function () {
 
     /** Liga/desliga modo borracha. */
     setEraser: function (on) {
-      eraserMode = !!on;
-      if (eraserMode) panMode = false;
-      svgEl.classList.toggle('pen-eraser',
-        eraserMode && svgEl.classList.contains('pen-active'));
-      svgEl.classList.remove('pen-pan', 'pen-panning');
-      syncToolButtons();
+      eraserMode = on;
+      svgEl.classList.toggle('pen-eraser', on);
       /* pointer-events nos paths permanece 'none':
          o hit-test é geométrico (eraserHitTest), não via DOM */
-    },
-
-    /** Liga/desliga modo mão/pan para rolagem por arraste. */
-    setPan: function (on) {
-      panMode = !!on;
-      if (panMode) eraserMode = false;
-      panning = false;
-      svgEl.classList.remove('pen-eraser', 'pen-panning');
-      svgEl.classList.toggle('pen-pan',
-        panMode && svgEl.classList.contains('pen-active'));
-      syncToolButtons();
-    },
-
-    /**
-     * Gera um overlay SVG alinhado à superfície canônica inteira.
-     *
-     * Diferente de buildPrintSvg(), este método preserva o sistema de
-     * coordenadas do modo Pen/Preview: origem em (0,0) no topo da área
-     * visível do editor e y em espaço de documento.
-     *
-     * @param {number} surfaceWidth  Largura da superfície canônica em px
-     * @param {number} surfaceHeight Altura mínima do conteúdo em px
-     * @returns {SVGElement|null} SVG absoluto pronto para sobrepor o preview
-     */
-    buildPrintOverlay: function (surfaceWidth, surfaceHeight) {
-      if (!strokes.length) return null;
-
-      var PAD  = 12;
-      var maxX = Math.max(1, Math.round(surfaceWidth  || 0));
-      var maxY = Math.max(1, Math.round(surfaceHeight || 0));
-
-      for (var i = 0; i < strokes.length; i++) {
-        var pts = strokes[i].pts;
-        for (var j = 0; j < pts.length; j++) {
-          if (pts[j][0] > maxX) maxX = pts[j][0];
-          if (pts[j][1] > maxY) maxY = pts[j][1];
-        }
-      }
-
-      maxX += PAD;
-      maxY += PAD;
-
-      var svg = document.createElementNS(SVG_NS, 'svg');
-      svg.setAttribute('xmlns',   SVG_NS);
-      svg.setAttribute('viewBox', '0 0 ' + maxX + ' ' + maxY);
-      svg.setAttribute('width',   maxX);
-      svg.setAttribute('height',  maxY);
-      svg.setAttribute('role',       'img');
-      svg.setAttribute('aria-label', 'Anotações manuscritas');
-      svg.id = 'print-overlay-tmp';
-      svg.style.position = 'absolute';
-      svg.style.left     = '0';
-      svg.style.top      = '0';
-      svg.style.width    = maxX + 'px';
-      svg.style.height   = maxY + 'px';
-      svg.style.pointerEvents = 'none';
-
-      for (var k = 0; k < strokes.length; k++) {
-        var s = strokes[k];
-        var p = document.createElementNS(SVG_NS, 'path');
-        p.setAttribute('fill',            'none');
-        p.setAttribute('stroke',          s.c);
-        p.setAttribute('stroke-width',    s.w);
-        p.setAttribute('stroke-linecap',  'round');
-        p.setAttribute('stroke-linejoin', 'round');
-        p.setAttribute('d', toPathD(s.pts));
-        svg.appendChild(p);
-      }
-      return svg;
     },
 
     /**
@@ -1277,7 +1072,7 @@ var Pen = (function () {
         });
       }
 
-      /* ── Mão, Borracha, Desfazer, Limpar ─────────────────────────
+      /* ── Borracha, Desfazer, Limpar ──────────────────────────────
          cloneNode(true) + replaceChild remove TODOS os listeners
          anteriores. Necessário porque buildToolbar() é chamada mais
          de uma vez (init + applyLocale), e addEventListener empilha
@@ -1293,20 +1088,18 @@ var Pen = (function () {
         return newBtn;
       }
 
-      rewire('pen-pan', function () {
-        self.setPan(!panMode);
-      });
-
-      rewire('pen-eraser', function () {
-        self.setEraser(!eraserMode);
-        if (eraserMode && colorsEl)
+      var eraserBtn = rewire('pen-eraser', function () {
+        var on = !eraserMode;
+        self.setEraser(on);
+        var eb = document.getElementById('pen-eraser');
+        if (eb) eb.classList.toggle('active', on);
+        if (on && colorsEl)
           colorsEl.querySelectorAll('.pen-color-swatch')
             .forEach(function (x) { x.classList.remove('active'); });
       });
 
       rewire('pen-undo',  function () { self.undo();  });
       rewire('pen-clear', function () { self.clear(); });
-      syncToolButtons();
     }
   };
 
@@ -1503,51 +1296,20 @@ var Storage = (function () {
    SEÇÃO 3 — ESTADO E PERSISTÊNCIA
    ────────────────────────────────────────────────────────────────── */
 
-//var STORAGE_KEY = 'meu_diario_v2';
+var STORAGE_KEY = 'meu_diario_v2';
 var entries     = [];   /* array de Entry — fonte da verdade */
 var currentId   = null; /* ID da entrada aberta, ou null */
 
-/** Carrega entries[] do backend ativo. Retorna Promise.  */
-function loadData() {
-  return Storage.getAll().then( function ( all ) {
-    entries = all;
-  });
-
-}
-
-/**
- * Persiste uma única entrada no backend.
- * Mais eficiente que gravar o array inteiro a cada alteração.
- * @param {Entry} entry
- */
-function saveEntry_store(entry) {
-  Storage.put(entry).catch(function (err) {
-    console.error('[Storage] put failed:', err);
-    document.dispatchEvent(new CustomEvent('storage:error'));
-  });
-}
-
-/**
- * Remove uma entrada do backend.
- * @param {string} id
- */
-function removeEntry_store(id) {
-  Storage.remove(id).catch(function (err) {
-    console.error('[Storage] remove failed:', err);
-  });
-}
-
-
 /** Carrega entries do localStorage. Em caso de JSON corrompido, inicia vazio. */
-//function loadData() {
-//  try { entries = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-//  catch (e) { entries = []; }
-//}
+function loadData() {
+  try { entries = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+  catch (e) { entries = []; }
+}
 
 /** Persiste o array entries no localStorage. */
-//function saveData() {
-//  localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
-//}
+function saveData() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+}
 
 /* ──────────────────────────────────────────────────────────────────
    SEÇÃO 4 — UTILITÁRIOS
@@ -1567,78 +1329,6 @@ function fmtShort(iso) {
   var loc = currentLang === 'en' ? 'en-US' : 'pt-BR';
   return new Date(iso).toLocaleDateString(loc,
     { day:'2-digit', month:'short', year:'numeric' });
-}
-
-var mobileShellMq = window.matchMedia('(max-width: 900px)');
-var SIDEBAR_ICONS = {
-  show:
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"'
-    + ' stroke-linecap="round" stroke-linejoin="round">'
-    + '<rect x="2.75" y="3.5" width="18.5" height="17" rx="3"/>'
-    + '<line x1="8.5" y1="3.5" x2="8.5" y2="20.5"/>'
-    + '<polyline points="11,8 15,12 11,16"/>'
-    + '</svg>',
-  hide:
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"'
-    + ' stroke-linecap="round" stroke-linejoin="round">'
-    + '<rect x="2.75" y="3.5" width="18.5" height="17" rx="3"/>'
-    + '<line x1="8.5" y1="3.5" x2="8.5" y2="20.5"/>'
-    + '<polyline points="15,8 11,12 15,16"/>'
-    + '</svg>'
-};
-
-function isMobileShell() {
-  return mobileShellMq.matches;
-}
-
-function isSidebarOpen() {
-  return isMobileShell()
-    ? document.body.classList.contains('sidebar-open')
-    : !document.body.classList.contains('sidebar-collapsed');
-}
-
-function syncSidebarToggleControl() {
-  var btn = document.getElementById('btn-sidebar-toggle');
-  var icon = document.getElementById('btn-sidebar-toggle-label');
-  var text = document.getElementById('btn-sidebar-toggle-text');
-  if (!btn || !icon) return;
-
-  var open = isSidebarOpen();
-  var label = t(open ? 'sidebar.hide' : 'sidebar.show');
-
-  btn.classList.toggle('is-open', open);
-  btn.classList.toggle('is-closed', !open);
-  btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-  btn.setAttribute('aria-label', label);
-  btn.setAttribute('title', label);
-  btn.setAttribute('data-label', label);
-  icon.innerHTML = open ? SIDEBAR_ICONS.hide : SIDEBAR_ICONS.show;
-  if (text) text.textContent = label;
-}
-
-function setSidebarOpen(open) {
-  if (isMobileShell()) {
-    document.body.classList.remove('sidebar-collapsed');
-    document.body.classList.toggle('sidebar-open', !!open);
-    syncSidebarToggleControl();
-    return;
-  }
-
-  document.body.classList.remove('sidebar-open');
-  document.body.classList.toggle('sidebar-collapsed', !open);
-  syncSidebarToggleControl();
-}
-
-function syncResponsiveShell() {
-  if (!isMobileShell()) {
-    document.body.classList.remove('sidebar-open');
-    syncSidebarToggleControl();
-    return;
-  }
-
-  document.body.classList.remove('sidebar-collapsed');
-  document.body.classList.toggle('sidebar-open', !currentId);
-  syncSidebarToggleControl();
 }
 
 /** Remove Markdown e LaTeX para exibir como texto puro na sidebar. */
@@ -1714,177 +1404,18 @@ function renderList(q) {
 /**
  * Muda o modo do editor.
  *
- * 'edit'    → textarea visível, preview e traços ocultos
- * 'pen'     → preview renderizado visível, SVG ativo
- * 'preview' → preview renderizado visível, SVG passivo
+ * 'edit'    → textarea visível, SVG passivo (apenas overlay)
+ * 'pen'     → textarea visível com opacidade reduzida, SVG ativo
+ * 'preview' → div renderizada visível, SVG passivo
  *
- * Preview e Pen compartilham a mesma superfície canônica renderizada.
- * Edit é modo-fonte: exibe apenas Markdown cru para edição.
+ * O SVG de anotações é sempre visível nos três modos; apenas
+ * a captura de eventos e o cursor variam.
  */
-function renderCanonicalSurface() {
-  var raw  = document.getElementById('entry-raw');
-  var prev = document.getElementById('entry-preview');
-  prev.innerHTML = mdToHtml(raw.value);
-}
-
-var currentMode = 'edit';
-var NOTEBOOK_LINE_PX = 28;
-var NOTEBOOK_TAIL_STEP = NOTEBOOK_LINE_PX * 12;
-var NOTEBOOK_TAIL_PAD = NOTEBOOK_LINE_PX * 4;
-var NOTEBOOK_TAIL_TRIGGER = 180;
-var notebookTailExtraPx = 0;
-
-function alignNotebookTail(n) {
-  return Math.max(0, Math.ceil(n / NOTEBOOK_LINE_PX) * NOTEBOOK_LINE_PX);
-}
-
-function getMaxStrokeY() {
-  var strokes = Pen.getStrokes();
-  var maxY = 0;
-
-  for (var i = 0; i < strokes.length; i++) {
-    var pts = strokes[i].pts;
-    for (var j = 0; j < pts.length; j++) {
-      if (pts[j][1] > maxY) maxY = pts[j][1];
-    }
-  }
-  return maxY;
-}
-
-function resetNotebookTail() {
-  notebookTailExtraPx = 0;
-  var tail = document.getElementById('notebook-tail');
-  if (tail) tail.style.height = '0px';
-}
-
-function syncNotebookTail() {
-  var tail = document.getElementById('notebook-tail');
-  if (!tail) return;
-
-  if (currentMode !== 'pen' && currentMode !== 'preview') {
-    tail.style.height = '0px';
-    return;
-  }
-
-  var contentBottom = tail.offsetTop;
-  var neededFromStrokes = Math.max(
-    0,
-    getMaxStrokeY() + NOTEBOOK_TAIL_PAD - contentBottom
-  );
-  var nextExtra = Math.max(
-    notebookTailExtraPx,
-    alignNotebookTail(neededFromStrokes)
-  );
-
-  tail.style.height = nextExtra + 'px';
-}
-
-function maybeGrowNotebookTail() {
-  if (currentMode !== 'pen') return;
-
-  var area = document.getElementById('editor-area');
-  if (!area) return;
-
-  if (area.scrollTop + area.clientHeight < area.scrollHeight - NOTEBOOK_TAIL_TRIGGER)
-    return;
-
-  notebookTailExtraPx += NOTEBOOK_TAIL_STEP;
-  syncNotebookTail();
-}
-
-/**
- * Monta uma superfície temporária de impressão que replica Preview/Pen.
- *
- * Estratégia:
- *  1. Clona o HTML já renderizado do preview canônico.
- *  2. Recria cabeçalho (data/título) com a mesma ordem visual da tela.
- *  3. Sobrepõe um SVG absoluto com o mesmo sistema de coordenadas da caneta.
- *
- * O stage fica fora da UI ativa e só é revelado em @media print quando
- * body.print-exporting estiver presente.
- */
-function cloneRenderedPreview(sourceEl, targetEl) {
-  if (!sourceEl || !targetEl) return;
-  Array.prototype.slice.call(sourceEl.childNodes).forEach(function (node) {
-    targetEl.appendChild(node.cloneNode(true));
-  });
-}
-
-function buildPrintStage(entry) {
-  var editorContainer = document.getElementById('editor-container');
-  var editorWrap      = document.querySelector('.editor-wrap');
-  var prev            = document.getElementById('entry-preview');
-  var dateDisplay     = document.getElementById('entry-date-display');
-  var titleInput      = document.getElementById('entry-title');
-  var existingStage   = document.getElementById('print-stage');
-
-  if (!editorContainer || !editorWrap || !prev) return null;
-  if (existingStage && existingStage.parentNode)
-    existingStage.parentNode.removeChild(existingStage);
-
-  var stage = document.createElement('div');
-  stage.id = 'print-stage';
-  stage.setAttribute('aria-hidden', 'true');
-  stage.style.position   = 'absolute';
-  stage.style.left       = '-100000px';
-  stage.style.top        = '0';
-  stage.style.display    = 'block';
-  stage.style.visibility = 'hidden';
-
-  var surface = document.createElement('div');
-  surface.id = 'print-stage-surface';
-  surface.style.width = Math.max(1, Math.round(editorWrap.getBoundingClientRect().width)) + 'px';
-
-  var dateEl = document.createElement('div');
-  dateEl.id = 'print-stage-date';
-  dateEl.textContent =
-    (dateDisplay ? dateDisplay.textContent : fmtLong(entry.updatedAt))
-    + (entry.mood ? '  ' + entry.mood : '');
-
-  var titleEl = document.createElement('div');
-  titleEl.id = 'print-stage-title';
-  titleEl.textContent =
-    (titleInput && titleInput.value.trim())
-      ? titleInput.value.trim()
-      : (entry.title || t('list.untitled'));
-
-  var previewEl = document.createElement('div');
-  previewEl.id = 'print-stage-preview';
-  cloneRenderedPreview(prev, previewEl);
-
-  surface.appendChild(dateEl);
-  surface.appendChild(titleEl);
-  surface.appendChild(previewEl);
-  stage.appendChild(surface);
-  editorContainer.appendChild(stage);
-
-  var surfaceWidth  = surface.getBoundingClientRect().width;
-  var surfaceHeight = Math.max(surface.scrollHeight, surface.offsetHeight);
-  var overlay       = Pen.buildPrintOverlay(surfaceWidth, surfaceHeight);
-
-  if (overlay) {
-    surface.appendChild(overlay);
-    var overlayHeight = parseFloat(overlay.getAttribute('height')) || surfaceHeight;
-    if (overlayHeight > surfaceHeight)
-      surface.style.minHeight = Math.ceil(overlayHeight) + 'px';
-  }
-
-  stage.style.position   = '';
-  stage.style.left       = '';
-  stage.style.top        = '';
-  stage.style.display    = '';
-  stage.style.visibility = '';
-
-  return stage;
-}
-
 function setMode(m) {
   var raw     = document.getElementById('entry-raw');
   var prev    = document.getElementById('entry-preview');
   var fmt     = document.getElementById('fmt-btns');
   var penTool = document.getElementById('pen-toolbar');
-
-  currentMode = m;
 
   /* Atualiza botões do mode-toggle */
   document.getElementById('mode-edit').classList.toggle('active',    m === 'edit');
@@ -1897,28 +1428,28 @@ function setMode(m) {
     prev.style.display   = 'none';
     fmt.style.display    = 'flex';
     penTool.style.display= 'none';
-    syncNotebookTail();
-    Pen.hideOverlay();
+    Pen.deactivate();
     autoResizeTextarea(raw);
     raw.focus();
 
-  } else {
-    renderCanonicalSurface();
+  } else if (m === 'pen') {
+    raw.style.display    = 'block';
+    /* Texto visível porém levemente transparente para ver anotações */
+    raw.style.opacity    = '0.45';
+    prev.style.display   = 'none';
+    fmt.style.display    = 'none';
+    penTool.style.display= 'flex';
+    Pen.activate();
+
+  } else { /* preview */
     raw.style.display    = 'none';
     raw.style.opacity    = '1';
     prev.style.display   = 'block';
     fmt.style.display    = 'none';
-    syncNotebookTail();
-    Pen.showOverlay();
-
-    if (m === 'pen') {
-      penTool.style.display= 'flex';
-      Pen.activate();
-
-    } else { /* preview */
-      penTool.style.display= 'none';
-      Pen.deactivate();
-    }
+    penTool.style.display= 'none';
+    Pen.deactivate();
+    /* KaTeX síncrono — renderiza diretamente */
+    prev.innerHTML = mdToHtml(raw.value);
   }
 }
 
@@ -1938,7 +1469,6 @@ function openEntry(id) {
   document.getElementById('entry-raw').value   = e.body;
   document.getElementById('mood-select').value = e.mood || '';
 
-  resetNotebookTail();
   Pen.load(e.strokes || []);
   updateStats();
   setMode('edit');
@@ -1946,7 +1476,6 @@ function openEntry(id) {
      Com display:none o scrollHeight retorna 0. */
   autoResizeTextarea(document.getElementById('entry-raw'));
   renderList(document.getElementById('search-input').value);
-  if (isMobileShell()) setSidebarOpen(false);
 }
 
 function newEntry() {
@@ -1979,27 +1508,7 @@ function saveEntry() {
   renderList(document.getElementById('search-input').value);
 }
 
-
 function deleteEntry() {
-  if (!currentId) return;
-  if (!confirm(t('cf.del'))) return;
-  removeEntry_store(currentId);              /* ← grava remoção no IDB */
-  entries = entries.filter(function (x) { return x.id !== currentId; });
-  currentId = null;
-
-  Pen.load([]);
-  resetNotebookTail();
-  Pen.deactivate();
-  document.getElementById('editor-container').style.display = 'none';
-  document.getElementById('welcome').style.display = 'flex';
-  renderList();
-  setSidebarOpen(true);
-  showToast(t('toast.del'));
-
-}
-
-
-/*function deleteEntry() {
   if (!currentId) return;
   if (!confirm(t('cf.del'))) return;
   entries   = entries.filter(function (x) { return x.id !== currentId; });
@@ -2011,7 +1520,7 @@ function deleteEntry() {
   document.getElementById('welcome').style.display = 'flex';
   renderList();
   showToast(t('toast.del'));
-}*/
+}
 
 function updateStats() {
   var n = wordCount(document.getElementById('entry-raw').value);
@@ -2214,224 +1723,66 @@ function exportMarkdown() {
   showToast(t('toast.md'));
 }
 
-function collectPdfExportModel(entry) {
-  var titleInput = document.getElementById('entry-title');
-  var dateDisplay = document.getElementById('entry-date-display');
-  var preview = document.getElementById('entry-preview');
-  var editorWrap = document.querySelector('.editor-wrap');
-
-  return {
-    title: (titleInput && titleInput.value.trim())
-      ? titleInput.value.trim()
-      : (entry.title || t('list.untitled')),
-    dateText: dateDisplay
-      ? dateDisplay.textContent + (entry.mood ? '  ' + entry.mood : '')
-      : fmtLong(entry.updatedAt),
-    lang: document.documentElement.lang || (currentLang === 'en' ? 'en' : 'pt-BR'),
-    previewHtml: preview ? preview.innerHTML : '',
-    strokes: Pen.getStrokes(),
-    surfaceWidthPx: editorWrap
-      ? Math.max(1, Math.round(editorWrap.getBoundingClientRect().width))
-      : 1
-  };
-}
-
-var pdfExportBusy = false;
-
-function setPdfExportBusy(isBusy) {
-  var btn = document.getElementById('btn-export-pdf');
-  pdfExportBusy = !!isBusy;
-  if (!btn) return;
-  btn.disabled = pdfExportBusy;
-  btn.setAttribute('aria-busy', pdfExportBusy ? 'true' : 'false');
-}
-
-function canUseWindowPrint(targetWin) {
-  return !!(targetWin && typeof targetWin.print === 'function');
-}
-
-function waitForPrintLifecycle(targetWin, opts) {
-  opts = opts || {};
-
-  return new Promise(function (resolve, reject) {
-    var ownerWin = opts.ownerWindow || window;
-    var ownerDoc = ownerWin.document || document;
-    var done = false;
-    var startedAt = Date.now();
-    var cleanupFns = [];
-    var minDialogMs = Math.max(250, opts.minDialogMs || 350);
-    var finishDelayMs = Math.max(200, opts.finishDelayMs || 800);
-    var fallbackMs = Math.max(5000, opts.fallbackMs || 45000);
-
-    function cleanup() {
-      while (cleanupFns.length) cleanupFns.pop()();
-    }
-
-    function finish() {
-      if (done) return;
-      done = true;
-      cleanup();
-      resolve();
-    }
-
-    function fail(err) {
-      if (done) return;
-      done = true;
-      cleanup();
-      reject(err);
-    }
-
-    function finishSoon() {
-      setTimeout(finish, finishDelayMs);
-    }
-
-    function maybeFinish() {
-      if (Date.now() - startedAt < minDialogMs) return;
-      finishSoon();
-    }
-
-    function onAfterPrint() {
-      finishSoon();
-    }
-
-    function onFocus() {
-      maybeFinish();
-    }
-
-    function onVisibilityChange() {
-      if (ownerDoc.visibilityState === 'visible') maybeFinish();
-    }
-
-    if (!canUseWindowPrint(targetWin)) {
-      fail(new Error('pdf_print_unavailable'));
-      return;
-    }
-
-    if (typeof targetWin.addEventListener === 'function') {
-      targetWin.addEventListener('afterprint', onAfterPrint);
-      cleanupFns.push(function () {
-        targetWin.removeEventListener('afterprint', onAfterPrint);
-      });
-    }
-
-    if (typeof ownerWin.addEventListener === 'function') {
-      ownerWin.addEventListener('focus', onFocus);
-      cleanupFns.push(function () {
-        ownerWin.removeEventListener('focus', onFocus);
-      });
-    }
-
-    if (ownerDoc && typeof ownerDoc.addEventListener === 'function') {
-      ownerDoc.addEventListener('visibilitychange', onVisibilityChange);
-      cleanupFns.push(function () {
-        ownerDoc.removeEventListener('visibilitychange', onVisibilityChange);
-      });
-    }
-
-    var timeoutId = setTimeout(finish, fallbackMs);
-    cleanupFns.push(function () { clearTimeout(timeoutId); });
-
-    try {
-      if (typeof targetWin.focus === 'function') targetWin.focus();
-      targetWin.print();
-      if (typeof opts.onDispatched === 'function') opts.onDispatched();
-    } catch (err) {
-      fail(err);
-    }
-  });
-}
-
-function cleanupPrintStage(stage) {
-  document.body.classList.remove('print-exporting');
-  if (stage && stage.parentNode) stage.parentNode.removeChild(stage);
-}
-
-function runStagePrintJob(entry, onDispatched) {
-  var printStage = buildPrintStage(entry);
-
-  if (!printStage)
-    return Promise.reject(new Error('pdf_print_stage_unavailable'));
-  if (!canUseWindowPrint(window)) {
-    cleanupPrintStage(printStage);
-    return Promise.reject(new Error('pdf_print_unavailable'));
-  }
-
-  document.body.classList.add('print-exporting');
-
-  return waitForPrintLifecycle(window, {
-    ownerWindow: window,
-    fallbackMs: 45000,
-    finishDelayMs: 800,
-    minDialogMs: 350,
-    onDispatched: onDispatched
-  }).then(function () {
-    cleanupPrintStage(printStage);
-  }, function (err) {
-    cleanupPrintStage(printStage);
-    throw err;
-  });
-}
-
-function getPdfErrorToastKey(err) {
-  return err && err.message === 'pdf_print_unavailable'
-    ? 'toast.pdfUnavailable'
-    : 'toast.pdfErr';
-}
-
 /**
  * Exporta como PDF via window.print().
- * Cria uma superfície temporária de impressão que replica Preview/Pen
- * e a revela apenas durante a chamada a window.print().
+ * O @media print no CSS cuida do layout.
+ * O SVG de anotações é incluído automaticamente por estar no DOM.
  */
 function exportPDF() {
   if (!currentId) return;
   var e = entries.filter(function (x) { return x.id === currentId; })[0];
-  var model;
-  var exporter = window.PdfExporter;
-  var notifiedOpen = false;
   if (!e) return;
-  if (pdfExportBusy) return;
 
   saveEntry();
-  renderCanonicalSurface();
-  model = collectPdfExportModel(e);
 
-  function notifyPrintDialog() {
-    if (notifiedOpen) return;
-    notifiedOpen = true;
-    showToast(t('toast.pdf'));
+  /* 1. Renderiza preview de texto com LaTeX */
+  var prev = document.getElementById('entry-preview');
+  prev.innerHTML = mdToHtml(document.getElementById('entry-raw').value);
+  var wasHidden = prev.style.display === 'none';
+  prev.style.display = 'block';
+
+  /* 2. Injeta cabeçalho (título + data) */
+  var titleEl = document.createElement('div');
+  titleEl.id  = 'print-title';
+  titleEl.textContent = e.title || t('list.untitled');
+
+  var dateEl = document.createElement('div');
+  dateEl.id  = 'print-date';
+  dateEl.textContent = fmtLong(e.updatedAt) + (e.mood ? '  ' + e.mood : '');
+
+  prev.parentNode.insertBefore(titleEl, prev);
+  prev.parentNode.insertBefore(dateEl,  prev);
+
+  /* 3. Injeta SVG de anotações (standalone, com viewBox calculado).
+     Pen.buildPrintSvg() calcula o bounding box real dos traços e
+     gera um SVG autossuficiente — sem dependência de coordenadas
+     de tela ou scrollTop. O #pen-svg overlay é ocultado via @media print. */
+  var printSvg    = Pen.buildPrintSvg();
+  var svgLabel    = null;
+  if (printSvg) {
+    printSvg.id = 'print-svg-tmp';
+    svgLabel = document.createElement('div');
+    svgLabel.id = 'print-svg-label';
+    svgLabel.style.cssText =
+      'font-family:\'Lora\',serif;font-size:.8rem;font-style:italic;color:#8b3a1f;margin-top:24px;';
+    svgLabel.textContent = t('exp.svg.lbl') || 'Anotações manuscritas:';
+    prev.parentNode.appendChild(svgLabel);
+    prev.parentNode.appendChild(printSvg);
   }
 
-  function finishWithError(err) {
-    console.error('[pdf-export]', err);
-    setPdfExportBusy(false);
-    showToast(t(getPdfErrorToastKey(err)));
+  /* 4. Impressão */
+  window.print();
+
+  /* 5. Limpeza — remove todos os elementos temporários */
+  prev.parentNode.removeChild(titleEl);
+  prev.parentNode.removeChild(dateEl);
+  if (printSvg) {
+    if (svgLabel && svgLabel.parentNode) svgLabel.parentNode.removeChild(svgLabel);
+    if (printSvg.parentNode)            printSvg.parentNode.removeChild(printSvg);
   }
+  if (wasHidden) prev.style.display = 'none';
 
-  function exportViaPaginator() {
-    if (!exporter || typeof exporter.exportEntry !== 'function')
-      return Promise.reject(new Error('pdf_exporter_unavailable'));
-
-    return exporter.exportEntry(model, {
-      format: 'a4',
-      marginMm: 12,
-      onDispatched: notifyPrintDialog
-    });
-  }
-
-  setPdfExportBusy(true);
-
-  runStagePrintJob(e, notifyPrintDialog).then(function () {
-    setPdfExportBusy(false);
-  }, function (err) {
-    if (!model.strokes.length && err && err.message !== 'pdf_print_unavailable') {
-      exportViaPaginator().then(function () {
-        setPdfExportBusy(false);
-      }, finishWithError);
-      return;
-    }
-    finishWithError(err);
-  });
+  showToast(t('toast.pdf'));
 }
 
 document.getElementById('btn-export-md').addEventListener('click',  exportMarkdown);
@@ -2527,7 +1878,7 @@ function importMarkdown() {
           updatedAt: now
         };
         entries.unshift(entry);
-        saveData();
+        saveEntry_store(entry);
         openEntry(entry.id);    /* abre + chama Pen.load(entry.strokes) */
         showToast(t('toast.imported'));
 
@@ -2571,11 +1922,8 @@ function autoResizeTextarea(el) {
     if (e.deltaMode === 1) delta *= 20;   /* linhas → pixels  */
     if (e.deltaMode === 2) delta *= area.clientHeight; /* páginas → pixels */
     area.scrollTop += delta;
-    maybeGrowNotebookTail();
     e.preventDefault();
   }, { passive: false });
-
-  area.addEventListener('scroll', maybeGrowNotebookTail, { passive: true });
 }());
 
 /* ──────────────────────────────────────────────────────────────────
@@ -2601,26 +1949,15 @@ document.getElementById('entry-raw').addEventListener('input', function () {
 document.getElementById('entry-title').addEventListener('input', debSave);
 document.getElementById('mood-select').addEventListener('change', debSave);
 
-
-/*Callback do Pen: chamado após cada traço completo (new version, IndexedDB)*/
-Pen._onStrokesChange = function (strokes) {
-  var e = entries.find(function (x) { return x.id === currentId; });
-  if (!e) return;
-  e.strokes   = strokes;
-  e.updatedAt = new Date().toISOString();
-  saveEntry_store(e);    /* persiste só esta entrada, sem tocar as demais */
-  syncNotebookTail();
-};
-
 /* Callback do Pen: chamado após cada traço completo */
-/*Pen._onStrokesChange = function (strokes) {
+Pen._onStrokesChange = function (strokes) {
   if (!currentId) return;
   var e = entries.filter(function (x) { return x.id === currentId; })[0];
   if (!e) return;
   e.strokes   = strokes;
   e.updatedAt = new Date().toISOString();
-  saveData(); /* persiste imediatamente — sem debounce *\/
-};*/
+  saveData(); /* persiste imediatamente — sem debounce */
+};
 
 /* ──────────────────────────────────────────────────────────────────
    SEÇÃO 13 — TELA CHEIA (Fullscreen API)
@@ -2744,10 +2081,6 @@ document.addEventListener('keydown', function (ev) {
     }
   }
   /* Escape — fechar modal de equação */
-  if (ev.key === 'Escape' && document.body.classList.contains('sidebar-open')) {
-    setSidebarOpen(false);
-    return;
-  }
   if (ev.key === 'Escape')
     document.getElementById('eq-overlay').classList.remove('open');
 });
@@ -2772,19 +2105,10 @@ document.getElementById('mode-preview').addEventListener('click', function () {
 /* Botões principais */
 document.getElementById('btn-new').addEventListener('click', newEntry);
 document.getElementById('btn-import-md').addEventListener('click', importMarkdown);
-document.getElementById('welcome-new').addEventListener('click', newEntry);
-document.getElementById('welcome-import').addEventListener('click', importMarkdown);
 document.getElementById('btn-save').addEventListener('click', function () {
-  saveEntry(); 
-  showToast(t('toast.saved'));
+  saveEntry(); showToast(t('toast.saved'));
 });
 document.getElementById('btn-delete').addEventListener('click', deleteEntry);
-document.getElementById('btn-sidebar-toggle').addEventListener('click', function () {
-  setSidebarOpen(!isSidebarOpen());
-});
-document.getElementById('sidebar-scrim').addEventListener('click', function () {
-  setSidebarOpen(false);
-});
 
 /* Busca na sidebar */
 document.getElementById('search-input').addEventListener('input', function (ev) {
@@ -2796,80 +2120,16 @@ document.querySelectorAll('#lang-switcher .lang-btn').forEach(function (btn) {
   btn.addEventListener('click', function () { applyLocale(btn.dataset.lang); });
 });
 
-if (mobileShellMq.addEventListener)
-  mobileShellMq.addEventListener('change', syncResponsiveShell);
-else if (mobileShellMq.addListener)
-  mobileShellMq.addListener(syncResponsiveShell);
-
-/*
- dois eventos customizados 
- que o app deve escutar para exibir toasts informativos 
- despachados neste módulo.
-*/
-document.addEventListener('storage:quota-exceeded', function () {
-  showToast(t('toast.quotaExceeded'));
-});
-document.addEventListener('storage:error', function () {
-  showToast(t('toast.storageError'));
-});
-
 /* ──────────────────────────────────────────────────────────────────
    SEÇÃO 15 — INICIALIZAÇÃO
    ────────────────────────────────────────────────────────────────── */
 
-/* ( new versin for use IndexedDB)
-Inicializar módulo Storage e depois módulo Pen
-*/
-/* SEÇÃO 15 — INICIALIZAÇÃO */
-
-
-function migrateFromLocalStorage() {
-  if (Storage.backend() !== 'indexeddb') return Promise.resolve();
-  var lsKey = 'meu_diario_v2';
-  var lsMigKey = 'meu_diario_migrated';
-  if (localStorage.getItem(lsMigKey)) return Promise.resolve();
-
-  var raw = localStorage.getItem(lsKey);
-  if (!raw) return Promise.resolve();
-
-  try {
-    var old = JSON.parse(raw);
-    return Promise.all(old.map(function (e) { return Storage.put(e); }))
-      .then( function () {
-        localStorage.setItem(lsMigKey, '1');
-        /* Mantém o localStorage intacto como backup por segurança */
-      }); 
-  } catch (e) {
-    return Promise.resolve();
-  }
-}
-
-Storage.init()
-.then( migrateFromLocalStorage )
-.then( loadData )
-.then( function () {
-  return loadData();
-}).then(function () {
-  Pen.init(
-    document.getElementById('pen-svg'),
-    document.getElementById('pen-layer'),
-    document.getElementById('editor-area')
-  );
-  applyLocale(currentLang);
-  if (entries.length) {
-    var latest = entries.slice().sort(function (a, b) {
-      return new Date(b.updatedAt) - new Date(a.updatedAt);
-    })[0];
-    openEntry(latest.id);
-  }
-});
-
 /* 1. Inicializa o módulo Pen com os elementos do DOM */
-/*Pen.init(
+Pen.init(
   document.getElementById('pen-svg'),
   document.getElementById('pen-layer'),
   document.getElementById('editor-area')
-);*/
+);
 
 /* 2. Carrega dados do localStorage */
 loadData();
@@ -2883,7 +2143,5 @@ if (entries.length) {
     .sort(function (a, b) { return new Date(b.updatedAt) - new Date(a.updatedAt); })[0];
   openEntry(latest.id);
 }
-
-syncResponsiveShell();
 
 })(); /* fim da IIFE */

@@ -25,49 +25,10 @@ html,body{
 .app{
   display:flex;
   height:100vh;
-  height:100dvh;
-}
-
-.skip-link{
-  position:absolute;
-  left:16px;
-  top:-64px;
-  z-index:320;
-  padding:10px 14px;
-  border-radius:999px;
-  background:var(--warm);
-  color:#fff;
-  box-shadow:0 16px 34px rgba(78,45,20,.18);
-  transition:top .2s ease;
-}
-
-.skip-link:focus{
-  top:16px;
-}
-
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible{
-  outline:3px solid rgba(200,132,58,.7);
-  outline-offset:3px;
-}
-
-main:focus{
-  outline:none;
 }
 
 /* ── Sidebar ─────────────────────────────────────────────────────── */
 .sidebar{width:280px;min-width:280px;background:#1c1208;display:flex;flex-direction:column;border-right:1px solid #3a2a12;overflow:hidden}
-.sidebar-scrim{
-  display:none;
-  border:none;
-  background:rgba(12,8,4,.42);
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .2s ease;
-}
 .sidebar-header{padding:28px 22px 20px;border-bottom:1px solid #3a2a12}
 .logo{font-family:'Dancing Script',cursive;font-size:2rem;color:var(--warm-lt);line-height:1;display:flex;flex-direction:column}
 .logo [data-i18n="logo.title"],.logo [data-i18n="logo.subtitle"]{display:block}
@@ -112,26 +73,7 @@ main:focus{
 .no-entries{padding:30px 22px;color:#4a3618;font-style:italic;font-size:.85rem;text-align:center}
 
 /* ── Main ────────────────────────────────────────────────────────── */
-.main{flex:1;display:flex;flex-direction:column;background:var(--paper);position:relative;overflow:hidden;min-width:0}
-.main-shellbar{
-  position:absolute;
-  inset:0 auto 0 0;
-  width:0;
-  z-index:24;
-  pointer-events:none;
-}
-
-.sr-only{
-  position:absolute;
-  width:1px;
-  height:1px;
-  padding:0;
-  margin:-1px;
-  overflow:hidden;
-  clip:rect(0,0,0,0);
-  white-space:nowrap;
-  border:0;
-}
+.main{flex:1;display:flex;flex-direction:column;background:var(--paper);position:relative;overflow:hidden}
 
 /* ── Toolbar principal ───────────────────────────────────────────── */
 .toolbar{position:relative;z-index:10;display:flex;align-items:center;gap:6px;padding:10px 20px;background:var(--paper2);border-bottom:1px solid rgba(200,132,58,.25);flex-wrap:wrap;
@@ -251,28 +193,13 @@ main:focus{
 /* ── Editor area + notebook-bg ───────────────────────────────────────
    ÚNICO CONTEXTO DE SCROLL:
    .editor-area  — overflow-y:auto — o único elemento que scrolla.
-   .notebook-bg  — bloco normal, min-height:100% — carrega apenas a
-                   margem vermelha vertical. As linhas horizontais
-                   foram movidas para o #entry-raw (ver abaixo).
+   .notebook-bg  — bloco normal, min-height:100% — carrega o paper.
+                   Cresce com seu conteúdo. Ao rolar, move-se com tudo.
 
-   POR QUE AS LINHAS ESTÃO NO #entry-raw E NÃO NO .notebook-bg:
-   ──────────────────────────────────────────────────────────────
-   O .notebook-bg contém vários elementos antes do textarea:
-     • padding-top:       28px
-     • .entry-date-display: ~30px (altura + margem)
-     • #entry-title:      ~70px (altura + padding + borda + margem)
-     ─────────────────────────
-     Offset total:        ~128px antes do textarea
-
-   128 ÷ 28 = 4,57 → número NÃO inteiro.
-   O textarea começa no meio de um intervalo entre linhas do papel,
-   causando desalinhamento permanente entre texto digitado e linhas.
-
-   SOLUÇÃO: background aplicado diretamente no #entry-raw.
-   O textarea tem seu próprio box model — o background começa em y=0
-   do seu conteúdo interno, exatamente onde o cursor começa a escrever.
-   Com line-height:28px e linhas a cada 28px, o alinhamento é perfeito
-   e automático, imune a qualquer elemento acima no DOM.
+   SEM display:flex em .editor-area nem em .notebook-bg.
+   SEM flex:1 em #entry-raw ou #entry-preview.
+   Esses valores criavam dependência circular de altura que impedia
+   o notebook-bg de crescer além do viewport.
 ────────────────────────────────────────────────────────────────────── */
 .editor-area{
   flex:1;            /* preenche .editor-wrap (necessário) */
@@ -283,11 +210,9 @@ main:focus{
 .editor-area::-webkit-scrollbar-thumb{background:rgba(200,132,58,.3);border-radius:4px}
 
 .notebook-bg{
-  min-height:100%;
+  min-height:100%;           /* ao menos preenche o viewport */
   padding:28px 30px 28px 96px;
   box-sizing:border-box;
-  /* Apenas a margem vermelha vertical permanece aqui.
-     As linhas horizontais foram movidas para o #entry-raw. */
   background-image:
     linear-gradient(
       to right,
@@ -295,58 +220,18 @@ main:focus{
       rgba(200,60,40,.18) 89px,
       rgba(200,60,40,.18) 90.5px,
       transparent 90.5px
+    ),
+    repeating-linear-gradient(
+      transparent,
+      transparent 27px,
+      var(--line) 27px,
+      var(--line) 28px
     );
 }
 .entry-date-display{font-family:'Dancing Script',cursive;font-size:1.05rem;color:var(--rust);margin-bottom:8px;opacity:.8}
 #entry-title{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--ink);background:transparent;border:none;outline:none;width:100%;margin-bottom:18px;line-height:1.2;border-bottom:2px solid rgba(200,132,58,.25);padding-bottom:12px}
 #entry-title::placeholder{color:rgba(26,18,9,.25)}
-#entry-raw{
-  display:block;
-  width:100%;
-  min-height:60vh;
-  background:transparent;
-  border:none;outline:none;resize:none;
-  font-family:'JetBrains Mono','Courier New',monospace;
-  font-size:.93rem;
-  line-height:28px;
-  color:var(--ink);
-  caret-color:var(--rust);
-  overflow:hidden;
-
-  /* ── Linhas de caderno alinhadas ao texto ───────────────────────
-     O background é aplicado aqui, não no .notebook-bg, para garantir
-     alinhamento perfeito com o texto digitado.
-
-     MECANISMO:
-     • O background do textarea começa em y=0 do seu conteúdo interno.
-     • O texto também começa em y=0 (sem padding-top).
-     • Com line-height:28px e linhas a cada 28px, cada linha de texto
-       ocupa exatamente um intervalo entre linhas do papel.
-     • background-attachment:local sincroniza o background com o
-       conteúdo interno — em textareas, este comportamento é nativo
-       e confiável (diferente de divs com display:flex).
-
-     POSIÇÃO DA LINHA vs TEXTO:
-     • Intervalo [0, 27px]: transparente → ocupado pelo texto
-     • Intervalo [27, 28px]: var(--line) → linha do papel aparece
-       imediatamente abaixo de cada linha de texto, como em um
-       caderno físico onde a linha fica sob a palavra escrita.
-
-     background-attachment:local: o background rola com o conteúdo
-     interno do textarea. Como overflow:hidden impede scroll interno,
-     na prática o background fica fixo ao elemento — mas a propriedade
-     garante que o ponto de origem é o canto superior esquerdo do
-     conteúdo (y=0), não o viewport.
-  ─────────────────────────────────────────────────────────────────*/
-  background-image: repeating-linear-gradient(
-    transparent,
-    transparent 27px,
-    var(--line) 27px,
-    var(--line) 28px
-  );
-  background-attachment: local;
-  background-position: 0 0;
-}
+#entry-raw{display:block;width:100%;min-height:60vh;background:transparent;border:none;outline:none;resize:none;font-family:'JetBrains Mono','Courier New',monospace;font-size:.93rem;line-height:28px;color:var(--ink);caret-color:var(--rust);overflow:hidden}
 #entry-raw::placeholder{color:rgba(26,18,9,.28);font-family:'Lora',serif;font-style:italic}
 
 /* ── Preview ─────────────────────────────────────────────────────── */
@@ -359,19 +244,16 @@ main:focus{
 #entry-preview li{margin-bottom:4px}
 #entry-preview .math-block{background:var(--math-bg);border:1px solid var(--math-bd);border-radius:6px;padding:14px 20px;margin:16px 0;overflow-x:auto;text-align:center}
 #entry-preview .math-inline{display:inline}
-#notebook-tail{width:100%;height:0}
 .katex-display{margin:.4em 0!important}
 
 /* ── SVG de anotações (pen overlay) ──────────────────────────────── */
 /*
   O SVG cobre exatamente a área visível do editor-wrap (inset:0).
-  Em modo edição-fonte: permanece oculto.
-  Em preview: fica visível, porém passivo.
+  Em modos não-caneta: pointer-events:none → não bloqueia interação.
   Em modo caneta: pointer-events:all → captura todos os eventos.
   touch-action:none → evita scroll do browser interferir no desenho.
 */
 #pen-svg{
-  display:none;
   position:absolute;
   inset:0;
   width:100%;
@@ -381,19 +263,10 @@ main:focus{
   touch-action:none;
   /* Não usar overflow:hidden aqui — o clip vem do editor-wrap */
 }
-#pen-svg.pen-visible{
-  display:block;
-}
 /* Modo caneta ativo */
 #pen-svg.pen-active{
   pointer-events:all;
   cursor:crosshair;
-}
-#pen-svg.pen-pan{
-  cursor:grab;
-}
-#pen-svg.pen-panning{
-  cursor:grabbing;
 }
 #pen-svg.pen-eraser{
   cursor:cell;
@@ -404,76 +277,11 @@ main:focus{
 .latex-hint{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:rgba(26,18,9,.32)}
 .latex-hint b{color:var(--rust)}
 
-.site-legal-bar{
-  flex-shrink:0;
-  padding:10px 24px 12px 96px;
-  border-top:1px solid rgba(200,132,58,.12);
-  background:rgba(237,230,208,.82);
-  color:rgba(26,18,9,.62);
-  font-size:.75rem;
-  line-height:1.65;
-}
-
-.site-legal-bar a{
-  color:var(--rust);
-  text-decoration:underline;
-  text-decoration-thickness:1px;
-  text-underline-offset:3px;
-}
-
-.site-legal-bar a:hover,
-.site-legal-bar .legal-link-btn:hover{
-  color:var(--warm);
-}
-
-.legal-link-btn{
-  appearance:none;
-  border:none;
-  padding:0;
-  margin:0;
-  background:none;
-  color:var(--rust);
-  font:inherit;
-  line-height:inherit;
-  text-decoration:underline;
-  text-decoration-thickness:1px;
-  text-underline-offset:3px;
-  cursor:pointer;
-}
-
 /* ── Welcome ─────────────────────────────────────────────────────── */
 .welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;position:relative;z-index:1;text-align:center}
 .welcome-icon{font-size:4rem;margin-bottom:16px}
 .welcome h2{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:400;font-style:italic;margin-bottom:8px;color:rgba(26,18,9,.35)}
 .welcome p{font-size:.9rem;color:rgba(26,18,9,.28)}
-.welcome-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:22px}
-.welcome-action{
-  appearance:none;
-  border-radius:999px;
-  padding:10px 18px;
-  font-family:'Lora',serif;
-  font-size:.84rem;
-  cursor:pointer;
-  transition:transform .12s ease, background .2s ease, border-color .2s ease, color .2s ease, box-shadow .2s ease;
-}
-.welcome-action:hover{transform:translateY(-1px)}
-.welcome-action:active{transform:translateY(0) scale(.98)}
-.welcome-action-primary{
-  border:none;
-  background:var(--warm);
-  color:#fff;
-  box-shadow:0 12px 24px rgba(78,45,20,.14);
-}
-.welcome-action-primary:hover{background:var(--rust)}
-.welcome-action-secondary{
-  background:rgba(237,230,208,.9);
-  color:var(--rust);
-  border:1px solid rgba(200,132,58,.34);
-}
-.welcome-action-secondary:hover{
-  background:rgba(200,132,58,.12);
-  border-color:var(--warm);
-}
 
 /* ── Toast ───────────────────────────────────────────────────────── */
 .toast{position:fixed;bottom:28px;right:28px;background:var(--ink);color:var(--warm-lt);padding:10px 20px;border-radius:8px;font-family:'Lora',serif;font-size:.85rem;font-style:italic;opacity:0;transform:translateY(10px);transition:opacity .3s,transform .3s;pointer-events:none;z-index:100}
@@ -501,76 +309,10 @@ main:focus{
 .eq-btn-insert{background:var(--rust);color:#fff;border:none;border-radius:6px;padding:7px 20px;font-family:'Lora',serif;font-size:.85rem;cursor:pointer;transition:background .2s}
 .eq-btn-insert:hover{background:var(--warm)}
 
-/* ── Superfície temporária de impressão ───────────────────────────── */
-#print-stage{display:none}
-#print-stage-surface{
-  position:relative;
-  margin:0 auto;
-  min-height:0;
-  padding:28px 30px 28px 96px;
-  box-sizing:border-box;
-  background-image:
-    linear-gradient(
-      to right,
-      transparent 89px,
-      rgba(200,60,40,.18) 89px,
-      rgba(200,60,40,.18) 90.5px,
-      transparent 90.5px
-    );
-}
-#print-stage-date{
-  font-family:'Dancing Script',cursive;
-  font-size:1.05rem;
-  color:var(--rust);
-  margin-bottom:8px;
-  opacity:.8;
-}
-#print-stage-title{
-  font-family:'Playfair Display',serif;
-  font-size:2rem;
-  font-weight:700;
-  color:var(--ink);
-  margin-bottom:18px;
-  line-height:1.2;
-  border-bottom:2px solid rgba(200,132,58,.25);
-  padding-bottom:12px;
-}
-#print-stage-preview{
-  font-family:'Lora',serif;
-  font-size:1.05rem;
-  line-height:28px;
-  color:var(--ink);
-}
-#print-stage-preview p{margin-bottom:14px}
-#print-stage-preview strong{font-weight:600}
-#print-stage-preview em{font-style:italic}
-#print-stage-preview blockquote{border-left:3px solid var(--warm);padding-left:16px;margin:12px 0;color:var(--rust);font-style:italic}
-#print-stage-preview ul{padding-left:22px;margin-bottom:12px}
-#print-stage-preview li{margin-bottom:4px}
-#print-stage-preview .math-block{background:var(--math-bg);border:1px solid var(--math-bd);border-radius:6px;padding:14px 20px;margin:16px 0;overflow-x:auto;text-align:center}
-#print-stage-preview .math-inline{display:inline}
-#print-overlay-tmp{
-  position:absolute;
-  left:0;
-  top:0;
-  z-index:2;
-  pointer-events:none;
-}
-
 /* ── Impressão / PDF ─────────────────────────────────────────────── */
-@page{
-  margin:12mm;
-}
-
 @media print{
-  .sidebar,.toolbar,.pen-toolbar,.stats-bar,.toast,.eq-overlay,.main-shellbar,.btn-sidebar-toggle{display:none!important}
-  html,body{
-    overflow:visible;
-    height:auto;
-    background:#fff;
-    -webkit-print-color-adjust:exact;
-    print-color-adjust:exact;
-  }
+  .sidebar,.toolbar,.pen-toolbar,.stats-bar,.toast,.eq-overlay{display:none!important}
+  html,body{overflow:visible;height:auto;background:#fff}
   .app{display:block}
   .main{overflow:visible;background:#fff}
   #welcome{display:none!important}
@@ -578,35 +320,20 @@ main:focus{
   .editor-wrap{overflow:visible;position:relative}
   .editor-area{padding:0;overflow:visible}
   .notebook-bg{padding:0;background-image:none;min-height:0}
-  /* Remove linhas de caderno do textarea na impressão */
-  #entry-raw{display:none!important;background-image:none}
+  #entry-raw{display:none!important}
   #entry-preview{display:block!important;min-height:0}
   /* Oculta o SVG overlay — ele usa position:absolute e coordenadas
      de documento que não se traduzem para o contexto de impressão. */
   #pen-svg{display:none!important}
-
-  body.print-exporting .editor-wrap{display:none!important}
-  body.print-exporting #print-stage{display:block!important}
-  body.print-exporting #print-stage-surface{
-    background-image:none;
-    break-inside:auto;
-  }
-  body.print-exporting #print-stage-date,
-  body.print-exporting #print-stage-title,
-  body.print-exporting #print-stage-preview blockquote,
-  body.print-exporting #print-stage-preview ul,
-  body.print-exporting #print-stage-preview ol,
-  body.print-exporting #print-stage-preview pre,
-  body.print-exporting #print-stage-preview table{
+  /* SVG standalone gerado por Pen.buildPrintSvg() — tem viewBox correto */
+  #print-svg-tmp{
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
     page-break-inside:avoid;
-    break-inside:avoid;
   }
-  body.print-exporting #print-stage-preview .math-block{
-    overflow:visible;
-    page-break-inside:avoid;
-    break-inside:avoid;
-  }
-
+  #print-title{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;margin-bottom:6px;color:#1a1209}
+  #print-date{font-family:'Lora',serif;font-style:italic;color:#8b3a1f;margin-bottom:28px;font-size:.95rem}
   #entry-preview{font-family:'Lora',serif;font-size:11pt;line-height:1.75;color:#1a1209}
   #entry-preview p{margin-bottom:10pt}
   #entry-preview blockquote{border-left:3px solid #c8843a;padding-left:12pt;color:#8b3a1f;font-style:italic;margin:10pt 0}
@@ -620,12 +347,6 @@ main:focus{
   align-items:center;
   justify-content:space-between;
   margin-top:14px;
-  gap:8px;
-}
-
-.header-actions{
-  display:flex;
-  align-items:center;
   gap:8px;
 }
 
@@ -746,7 +467,6 @@ main:focus{
   Ícone SVG inline que troca entre expand ↔ compress
   via .fs-icon-expand / .fs-icon-compress controlados por JS.
 */
-#btn-home,
 #btn-fullscreen{
   background:none;
   border:none;
@@ -764,14 +484,10 @@ main:focus{
   transition:outline-color .18s, background .18s, color .18s, transform .12s;
   flex-shrink:0;
 }
-#btn-home:hover,
 #btn-fullscreen:hover{
   outline-color:var(--warm);
   color:#a07840;
   transform:translateY(-1px);
-}
-#btn-home{
-  text-decoration:none;
 }
 #btn-fullscreen.is-fullscreen{
   background:var(--warm);
@@ -779,14 +495,12 @@ main:focus{
   color:#fff;
   box-shadow:0 2px 8px rgba(200,132,58,.4);
 }
-#btn-home svg,
 #btn-fullscreen svg{
   width:14px;
   height:14px;
   pointer-events:none;
 }
 /* Tooltip reutiliza o mesmo padrão ribbon das pílulas de idioma */
-#btn-home::after,
 #btn-fullscreen::after{
   content:attr(data-label);
   position:absolute;
@@ -807,7 +521,6 @@ main:focus{
   transition:opacity .18s, transform .18s;
   z-index:50;
 }
-#btn-home::before,
 #btn-fullscreen::before{
   content:'';
   position:absolute;
@@ -821,266 +534,15 @@ main:focus{
   transition:opacity .18s, transform .18s;
   z-index:51;
 }
-#btn-home:hover::after,
-#btn-home:hover::before,
 #btn-fullscreen:hover::after,
 #btn-fullscreen:hover::before{
   opacity:1;
   transform:translateX(-50%) translateY(0);
 }
 
-.btn-sidebar-toggle{
-  position:absolute;
-  left:12px;
-  top:50%;
-  transform:translateY(-50%);
-  z-index:24;
-  background:rgba(248,244,235,.96);
-  border:1px solid rgba(200,132,58,.3);
-  border-left:1px solid rgba(200,132,58,.3);
-  box-shadow:0 16px 28px rgba(78,45,20,.14);
-  padding:0;
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  justify-content: center;
-  width:30px;
-  height:35px;
-  min-width:30px;
-  border-radius:16px;
-  color:rgba(139,58,31,.82);
-  transition:background .2s,border-color .2s,color .2s,transform .2s,box-shadow .2s;
-  flex-shrink:0;
-  pointer-events:auto;
-}
-
-.btn-sidebar-toggle:hover{
-  background:rgba(255,250,240,.98);
-  border-color:var(--warm);
-  color:var(--warm);
-  box-shadow:0 20px 34px rgba(78,45,20,.18);
-}
-
-.btn-sidebar-toggle.is-open{
-  background:rgba(237,230,208,.92);
-}
-
-.btn-sidebar-toggle.is-closed{
-  background:rgba(255,249,240,.98);
-}
-
-.btn-sidebar-toggle::after{
-  content:attr(data-label);
-  position:absolute;
-  left:calc(100% + 10px);
-  top:50%;
-  transform:translateY(-50%) translateX(-4px);
-  background:var(--warm);
-  color:#fff;
-  font-family:'Lora',serif;
-  font-size:.66rem;
-  font-style:italic;
-  white-space:nowrap;
-  padding:4px 9px;
-  border-radius:999px;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .18s ease, transform .18s ease;
-}
-
-.btn-sidebar-toggle:hover::after{
-  opacity:1;
-  transform:translateY(-50%) translateX(0);
-}
-
-.btn-sidebar-toggle svg{
-  display:block;
-  width:16px;
-  height:16px;
-  opacity:.72;
-}
-
-@media(min-width:901px){
-  body.sidebar-collapsed .sidebar{
-    display:none;
-  }
-}
-
-@media (hover:none), (pointer:coarse){
-  .lang-btn::after,
-  .lang-btn::before,
-  #btn-home::after,
-  #btn-home::before,
-  #btn-fullscreen::after,
-  #btn-fullscreen::before,
-  .btn-sidebar-toggle::after{
-    display:none!important;
-  }
-}
-
-@media(max-width:900px){
-  .main-shellbar{
-    position:relative;
-    inset:auto;
-    width:auto;
-    z-index:12;
-    display:flex;
-    align-items:center;
-    justify-content:flex-start;
-    padding:10px 12px 2px;
-    min-height:48px;
-    background:var(--paper2);
-    box-shadow:inset 0 -1px 0 rgba(200,132,58,.14);
-    pointer-events:auto;
-  }
-  .sidebar{
-    position:fixed;
-    inset:0 auto 0 0;
-    width:min(82vw, 300px);
-    min-width:0;
-    z-index:60;
-    transform:translateX(-100%);
-    transition:transform .22s ease, box-shadow .22s ease;
-    box-shadow:none;
-  }
-  body.sidebar-open .sidebar{
-    display:flex;
-    transform:translateX(0);
-    box-shadow:10px 0 30px rgba(0,0,0,.28);
-  }
-  .sidebar-scrim{
-    display:block;
-    position:fixed;
-    inset:0;
-    z-index:55;
-  }
-  body.sidebar-open .sidebar-scrim{
-    opacity:1;
-    pointer-events:auto;
-  }
-
-  .sidebar-header{padding:22px 18px 16px}
-  .btn-new,
-  .btn-import{
-    width:calc(100% - 36px);
-    margin-left:18px;
-    margin-right:18px;
-  }
-  .search-wrap{padding:12px 18px 10px}
-  .search-icon{left:30px}
-
-  .toolbar{
-    padding:10px 12px;
-    gap:8px 6px;
-    min-height:0;
-  }
-  .pen-toolbar{
-    padding:8px 12px;
-    gap:6px;
-  }
-  .toolbar-sep{display:none}
-  #fmt-btns{flex:1 1 100%}
-  .mode-toggle{
-    flex:1 1 100%;
-    min-width:0;
-  }
-  .mode-btn{
-    flex:1 1 0;
-    min-width:0;
-    padding:7px 10px;
-  }
-  .mood-select{
-    margin-left:0;
-    min-height:34px;
-  }
-  .toolbar-btn{
-    width:34px;
-    height:34px;
-  }
-  .btn-eq,
-  .btn-export,
-  .btn-delete,
-  .btn-save,
-  .pen-tool-btn{
-    min-height:34px;
-  }
-  .btn-sidebar-toggle{
-    position:relative;
-    top:auto;
-    left:auto;
-    transform:none;
-    width:36px;
-    height:36px;
-    min-width:36px;
-    padding:0;
-    border-radius:999px;
-    box-shadow:0 10px 22px rgba(78,45,20,.12);
-  }
-  .pen-section-label{min-width:0}
-}
-
 /* ── Responsivo ──────────────────────────────────────────────────── */
 @media(max-width:640px){
-  .sidebar{
-    width:min(88vw, 240px);
-    min-width:0;
-  }
-  .sidebar-header{
-    padding:20px 16px 14px;
-  }
-  .btn-sidebar-toggle{
-    top:auto;
-    left:auto;
-    width:34px;
-    height:34px;
-    min-width:34px;
-    padding:0;
-  }
-  .header-controls{
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:10px 8px;
-  }
-  .lang-switcher{
-    width:100%;
-    justify-content:center;
-  }
-  .header-actions{
-    width:100%;
-    justify-content:center;
-  }
-  .lang-btn{
-    width:56px;
-  }
-  #btn-home,
-  #btn-fullscreen{
-    width:30px;
-    height:28px;
-  }
-  .btn-new,
-  .btn-import{
-    width:calc(100% - 32px);
-    margin-left:16px;
-    margin-right:16px;
-  }
-  .search-wrap{
-    padding:12px 16px 10px;
-  }
-  .search-icon{
-    left:28px;
-  }
+  .sidebar{width:220px;min-width:220px}
   .notebook-bg{padding-left:58px}
   .stats-bar{padding-left:58px}
-  .site-legal-bar{padding-left:58px;padding-right:16px}
-  .welcome{
-    padding:32px 22px;
-  }
-  .welcome-actions{
-    width:100%;
-    flex-direction:column;
-    gap:10px;
-  }
-  .welcome-action{
-    width:min(280px, 100%);
-  }
 }

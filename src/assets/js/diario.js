@@ -27,6 +27,8 @@ var I18N = {
     /* Sidebar */
     'lang.label':   'Idioma:',
     'home.link':    'Início',
+    'sidebar.show': 'Mostrar lista de entradas',
+    'sidebar.hide': 'Ocultar lista de entradas',
     'fs.enter':     'Tela cheia',
     'fs.exit':      'Sair da tela cheia',
     'btn.new':      'Nova Entrada',
@@ -108,7 +110,9 @@ var I18N = {
     'toast.saved':  'Salvo ✓',
     'toast.del':    'Entrada excluída.',
     'toast.md':     'Markdown baixado ✓',
-    'toast.pdf':    'PDF gerado ✓',
+    'toast.pdf':    'Diálogo de impressão aberto. Use "Salvar em PDF" no navegador.',
+    'toast.pdfErr': 'Não foi possível preparar a impressão desta entrada.',
+    'toast.pdfUnavailable': 'A impressão não está disponível neste navegador.',
     'toast.eq':     'Equação inserida ✓',
     'toast.imported':  'Entrada importada ✓',
     'toast.importErr': 'Arquivo inválido ou corrompido.',
@@ -143,6 +147,8 @@ var I18N = {
     /* Sidebar */
     'lang.label':   'Lang:',
     'home.link':    'Home',
+    'sidebar.show': 'Show entry list',
+    'sidebar.hide': 'Hide entry list',
     'fs.enter':     'Full screen',
     'fs.exit':      'Exit full screen',
     'btn.new':      'New Entry',
@@ -224,7 +230,9 @@ var I18N = {
     'toast.saved':  'Saved ✓',
     'toast.del':    'Entry deleted.',
     'toast.md':     'Markdown downloaded ✓',
-    'toast.pdf':    'PDF generated ✓',
+    'toast.pdf':    'Print dialog opened. Use your browser\'s "Save as PDF".',
+    'toast.pdfErr': 'Could not prepare printing for this entry.',
+    'toast.pdfUnavailable': 'Printing is not available in this browser.',
     'toast.eq':     'Equation inserted ✓',
     'toast.imported':  'Entry imported ✓',
     'toast.importErr': 'Invalid or corrupted file.',
@@ -290,6 +298,8 @@ function doApply(lang) {
       ['logo-sub',          'logo.sub',      'text'],
       ['btn-new-label',     'btn.new',       'text'],
       ['btn-import-label',  'btn.import',    'text'],
+      ['welcome-new-label', 'btn.new',       'text'],
+      ['welcome-import-label','btn.import',  'text'],
       ['welcome-title',     'welcome.title', 'text'],
       ['welcome-sub',       'welcome.sub',   'text'],
       ['btn-eq-label',      'btn.eq',        'text'],
@@ -358,6 +368,8 @@ function doApply(lang) {
         ? 'privacidade.html#termos'
         : 'privacy.html#terms-of-use';
     }
+
+    syncSidebarToggleControl();
 
     var MOODS = [
       { v:'',    k:'mood.default'    },
@@ -1558,6 +1570,22 @@ function fmtShort(iso) {
 }
 
 var mobileShellMq = window.matchMedia('(max-width: 900px)');
+var SIDEBAR_ICONS = {
+  show:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"'
+    + ' stroke-linecap="round" stroke-linejoin="round">'
+    + '<rect x="2.75" y="3.5" width="18.5" height="17" rx="3"/>'
+    + '<line x1="8.5" y1="3.5" x2="8.5" y2="20.5"/>'
+    + '<polyline points="11,8 15,12 11,16"/>'
+    + '</svg>',
+  hide:
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"'
+    + ' stroke-linecap="round" stroke-linejoin="round">'
+    + '<rect x="2.75" y="3.5" width="18.5" height="17" rx="3"/>'
+    + '<line x1="8.5" y1="3.5" x2="8.5" y2="20.5"/>'
+    + '<polyline points="15,8 11,12 15,16"/>'
+    + '</svg>'
+};
 
 function isMobileShell() {
   return mobileShellMq.matches;
@@ -1569,25 +1597,48 @@ function isSidebarOpen() {
     : !document.body.classList.contains('sidebar-collapsed');
 }
 
+function syncSidebarToggleControl() {
+  var btn = document.getElementById('btn-sidebar-toggle');
+  var icon = document.getElementById('btn-sidebar-toggle-label');
+  var text = document.getElementById('btn-sidebar-toggle-text');
+  if (!btn || !icon) return;
+
+  var open = isSidebarOpen();
+  var label = t(open ? 'sidebar.hide' : 'sidebar.show');
+
+  btn.classList.toggle('is-open', open);
+  btn.classList.toggle('is-closed', !open);
+  btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  btn.setAttribute('aria-label', label);
+  btn.setAttribute('title', label);
+  btn.setAttribute('data-label', label);
+  icon.innerHTML = open ? SIDEBAR_ICONS.hide : SIDEBAR_ICONS.show;
+  if (text) text.textContent = label;
+}
+
 function setSidebarOpen(open) {
   if (isMobileShell()) {
     document.body.classList.remove('sidebar-collapsed');
     document.body.classList.toggle('sidebar-open', !!open);
+    syncSidebarToggleControl();
     return;
   }
 
   document.body.classList.remove('sidebar-open');
   document.body.classList.toggle('sidebar-collapsed', !open);
+  syncSidebarToggleControl();
 }
 
 function syncResponsiveShell() {
   if (!isMobileShell()) {
     document.body.classList.remove('sidebar-open');
+    syncSidebarToggleControl();
     return;
   }
 
   document.body.classList.remove('sidebar-collapsed');
   document.body.classList.toggle('sidebar-open', !currentId);
+  syncSidebarToggleControl();
 }
 
 /** Remove Markdown e LaTeX para exibir como texto puro na sidebar. */
@@ -1752,17 +1803,28 @@ function maybeGrowNotebookTail() {
  * O stage fica fora da UI ativa e só é revelado em @media print quando
  * body.print-exporting estiver presente.
  */
+function cloneRenderedPreview(sourceEl, targetEl) {
+  if (!sourceEl || !targetEl) return;
+  Array.prototype.slice.call(sourceEl.childNodes).forEach(function (node) {
+    targetEl.appendChild(node.cloneNode(true));
+  });
+}
+
 function buildPrintStage(entry) {
   var editorContainer = document.getElementById('editor-container');
   var editorWrap      = document.querySelector('.editor-wrap');
   var prev            = document.getElementById('entry-preview');
   var dateDisplay     = document.getElementById('entry-date-display');
   var titleInput      = document.getElementById('entry-title');
+  var existingStage   = document.getElementById('print-stage');
 
   if (!editorContainer || !editorWrap || !prev) return null;
+  if (existingStage && existingStage.parentNode)
+    existingStage.parentNode.removeChild(existingStage);
 
   var stage = document.createElement('div');
   stage.id = 'print-stage';
+  stage.setAttribute('aria-hidden', 'true');
   stage.style.position   = 'absolute';
   stage.style.left       = '-100000px';
   stage.style.top        = '0';
@@ -1788,7 +1850,7 @@ function buildPrintStage(entry) {
 
   var previewEl = document.createElement('div');
   previewEl.id = 'print-stage-preview';
-  previewEl.innerHTML = prev.innerHTML;
+  cloneRenderedPreview(prev, previewEl);
 
   surface.appendChild(dateEl);
   surface.appendChild(titleEl);
@@ -1925,14 +1987,13 @@ function deleteEntry() {
   entries = entries.filter(function (x) { return x.id !== currentId; });
   currentId = null;
 
-  saveEntry_store( entries[0] );
   Pen.load([]);
   resetNotebookTail();
   Pen.deactivate();
   document.getElementById('editor-container').style.display = 'none';
   document.getElementById('welcome').style.display = 'flex';
   renderList();
-  if (isMobileShell()) setSidebarOpen(true);
+  setSidebarOpen(true);
   showToast(t('toast.del'));
 
 }
@@ -2166,12 +2227,155 @@ function collectPdfExportModel(entry) {
     dateText: dateDisplay
       ? dateDisplay.textContent + (entry.mood ? '  ' + entry.mood : '')
       : fmtLong(entry.updatedAt),
+    lang: document.documentElement.lang || (currentLang === 'en' ? 'en' : 'pt-BR'),
     previewHtml: preview ? preview.innerHTML : '',
     strokes: Pen.getStrokes(),
     surfaceWidthPx: editorWrap
       ? Math.max(1, Math.round(editorWrap.getBoundingClientRect().width))
       : 1
   };
+}
+
+var pdfExportBusy = false;
+
+function setPdfExportBusy(isBusy) {
+  var btn = document.getElementById('btn-export-pdf');
+  pdfExportBusy = !!isBusy;
+  if (!btn) return;
+  btn.disabled = pdfExportBusy;
+  btn.setAttribute('aria-busy', pdfExportBusy ? 'true' : 'false');
+}
+
+function canUseWindowPrint(targetWin) {
+  return !!(targetWin && typeof targetWin.print === 'function');
+}
+
+function waitForPrintLifecycle(targetWin, opts) {
+  opts = opts || {};
+
+  return new Promise(function (resolve, reject) {
+    var ownerWin = opts.ownerWindow || window;
+    var ownerDoc = ownerWin.document || document;
+    var done = false;
+    var startedAt = Date.now();
+    var cleanupFns = [];
+    var minDialogMs = Math.max(250, opts.minDialogMs || 350);
+    var finishDelayMs = Math.max(200, opts.finishDelayMs || 800);
+    var fallbackMs = Math.max(5000, opts.fallbackMs || 45000);
+
+    function cleanup() {
+      while (cleanupFns.length) cleanupFns.pop()();
+    }
+
+    function finish() {
+      if (done) return;
+      done = true;
+      cleanup();
+      resolve();
+    }
+
+    function fail(err) {
+      if (done) return;
+      done = true;
+      cleanup();
+      reject(err);
+    }
+
+    function finishSoon() {
+      setTimeout(finish, finishDelayMs);
+    }
+
+    function maybeFinish() {
+      if (Date.now() - startedAt < minDialogMs) return;
+      finishSoon();
+    }
+
+    function onAfterPrint() {
+      finishSoon();
+    }
+
+    function onFocus() {
+      maybeFinish();
+    }
+
+    function onVisibilityChange() {
+      if (ownerDoc.visibilityState === 'visible') maybeFinish();
+    }
+
+    if (!canUseWindowPrint(targetWin)) {
+      fail(new Error('pdf_print_unavailable'));
+      return;
+    }
+
+    if (typeof targetWin.addEventListener === 'function') {
+      targetWin.addEventListener('afterprint', onAfterPrint);
+      cleanupFns.push(function () {
+        targetWin.removeEventListener('afterprint', onAfterPrint);
+      });
+    }
+
+    if (typeof ownerWin.addEventListener === 'function') {
+      ownerWin.addEventListener('focus', onFocus);
+      cleanupFns.push(function () {
+        ownerWin.removeEventListener('focus', onFocus);
+      });
+    }
+
+    if (ownerDoc && typeof ownerDoc.addEventListener === 'function') {
+      ownerDoc.addEventListener('visibilitychange', onVisibilityChange);
+      cleanupFns.push(function () {
+        ownerDoc.removeEventListener('visibilitychange', onVisibilityChange);
+      });
+    }
+
+    var timeoutId = setTimeout(finish, fallbackMs);
+    cleanupFns.push(function () { clearTimeout(timeoutId); });
+
+    try {
+      if (typeof targetWin.focus === 'function') targetWin.focus();
+      targetWin.print();
+      if (typeof opts.onDispatched === 'function') opts.onDispatched();
+    } catch (err) {
+      fail(err);
+    }
+  });
+}
+
+function cleanupPrintStage(stage) {
+  document.body.classList.remove('print-exporting');
+  if (stage && stage.parentNode) stage.parentNode.removeChild(stage);
+}
+
+function runStagePrintJob(entry, onDispatched) {
+  var printStage = buildPrintStage(entry);
+
+  if (!printStage)
+    return Promise.reject(new Error('pdf_print_stage_unavailable'));
+  if (!canUseWindowPrint(window)) {
+    cleanupPrintStage(printStage);
+    return Promise.reject(new Error('pdf_print_unavailable'));
+  }
+
+  document.body.classList.add('print-exporting');
+
+  return waitForPrintLifecycle(window, {
+    ownerWindow: window,
+    fallbackMs: 45000,
+    finishDelayMs: 800,
+    minDialogMs: 350,
+    onDispatched: onDispatched
+  }).then(function () {
+    cleanupPrintStage(printStage);
+  }, function (err) {
+    cleanupPrintStage(printStage);
+    throw err;
+  });
+}
+
+function getPdfErrorToastKey(err) {
+  return err && err.message === 'pdf_print_unavailable'
+    ? 'toast.pdfUnavailable'
+    : 'toast.pdfErr';
 }
 
 /**
@@ -2184,50 +2388,49 @@ function exportPDF() {
   var e = entries.filter(function (x) { return x.id === currentId; })[0];
   var model;
   var exporter = window.PdfExporter;
+  var notifiedOpen = false;
   if (!e) return;
+  if (pdfExportBusy) return;
 
   saveEntry();
   renderCanonicalSurface();
   model = collectPdfExportModel(e);
 
-  function fallbackPrint() {
-    var printStage = buildPrintStage(e);
-    if (!printStage) return;
+  function notifyPrintDialog() {
+    if (notifiedOpen) return;
+    notifiedOpen = true;
+    showToast(t('toast.pdf'));
+  }
 
-    document.body.classList.add('print-exporting');
-    try {
-      window.print();
-    } finally {
-      document.body.classList.remove('print-exporting');
-      if (printStage.parentNode) printStage.parentNode.removeChild(printStage);
+  function finishWithError(err) {
+    console.error('[pdf-export]', err);
+    setPdfExportBusy(false);
+    showToast(t(getPdfErrorToastKey(err)));
+  }
+
+  function exportViaPaginator() {
+    if (!exporter || typeof exporter.exportEntry !== 'function')
+      return Promise.reject(new Error('pdf_exporter_unavailable'));
+
+    return exporter.exportEntry(model, {
+      format: 'a4',
+      marginMm: 12,
+      onDispatched: notifyPrintDialog
+    });
+  }
+
+  setPdfExportBusy(true);
+
+  runStagePrintJob(e, notifyPrintDialog).then(function () {
+    setPdfExportBusy(false);
+  }, function (err) {
+    if (!model.strokes.length && err && err.message !== 'pdf_print_unavailable') {
+      exportViaPaginator().then(function () {
+        setPdfExportBusy(false);
+      }, finishWithError);
+      return;
     }
-  }
-
-  /* Quando há anotações manuscritas, a geometria canônica do preview
-     precisa ser preservada integralmente. A exportação paginada atual
-     recompõe blocos do DOM em novas páginas, o que pode deslocar
-     coordenadas absolutas dos traços. Nesses casos, usamos o fluxo
-     clássico buildPrintStage() + window.print(), que replica a mesma
-     superfície vista em Preview/Pen. */
-  if (model.strokes && model.strokes.length) {
-    fallbackPrint();
-    showToast(t('toast.pdf'));
-    return;
-  }
-
-  if (!exporter || typeof exporter.exportEntry !== 'function') {
-    fallbackPrint();
-    showToast(t('toast.pdf'));
-    return;
-  }
-
-  exporter.exportEntry(model, { format: 'a4', marginMm: 12 })
-  .catch(function () {
-    fallbackPrint();
-  })
-  .then(function () {
-    document.body.classList.remove('print-exporting');
-    showToast(t('toast.pdf'));
+    finishWithError(err);
   });
 }
 
@@ -2569,6 +2772,8 @@ document.getElementById('mode-preview').addEventListener('click', function () {
 /* Botões principais */
 document.getElementById('btn-new').addEventListener('click', newEntry);
 document.getElementById('btn-import-md').addEventListener('click', importMarkdown);
+document.getElementById('welcome-new').addEventListener('click', newEntry);
+document.getElementById('welcome-import').addEventListener('click', importMarkdown);
 document.getElementById('btn-save').addEventListener('click', function () {
   saveEntry(); 
   showToast(t('toast.saved'));
