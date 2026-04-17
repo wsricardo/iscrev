@@ -593,7 +593,7 @@ main{
     padding: 22px;
     border: 1px solid rgba(139,58,31,.12);
     border-radius: var(--radius-xl);
-    background: rgba(251,247,239,.8);
+    background: rgba(255, 255, 255, 0.58);
     box-shadow: var(--shadow-soft);
 
 }
