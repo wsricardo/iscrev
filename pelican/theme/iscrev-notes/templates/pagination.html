@@ -1,0 +1,11 @@
+<nav class="pagination" aria-label="Paginação de posts">
+    {% if articles_paginator.has_prev() %}
+        <a class="button-secondary" href="{{ SITEURL }}/{{ articles_paginator.previous_page_path }}">&laquo; Mais recentes</a>
+    {% endif %}
+
+    <span class="pagination-meta">Página {{ articles_paginator.page_num }} de {{ articles_paginator.num_pages }}</span>
+
+    {% if articles_paginator.has_next() %}
+        <a class="button-secondary" href="{{ SITEURL }}/{{ articles_paginator.next_page_path }}">Mais antigos &raquo;</a>
+    {% endif %}
+</nav>

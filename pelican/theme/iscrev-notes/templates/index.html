@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Blog | {{ SITENAME }}{% endblock %}
+{% block og_title %}Blog | {{ SITENAME }}{% endblock %}
+
+{% block page_header %}
+<div class="blog-page-header">
+    <p class="eyebrow">Blog</p>
+    <h1>Artigos e bastidores do projeto</h1>
+    <p>
+        Uma janela para a jornada de desenvolvimento do iScrev Notes —
+        filosofia de produto, decisões técnicas e dicas de uso.
+    </p>
+</div>
+{% endblock %}
+
+{% block content %}
+<section class="main-section main-section-1">
+    <div class="cards-grid">
+        {% for article in articles_page.object_list %}
+        <article class="info-card">
+            <time datetime="{{ article.date.isoformat() }}">
+                {{ article.date | strftime('%d de %B de %Y') }}
+            </time>
+            <h3><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></h3>
+            <p>{{ article.summary | striptags | truncate(120) }}</p>
+            {% if article.tags %}
+            <ul class="tag-list" style="margin-top:14px">
+                {% for tag in article.tags %}
+                <li><a href="{{ SITEURL }}/{{ tag.url }}">{{ tag }}</a></li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </article>
+        {% endfor %}
+    </div>
+</section>
+
+{% if articles_page.has_other_pages() %}
+<nav class="pagination" aria-label="Paginação do blog">
+    {% if articles_page.has_previous() %}
+    <a href="{{ SITEURL }}/{{ previous_page.save_as }}" rel="prev">← Anterior</a>
+    {% endif %}
+
+    <span class="current">
+        Página {{ articles_page.number }} de {{ articles_page.paginator.num_pages }}
+    </span>
+
+    {% if articles_page.has_next() %}
+    <a href="{{ SITEURL }}/{{ next_page.save_as }}" rel="next">Próxima →</a>
+    {% endif %}
+</nav>
+{% endif %}
+{% endblock %}

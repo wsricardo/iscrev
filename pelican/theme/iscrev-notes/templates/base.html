@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="{{ DEFAULT_LANG }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="{{ AUTHOR }}">
+    <meta name="theme-color" content="#c8843a">
+
+    {% if article %}
+    <meta name="description" content="{{ article.summary | striptags | truncate(155) }}">
+    <meta property="og:title"       content="{{ article.title }} | {{ SITENAME }}">
+    <meta property="og:description" content="{{ article.summary | striptags | truncate(155) }}">
+    <meta property="og:type"        content="article">
+    <meta property="og:url"         content="{{ SITEURL }}/{{ article.url }}">
+    {% else %}
+    <meta name="description" content="{{ SITEDESC | default('Blog do iScrev Notes') }}">
+    <meta property="og:title"       content="{% block og_title %}{{ SITENAME }}{% endblock %}">
+    <meta property="og:type"        content="website">
+    <meta property="og:url"         content="{{ SITEURL }}/">
+    {% endif %}
+    <meta property="og:site_name" content="{{ SITENAME }}">
+
+    <title>{% block title %}{{ SITENAME }}{% endblock %}</title>
+
+    <link rel="canonical" href="{{ SITEURL }}/{{ output_file }}">
+    <link rel="icon" href="{{ SITEURL }}/assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="manifest" href="{{ SITEURL }}/manifest.json">
+    <link rel="apple-touch-icon" href="{{ SITEURL }}/assets/img/apple-touch-icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500;600&family=Dancing+Script:wght@700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ SITEURL }}/assets/css/style.css">
+    <link rel="stylesheet" href="{{ SITEURL }}/assets/css/style-blog.css">
+
+    {% if FEED_ALL_ATOM %}
+    <link href="{{ FEED_ALL_ATOM_URL | default(FEED_ALL_ATOM) }}" type="application/atom+xml"
+          rel="alternate" title="{{ SITENAME }} — Feed Atom">
+    {% endif %}
+</head>
+
+{# Determina as classes do body para escopo CSS preciso #}
+{% set page_class = 'page-blog' %}
+{% if article %}
+    {% set page_class = page_class ~ ' page-article' %}
+{% endif %}
+{% if not article and articles is defined %}
+    {% set page_class = page_class ~ ' page-index' %}
+{% endif %}
+
+<body class="{{ page_class }} page-{{ DEFAULT_LANG.split('-')[0]|lower }}">
+    
+    <div class="site-shell">
+        <header>
+            <nav aria-label="Navegação principal">
+                <a class="logo" href="{{ SITEURL }}/" aria-label="iScrev Notes — página inicial">
+                    <span class="brand-mark">iScrev Notes</span>
+                    <span class="brand-sub">texto, fórmulas e traços em harmonia</span>
+                </a>
+
+                <button class="nav-toggle" type="button"
+                        aria-label="Abrir menu"
+                        aria-expanded="false"
+                        aria-haspopup="menu"
+                        data-open-label="Abrir menu"
+                        data-close-label="Fechar menu"
+                        aria-controls="site-nav-group">
+                    <span></span><span></span><span></span>
+                </button>
+
+                <div class="nav-group" id="site-nav-group">
+                    <ul class="nav-menu">
+                        <li>
+                            <a class="nav-link" href="{{ SITEURL }}/">Início</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="{{ SITEURL }}/sobre.html">Sobre</a>
+                        </li>
+                        <li>
+                            <a class="nav-link active" href="{{ SITEURL }}/blog/"
+                               aria-current="page">Blog</a>
+                        </li>
+                    </ul>
+
+                    <div class="nav-tools">
+                        <a class="nav-cta" href="{{ SITEURL }}/diario.html">Abrir diário</a>
+                        <div class="lang-switcher" aria-label="Alternar idioma">
+                            <a class="lang-link active" href="{{ SITEURL }}/"
+                               aria-current="page">PT</a>
+                            <a class="lang-link" href="{{ SITEURL }}/en.html">EN</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            {# Cabeçalho da página — definido pelo template filho #}
+            {% block page_header %}{% endblock %}
+        </header>
+
+        <main id="main-content" tabindex="-1">
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="site-footer">
+            <div>
+                <h2>Pronto para colocar ideias no papel digital?</h2>
+                <p>
+                    Abra o iScrev Notes para experimentar a interface principal ou leia mais sobre
+                    a proposta, o cuidado visual e o tipo de uso que inspirou o projeto.
+                </p>
+            </div>
+
+            <div class="footer-actions">
+                <a class="button-primary" href="{{ SITEURL }}/diario.html">Abrir iScrev Notes</a>
+                <a class="button-secondary" href="{{ SITEURL }}/sobre.html">Ler sobre o projeto</a>
+            </div>
+
+            <div class="footer-meta">
+                <span>iScrev Notes</span>
+                <span>Com simplicidade, modernidade e elegância</span>
+                <span>Minimalismo e intimismo</span>
+                <span>Uma experiência pensada para estudo, reflexão e criação</span>
+            </div>
+
+            <div class="footer-legal-summary">
+                <p>
+                    Privacidade e uso responsável: o iScrev Notes salva entradas e preferências
+                    no seu navegador, pode depender de provedores técnicos como Google Fonts e
+                    jsDelivr para carregar recursos visuais e matemáticos e pode exibir anúncios
+                    do Google AdSense. Veja a
+                    <a href="{{ SITEURL }}/privacidade.html#privacidade">Política de Privacidade</a>
+                    e os <a href="{{ SITEURL }}/privacidade.html#termos">Termos de Uso</a>.
+                </p>
+            </div>
+
+            <div style="padding:4px;text-align:center;margin:0 auto;
+                        border-top:1px solid #ccc;width:100%">
+                <p class="copyright"
+                   style="display:block;text-align:center;margin:0 auto;color:#633737">
+                    <a href="https://www.wsricardo.com.br">WSRicardo © 2026</a>
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="{{ SITEURL }}/assets/js/site-nav.js" defer></script>
+</body>
+</html>

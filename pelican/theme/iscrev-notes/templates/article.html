@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title }} | {{ SITENAME }}{% endblock %}
+{% block og_title %}{{ article.title }}{% endblock %}
+
+{% block page_header %}
+<div class="article-hero">
+    <p class="eyebrow">
+        <a href="{{ SITEURL }}/blog/" style="color:inherit;text-decoration:none">Blog</a>
+        {% if article.category %}
+        &nbsp;/&nbsp;
+        <a href="{{ SITEURL }}/{{ article.category.url }}"
+           style="color:inherit;text-decoration:none">{{ article.category }}</a>
+        {% endif %}
+    </p>
+    <h1>{{ article.title }}</h1>
+    <div class="article-meta">
+        <span>{{ article.date | strftime('%d de %B de %Y') }}</span>
+        {% if article.author %}
+        <span>{{ article.author }}</span>
+        {% endif %}
+        {% if article.tags %}
+        <span>
+            {% for tag in article.tags %}
+            <a href="{{ SITEURL }}/{{ tag.url }}"
+               style="color:var(--rust);text-decoration:none">{{ tag }}{% if not loop.last %}, {% endif %}</a>
+            {% endfor %}
+        </span>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<article class="article-body">
+    {{ article.content }}
+</article>
+
+{# Navegação entre artigos #}
+{% if article.prev_article or article.next_article %}
+<nav class="pagination" aria-label="Navegação entre artigos">
+    {% if article.prev_article %}
+    <a href="{{ SITEURL }}/{{ article.prev_article.url }}" rel="prev"
+       title="{{ article.prev_article.title }}">← Artigo anterior</a>
+    {% endif %}
+    {% if article.next_article %}
+    <a href="{{ SITEURL }}/{{ article.next_article.url }}" rel="next"
+       title="{{ article.next_article.title }}">Próximo artigo →</a>
+    {% endif %}
+</nav>
+{% endif %}
+{% endblock %}
