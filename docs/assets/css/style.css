@@ -577,6 +577,22 @@ main{
         linear-gradient(135deg, rgba(241,225,197,.92) 0%, rgba(245,239,224,.95) 100%);
 }
 
+.main-section-blog {
+    margin: 0 auto;
+}
+
+.card-title{
+    font-size:clamp(2rem, 3.4vw, 3rem);
+    line-height:1.04;
+    margin-bottom:12px;
+}
+
+.latest-post-preview{
+    width: 40%;
+    margin: 12px auto;
+    padding-top: 12px
+}
+
 .section-head{
     max-width:66ch;
     margin-bottom:26px;
