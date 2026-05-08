@@ -17,14 +17,15 @@ ARTICLE_SAVE_AS = 'blog/{slug}.html'
 INDEX_SAVE_AS = 'blog/index.html'
 
 # Desabilitar a geração de páginas que não usaremos por enquanto
+#PAGE_PATHS = ['pages']
 PAGE_URL = 'blog/pages/{slug}.html'
 PAGE_SAVE_AS = 'blog/pages/{slug}.html'
-CATEGORY_SAVE_AS = ''
-TAG_SAVE_AS = ''
-AUTHOR_SAVE_AS = ''
-ARCHIVES_SAVE_AS = ''
-CATEGORIES_SAVE_AS = ''
-TAGS_SAVE_AS = ''
+#CATEGORY_SAVE_AS = ''
+#TAG_SAVE_AS = ''
+#AUTHOR_SAVE_AS = ''
+#ARCHIVES_SAVE_AS = ''
+#CATEGORIES_SAVE_AS = ''
+#TAGS_SAVE_AS = ''
 
 # --- Configurações de Feed ---
 FEED_ALL_ATOM = None
