@@ -35,4 +35,12 @@ TRANSLATION_FEED_ATOM = None
 # Gera o site na pasta `docs/` do diretório pai.
 OUTPUT_PATH = '../docs/'
 
+# --- Configurações de Arquivos Estáticos ---
+STATIC_PATHS = ['blog/images']
+EXTRA_PATH_METADATA = {
+    'blog/images': {'path': 'blog/images'},
+}
+
+
+
 DEFAULT_PAGINATION = 10

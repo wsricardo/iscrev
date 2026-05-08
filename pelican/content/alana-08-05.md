@@ -6,7 +6,7 @@ Slug: alana-08-05-2026
 Author: WSRicardo
 Summary: Um breve texto motivacional da personagem Alana para o dia, incentivando a pausa e a reflexão.
 
-![Mulher escrevendo em um caderno em um ambiente tranquilo](images/alana-08.png)
+![Mulher escrevendo em um caderno em um ambiente tranquilo](/images/alana-08.png)
 
 Olá! Aqui é a Alana.
 
