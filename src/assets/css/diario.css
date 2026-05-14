@@ -4,9 +4,11 @@
 /* ── Tokens de design ───────────────────────────────────────────── */
 :root{
   --ink:#1a1209;       /* tinta principal */
+  --ink-rgb:26,18,9;   /* RGB para rgba() */
   --paper:#f5efe0;     /* fundo papel */
   --paper2:#ede6d0;    /* fundo toolbar/stats */
   --warm:#c8843a;      /* laranja — destaque */
+  --warm-rgb:200,132,58; /* RGB para rgba() */
   --warm-lt:#e8b96a;   /* laranja claro */
   --rust:#8b3a1f;      /* ferrugem — secundário */
   --math-bg:#fdf6e8;
@@ -561,6 +563,96 @@ main:focus{
 .support-dialog h3{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--rust);margin-bottom:8px}
 .support-dialog p{font-size:.9rem;color:rgba(26,18,9,.6);margin-bottom:16px;line-height:1.7}
 .support-points{list-style:disc;padding-left:20px;margin-bottom:16px;display:grid;gap:8px;font-size:.85rem;color:rgba(26,18,9,.7)}
+.support-pix-card{
+  display:grid;
+  gap:12px;
+  margin:18px 0 8px;
+  padding:18px;
+  border:1px solid rgba(139,58,31,.16);
+  border-radius:18px;
+  background:
+    radial-gradient(circle at top right, rgba(200,132,58,.18), transparent 42%),
+    linear-gradient(180deg, rgba(255,255,255,.8), rgba(245,239,224,.96));
+  box-shadow:0 14px 30px rgba(78,45,20,.1);
+}
+.support-pix-label{
+  display:inline-flex;
+  align-items:center;
+  width:max-content;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(139,58,31,.08);
+  color:var(--rust);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  font-weight:500;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.support-pix-row{
+  display:grid;
+  grid-template-columns:minmax(0, 1fr) auto;
+  gap:12px;
+  align-items:stretch;
+}
+.support-pix-key{
+  display:flex;
+  align-items:center;
+  min-height:52px;
+  padding:12px 16px;
+  border:1px dashed rgba(139,58,31,.24);
+  border-radius:14px;
+  background:rgba(255,255,255,.86);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7);
+  color:var(--ink);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.81rem;
+  line-height:1.6;
+  letter-spacing:.01em;
+  word-break:break-all;
+  overflow-wrap:anywhere;
+}
+.support-pix-copy{
+  min-width:116px;
+  padding:0 18px;
+  border:1px solid rgba(139,58,31,.2);
+  border-radius:14px;
+  background:linear-gradient(135deg, rgba(200,132,58,.18), rgba(255,255,255,.92));
+  color:var(--rust);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.76rem;
+  font-weight:500;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:transform .2s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease, color .2s ease;
+}
+.support-pix-copy:hover,
+.support-pix-copy:focus-visible{
+  transform:translateY(-1px);
+  border-color:rgba(139,58,31,.34);
+  background:linear-gradient(135deg, rgba(200,132,58,.26), rgba(255,255,255,.96));
+  color:var(--rust);
+  box-shadow:0 10px 20px rgba(78,45,20,.1);
+}
+.support-copy-status{
+  min-height:1.05rem;
+  margin:0;
+  color:var(--rust) !important;
+  font-size:.78rem !important;
+  line-height:1.5;
+}
+.support-copy-status:empty{
+  min-height:0;
+}
+.support-pix-hint{
+  margin:0;
+  padding-top:12px;
+  border-top:1px solid rgba(139,58,31,.1);
+  color:rgba(26,18,9,.56);
+  font-size:.78rem;
+  line-height:1.7;
+}
 .support-note{font-size:.8rem!important;font-style:italic;color:rgba(26,18,9,.5);margin-top:12px;text-align:center}
 .support-dialog-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:24px}
 
@@ -574,6 +666,16 @@ main:focus{
 .support-btn-secondary:hover{background:rgba(200,132,58,.08)}
 .support-btn-primary{background:var(--rust);color:#fff;border:none;border-radius:6px;padding:7px 20px;font-family:'Lora',serif;font-size:.85rem;cursor:pointer;transition:background .2s; text-decoration: none;}
 .support-btn-primary:hover{background:var(--warm)}
+
+@media (max-width:560px){
+  .support-pix-row{
+    grid-template-columns:1fr;
+  }
+
+  .support-pix-copy{
+    min-height:46px;
+  }
+}
 
 /* ── Superfície temporária de impressão ───────────────────────────── */
 #print-stage{display:none}

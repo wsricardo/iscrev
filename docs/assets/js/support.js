@@ -19,7 +19,7 @@ var CONFIG = Object.freeze({
     max: 10000
   }),
   pix: Object.freeze({
-    key: 'wsricardo13@gmail.com',
+    key: 'c855694b-df4e-465a-83b7-2e368b3f0a47',
     label: 'PIX'
   })
 });
@@ -86,7 +86,7 @@ var COPY = {
     'input.placeholder': 'Digite outro valor',
     'input.aria': 'Valor personalizado',
     'summary.label': 'Valor de referência',
-    'pix.note': 'Use o valor acima como referência e faça a transferência com a chave PIX abaixo. A confirmação acontece no app do seu banco.',
+    'pix.note': 'Use o valor acima como referência e faça a transferência com a chave PIX abaixo. A confirmação acontece no app do seu banco.\n Cheque antes de confirmar a transferência o nome do destinario (Wandeson Ricardo da Silva CPF xxx.xxx.xxx-04).',
     'pix.keyLabel': 'Chave PIX atual',
     'pix.copy': 'Copiar chave',
     'pix.help_html': 'Se você está fora do Brasil ou prefere aguardar outro método, opções internacionais serão implementadas futuramente. Para dúvidas, escreva para <a href="mailto:iscrev.tech@gmail.com">iscrev.tech@gmail.com</a>.',
@@ -181,7 +181,7 @@ var COPY = {
     'input.placeholder': 'Enter another amount',
     'input.aria': 'Custom amount',
     'summary.label': 'Reference amount',
-    'pix.note': 'Use the amount above as a reference and complete the transfer with the PIX key below. Confirmation happens in your banking app.',
+    'pix.note': 'Use the amount above as a reference and complete the transfer with the PIX key below. Confirmation happens in your banking app. \nCheck the recipients name before confirming the transfer (Wandeson Ricardo da Silva, CPF xxx.xxx.xxx-04)',
     'pix.keyLabel': 'Current PIX key',
     'pix.copy': 'Copy key',
     'pix.help_html': 'If you are outside Brazil or prefer to wait for another method, international support options will be added in a future update. If you have questions, write to <a href="mailto:iscrev.tech@gmail.com">iscrev.tech@gmail.com</a>.',

@@ -104,6 +104,13 @@ var I18N = {
     'sup.note': 'A página de apoio abre em outra aba para preservar sua sessão atual.',
     'sup.close': 'Agora não',
     'sup.open': 'Abrir página de apoio',
+    /* PIX copy */
+    'pix.label': 'Apoie com PIX',
+    'pix.copy': 'Copiar',
+    'pix.copied': 'Copiado!',
+    'pix.copy.success': 'Chave copiada!',
+    'pix.copy.error': 'Falha ao copiar.',
+    'pix.copy.manual': 'Copia manual necessária.',
     /* Mood */
     'mood.default':    '😐 Humor',
     'mood.happy':      '😊 Feliz',
@@ -234,6 +241,13 @@ var I18N = {
     'sup.note': 'The support page opens in a new tab to preserve your current session.',
     'sup.close': 'Not now',
     'sup.open': 'Open support page',
+    /* PIX copy */
+    'pix.label': 'Support with PIX (e-mail)',
+    'pix.copy': 'Copy',
+    'pix.copied': 'Copied!',
+    'pix.copy.success': 'Key copied!',
+    'pix.copy.error': 'Failed to copy.',
+    'pix.copy.manual': 'Manual copy needed.',
     /* Mood */
     'mood.default':    '😐 Mood',
     'mood.happy':      '😊 Happy',
@@ -355,6 +369,8 @@ function doApply(lang) {
       ['support-note',        'sup.note',      'text'],
       ['support-close',       'sup.close',     'text'],
       ['support-page-link',   'sup.open',      'text'],
+      ['pix-label',           'pix.label',     'text'],
+      ['copy-pix-label',      'pix.copy',      'text'],
       ['search-input',      'search.ph',     'ph'],
       ['entry-title',       'ed.title.ph',   'ph'],
       ['entry-raw',         'ed.body.ph',    'ph'],
@@ -2508,9 +2524,7 @@ function importMarkdown() {
 
         /* ── 2. Título ─────────────────────────────────────────────── */
         /* Aceita "titulo:", "title:" ou qualquer chave que o i18n gere */
-        var titleMatch = fm.match(/(?:^|\n)(?:titulo|title|[^:\n]+)\s*:\s*(.+)/i);
-        /* Restringe: só pega a primeira linha que parece um título */
-        titleMatch = fm.match(/(?:^|\n)(?:titulo|title)\s*:\s*(.+)/i);
+        var titleMatch = fm.match(/(?:^|\n)(?:titulo|title)\s*:\s*(.+)/i);
         var title = titleMatch ? titleMatch[1].trim() : '';
 
         /* Fallback: primeiro heading do body */
@@ -2556,7 +2570,7 @@ function importMarkdown() {
           updatedAt: now
         };
         entries.unshift(entry);
-        saveData();
+        saveEntry_store( entry );
         openEntry(entry.id);    /* abre + chama Pen.load(entry.strokes) */
         showToast(t('toast.imported'));
 
@@ -2871,6 +2885,38 @@ if (supportTrigger && supportOverlay && supportClose) {
       closeSupportModal();
     }
   });
+
+  var copyBtn = document.getElementById('copy-pix-btn');
+  var pixKeyEl = document.getElementById('pix-key-value');
+  var copyStatusEl = document.getElementById('copy-status');
+  var copyLabelEl = document.getElementById('copy-pix-label');
+
+  if (copyBtn && pixKeyEl && copyStatusEl && copyLabelEl) {
+    copyBtn.addEventListener('click', function () {
+      var pixKey = pixKeyEl.textContent;
+      if (!navigator.clipboard) {
+        copyStatusEl.textContent = t('pix.copy.manual');
+        return;
+      }
+
+      navigator.clipboard.writeText(pixKey).then(function () {
+        copyLabelEl.textContent = t('pix.copied');
+        copyBtn.classList.add('copied');
+        copyStatusEl.textContent = t('pix.copy.success');
+        copyStatusEl.style.color = '#28a745';
+
+        setTimeout(function () {
+          copyLabelEl.textContent = t('pix.copy');
+          copyBtn.classList.remove('copied');
+          copyStatusEl.textContent = '';
+          copyStatusEl.style.color = '';
+        }, 2500);
+      }, function (err) {
+        copyStatusEl.textContent = t('pix.copy.error');
+        console.error('Erro ao copiar a chave PIX: ', err);
+      });
+    });
+  }
 }
 
 /* ──────────────────────────────────────────────────────────────────
