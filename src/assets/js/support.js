@@ -86,7 +86,7 @@ var COPY = {
     'input.placeholder': 'Digite outro valor',
     'input.aria': 'Valor personalizado',
     'summary.label': 'Valor de referência',
-    'pix.note': 'Use o valor acima como referência e faça a transferência com a chave PIX abaixo. A confirmação acontece no app do seu banco.\n Cheque antes de confirmar a transferência o nome do destinario (Wandeson Ricardo da Silva CPF xxx.xxx.xxx-04).',
+    'pix.note': 'Use o valor acima como referência e faça a transferência com a chave PIX abaixo. A confirmação acontece no app do seu banco.\n Cheque antes de confirmar a transferência o nome do destinario (Wandeson Ricardo da Silva CPF xxx.xxx.x14-xx).',
     'pix.keyLabel': 'Chave PIX atual',
     'pix.copy': 'Copiar chave',
     'pix.help_html': 'Se você está fora do Brasil ou prefere aguardar outro método, opções internacionais serão implementadas futuramente. Para dúvidas, escreva para <a href="mailto:iscrev.tech@gmail.com">iscrev.tech@gmail.com</a>.',
