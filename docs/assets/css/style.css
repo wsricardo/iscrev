@@ -588,7 +588,8 @@ main{
 }
 
 .latest-post-preview{
-    width: 40%;
+    /*width: 40%;*/
+    width: fit-content;
     margin: 12px auto;
     padding: 22px;
     border: 1px solid rgba(139,58,31,.12);

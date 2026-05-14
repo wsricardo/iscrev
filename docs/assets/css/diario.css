@@ -501,6 +501,80 @@ main:focus{
 .eq-btn-insert{background:var(--rust);color:#fff;border:none;border-radius:6px;padding:7px 20px;font-family:'Lora',serif;font-size:.85rem;cursor:pointer;transition:background .2s}
 .eq-btn-insert:hover{background:var(--warm)}
 
+/* Promo de apoio dentro do diálogo de equação */
+.eq-support-promo{
+  display:flex;
+  gap:18px;
+  align-items:center;
+  margin-top:20px;
+  padding:14px;
+  border-radius:8px;
+  background:var(--math-bg);
+  border:1px solid var(--math-bd);
+}
+.eq-support-qr img{
+  display:block;
+  width:80px;
+  height:80px;
+  border-radius:6px;
+  background:#fff;
+  flex-shrink:0;
+}
+.eq-support-details{
+  font-size:.8rem;
+  color:var(--rust);
+  line-height:1.5;
+}
+.eq-support-details p{
+  font-size:inherit;
+  color:inherit;
+  margin-bottom:8px;
+}
+.eq-support-pix-code{
+  padding:6px 10px;
+  border-radius:4px;
+  background:var(--paper);
+  border:1px solid rgba(200,132,58,.25);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.82rem;
+  color:var(--ink);
+  word-break:break-all;
+}
+.eq-support-link{
+  display:inline-block;
+  margin-top:8px;
+  font-size:.75rem;
+  color:var(--rust);
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+.eq-support-link:hover{
+  color:var(--warm);
+}
+
+/* --- Modal de Apoio --- */
+.support-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;display:none;align-items:center;justify-content:center;opacity:0;transition:opacity .2s ease}
+.support-overlay.open{display:flex;opacity:1}
+.support-dialog{background:var(--paper);border-radius:10px;padding:28px 30px;width:480px;max-width:95vw;box-shadow:0 20px 60px rgba(0,0,0,.35); transform:scale(.95); transition:transform .2s ease;}
+.support-overlay.open .support-dialog{transform:scale(1)}
+
+.support-dialog h3{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--rust);margin-bottom:8px}
+.support-dialog p{font-size:.9rem;color:rgba(26,18,9,.6);margin-bottom:16px;line-height:1.7}
+.support-points{list-style:disc;padding-left:20px;margin-bottom:16px;display:grid;gap:8px;font-size:.85rem;color:rgba(26,18,9,.7)}
+.support-note{font-size:.8rem!important;font-style:italic;color:rgba(26,18,9,.5);margin-top:12px;text-align:center}
+.support-dialog-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:24px}
+
+/*
+  As classes .support-btn-secondary e .support-btn-primary são usadas
+  para os botões do modal de apoio, espelhando o estilo dos botões
+  do modal de equação (.eq-btn-cancel, .eq-btn-insert) para consistência,
+  mas com nomes próprios para clareza.
+*/
+.support-btn-secondary{background:none;border:1px solid rgba(200,132,58,.35);border-radius:6px;padding:7px 18px;font-family:'Lora',serif;font-size:.85rem;color:var(--rust);cursor:pointer}
+.support-btn-secondary:hover{background:rgba(200,132,58,.08)}
+.support-btn-primary{background:var(--rust);color:#fff;border:none;border-radius:6px;padding:7px 20px;font-family:'Lora',serif;font-size:.85rem;cursor:pointer;transition:background .2s; text-decoration: none;}
+.support-btn-primary:hover{background:var(--warm)}
+
 /* ── Superfície temporária de impressão ───────────────────────────── */
 #print-stage{display:none}
 #print-stage-surface{
@@ -1019,6 +1093,12 @@ main:focus{
   .pen-section-label{min-width:0}
 }
 
+@media(max-width:500px){
+  .eq-support-promo{
+    flex-direction:column;
+    text-align:center;
+  }
+}
 /* ── Responsivo ──────────────────────────────────────────────────── */
 @media(max-width:640px){
   .sidebar{

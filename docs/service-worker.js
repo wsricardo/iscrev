@@ -1,4 +1,4 @@
-const CACHE = "iscrev-notes-v8"
+const CACHE = "iscrev-notes-v10"
 const ASSETS = [
     "./", "./diario.html", "./assets/css/diario.css", "./assets/css/style.css",
     "./assets/js/diario.js", "./assets/js/pdf-exporter.js", "./assets/js/site-nav.js", "./assets/js/ui.js",
@@ -28,9 +28,24 @@ self.addEventListener("activate", e => {
 });
 
 self.addEventListener("fetch", e => {
+    // Ignora requisições que não são GET
+    if (e.request.method !== 'GET') {
+        return;
+    }
+
     e.respondWith(
-        caches.match(e.request).then(response => {
-            return response || fetch(e.request);
+        caches.open(CACHE).then(cache => {
+            return cache.match(e.request).then(response => {
+                // Stale-While-Revalidate: busca na rede em paralelo para atualizar o cache
+                const fetchPromise = fetch(e.request).then(networkResponse => {
+                    if (networkResponse && networkResponse.status === 200) {
+                        cache.put(e.request, networkResponse.clone());
+                    }
+                    return networkResponse;
+                });
+                // Retorna a resposta do cache se disponível, senão, aguarda a rede.
+                return response || fetchPromise;
+            });
         })
     );
 });

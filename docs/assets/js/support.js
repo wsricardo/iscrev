@@ -37,7 +37,7 @@ var CONFIG = Object.freeze({
     })
   }),
   pix: Object.freeze({
-    key: 'suporte@wsricardo.com.br'
+    key: 'wsricardo13@gmail.com'
   })
 });
 

@@ -83,6 +83,7 @@ var I18N = {
     'stats.words':  'palavras',
     'stats.hint':   'LaTeX: <b>$inline$</b> · <b>$$bloco$$</b>',
     'legal.prefix': 'Privacidade e uso:',
+    'legal.support':'Apoie',
     'legal.privacy':'Política',
     'legal.terms':  'Termos',
     /* Equation dialog */
@@ -94,6 +95,15 @@ var I18N = {
     'eq.waiting':   'aguardando…',
     'eq.cancel':    'Cancelar',
     'eq.insert':    'Inserir',
+    /* Support modal */
+    'sup.title': 'Ajude a manter o iScrev Notes vivo',
+    'sup.desc': 'Se o iScrev Notes te ajuda a escrever e organizar ideias, você pode apoiar a manutenção do projeto.',
+    'sup.p1': 'Seu apoio ajuda com domínio, hospedagem e melhorias do app.',
+    'sup.p2': 'Os pagamentos acontecem na página de apoio, separada do diário.',
+    'sup.p3': 'Suas notas continuam aqui enquanto você decide com calma.',
+    'sup.note': 'A página de apoio abre em outra aba para preservar sua sessão atual.',
+    'sup.close': 'Agora não',
+    'sup.open': 'Abrir página de apoio',
     /* Mood */
     'mood.default':    '😐 Humor',
     'mood.happy':      '😊 Feliz',
@@ -203,6 +213,7 @@ var I18N = {
     'stats.words':  'words',
     'stats.hint':   'LaTeX: <b>$inline$</b> · <b>$$block$$</b>',
     'legal.prefix': 'Privacy & use:',
+    'legal.support':'Support',
     'legal.privacy':'Policy',
     'legal.terms':  'Terms',
     /* Equation dialog */
@@ -214,6 +225,15 @@ var I18N = {
     'eq.waiting':   'waiting…',
     'eq.cancel':    'Cancel',
     'eq.insert':    'Insert',
+    /* Support modal */
+    'sup.title': 'Help keep iScrev Notes alive',
+    'sup.desc': 'If iScrev Notes helps you write and organize ideas, you can support the project\'s maintenance.',
+    'sup.p1': 'Your support helps with domain, hosting, and app improvements.',
+    'sup.p2': 'Payments are handled on the support page, separate from the diary.',
+    'sup.p3': 'Your notes will remain here while you decide.',
+    'sup.note': 'The support page opens in a new tab to preserve your current session.',
+    'sup.close': 'Not now',
+    'sup.open': 'Open support page',
     /* Mood */
     'mood.default':    '😐 Mood',
     'mood.happy':      '😊 Happy',
@@ -317,6 +337,7 @@ function doApply(lang) {
       ['pen-clear-label',   'pen.clear',     'text'],
       ['latex-hint',        'stats.hint',    'html'],
       ['legal-prefix',      'legal.prefix',  'text'],
+      ['legal-support-label','legal.support','text'],
       ['legal-privacy-label','legal.privacy','text'],
       ['legal-terms-label', 'legal.terms',   'text'],
       ['eq-title',          'eq.title',      'text'],
@@ -326,6 +347,14 @@ function doApply(lang) {
       ['eq-preview-label',  'eq.prev.lbl',   'text'],
       ['eq-cancel',         'eq.cancel',     'text'],
       ['eq-insert',         'eq.insert',     'text'],
+      ['support-title',       'sup.title',     'text'],
+      ['support-desc',        'sup.desc',      'text'],
+      ['support-point-1',     'sup.p1',        'text'],
+      ['support-point-2',     'sup.p2',        'text'],
+      ['support-point-3',     'sup.p3',        'text'],
+      ['support-note',        'sup.note',      'text'],
+      ['support-close',       'sup.close',     'text'],
+      ['support-page-link',   'sup.open',      'text'],
       ['search-input',      'search.ph',     'ph'],
       ['entry-title',       'ed.title.ph',   'ph'],
       ['entry-raw',         'ed.body.ph',    'ph'],
@@ -2812,6 +2841,37 @@ document.addEventListener('storage:quota-exceeded', function () {
 document.addEventListener('storage:error', function () {
   showToast(t('toast.storageError'));
 });
+
+/* --- Modal de Apoio --- */
+var supportOverlay = document.getElementById('support-overlay');
+var supportTrigger = document.getElementById('legal-support-trigger');
+var supportClose = document.getElementById('support-close');
+
+if (supportTrigger && supportOverlay && supportClose) {
+  supportTrigger.addEventListener('click', function () {
+    supportOverlay.classList.add('open');
+    supportOverlay.setAttribute('aria-hidden', 'false');
+  });
+
+  function closeSupportModal() {
+    supportOverlay.classList.remove('open');
+    supportOverlay.setAttribute('aria-hidden', 'true');
+  }
+
+  supportClose.addEventListener('click', closeSupportModal);
+
+  supportOverlay.addEventListener('click', function (ev) {
+    if (ev.target === supportOverlay) {
+      closeSupportModal();
+    }
+  });
+
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Escape' && supportOverlay.classList.contains('open')) {
+      closeSupportModal();
+    }
+  });
+}
 
 /* ──────────────────────────────────────────────────────────────────
    SEÇÃO 15 — INICIALIZAÇÃO
