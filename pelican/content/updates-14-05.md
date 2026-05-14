@@ -6,7 +6,7 @@ Slug: updates-14-05-2026
 Author: WSRicardo
 Summary: Um panorama mais técnico e humano da fase atual do iScrev Notes: novo fluxo de apoio via PIX, refinamentos de interface, documentação consolidada e os próximos passos para modularizar o núcleo JavaScript do app.
 
-![Ilustração de escrita e concentração em um ambiente acolhedor](images/alana-08.png)
+![Ilustração de escrita e concentração em um ambiente acolhedor](/images/alana-08.png)
 
 Maio foi um daqueles momentos em que um projeto independente amadurece por dentro e por fora ao mesmo tempo.
 
@@ -41,7 +41,7 @@ Além disso, o próprio modal de apoio dentro do diário foi refinado para conve
 
 Do ponto de vista de implementação, isso significou simplificar o caminho de apoio e reduzir ruído na interface. Em vez de tentar simular uma plataforma de pagamentos mais complexa do que a fase atual comporta, o projeto assumiu uma solução pequena, prática e coerente com a sua proposta de leveza.
 
-![Ilustração de continuidade, horizonte e construção de longo prazo](images/AlanaBeatriz-praia.png)
+![Ilustração de continuidade, horizonte e construção de longo prazo](/images/AlanaBeatriz-praia.png)
 
 ## O que a análise técnica revelou
 
@@ -105,7 +105,7 @@ Quando a base técnica fica mais clara:
 
 Em outras palavras: esse ciclo não foi só sobre “uma página nova” ou “um botão mais bonito”. Foi sobre preparar o iScrev Notes para continuar crescendo sem perder o que o torna especial.
 
-![Ilustração de energia, rotina e disciplina no processo criativo](images/AlanaBeatriz-saude-academia.png)
+![Ilustração de energia, rotina e disciplina no processo criativo](/images/AlanaBeatriz-saude-academia.png)
 
 ## Quem está por trás do projeto
 
