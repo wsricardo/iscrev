@@ -70,6 +70,8 @@
     font-family:'JetBrains Mono', monospace;
     font-size:1rem;
     font-weight:500;
+    letter-spacing:.08em;
+    text-transform:uppercase;
     flex-shrink:0;
 }
 
@@ -178,6 +180,11 @@
     height:1px;
     margin:24px 0;
     background:rgba(139,58,31,.12);
+}
+
+.support-pix-flow{
+    display:grid;
+    gap:16px;
 }
 
 .support-tabs{

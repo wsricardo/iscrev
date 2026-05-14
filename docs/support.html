@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta id="metaDescription" name="description" content="Apoie o iScrev Notes e ajude a manter o projeto independente. Contribua com cartão via Stripe ou por PIX no Brasil.">
+    <meta id="metaDescription" name="description" content="Apoie o iScrev Notes via PIX e ajude a manter o projeto independente. Nesta fase, o apoio acontece em real brasileiro, com opções internacionais planejadas para o futuro.">
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
     <meta name="author" content="WSRicardo">
     <meta name="theme-color" content="#c8843a">
@@ -13,14 +13,14 @@
     <link rel="alternate" hreflang="x-default" href="https://www.iscrev.com/support.html">
     <meta property="og:type" content="website">
     <meta id="ogTitle" property="og:title" content="Apoie o iScrev Notes | Projeto independente de escrita e estudo">
-    <meta id="ogDescription" property="og:description" content="Apoie o iScrev Notes e ajude a manter o projeto independente. Contribua com cartão via Stripe ou por PIX no Brasil.">
+    <meta id="ogDescription" property="og:description" content="Apoie o iScrev Notes via PIX e ajude a manter o projeto independente. Nesta fase, o apoio acontece em real brasileiro, com opções internacionais planejadas para o futuro.">
     <meta id="ogUrl" property="og:url" content="https://www.iscrev.com/support.html">
     <meta property="og:site_name" content="iScrev Notes">
     <meta id="ogLocale" property="og:locale" content="pt_BR">
     <meta id="ogLocaleAlternate" property="og:locale:alternate" content="en_US">
     <meta name="twitter:card" content="summary">
     <meta id="twitterTitle" name="twitter:title" content="Apoie o iScrev Notes | Projeto independente de escrita e estudo">
-    <meta id="twitterDescription" name="twitter:description" content="Apoie o iScrev Notes e ajude a manter o projeto independente. Contribua com cartão via Stripe ou por PIX no Brasil.">
+    <meta id="twitterDescription" name="twitter:description" content="Apoie o iScrev Notes via PIX e ajude a manter o projeto independente. Nesta fase, o apoio acontece em real brasileiro, com opções internacionais planejadas para o futuro.">
     <title>Apoie o iScrev Notes | Projeto independente de escrita e estudo</title>
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="manifest" href="manifest.json">
@@ -57,6 +57,7 @@
                     <ul class="nav-menu">
                         <li><a class="nav-link" id="homeLink" href="index.html" data-i18n="nav.home">Início</a></li>
                         <li><a class="nav-link" id="aboutLink" href="sobre.html" data-i18n="nav.about">Sobre</a></li>
+                        <li><a class="nav-link" href="/blog">Blog</a></li>
                         <li><a class="nav-link active" id="supportNavLink" href="support.html" aria-current="page" data-i18n="nav.support">Apoie</a></li>
                     </ul>
 
@@ -76,13 +77,13 @@
                     <p class="eyebrow" data-i18n="hero.eyebrow">Apoio ao projeto</p>
                     <h1 data-i18n-html="hero.title_html">Mantenha o iScrev Notes<br>leve, independente e em evolução.</h1>
                     <p class="hero-lead" data-i18n="hero.lead">
-                        Se o app te ajuda a escrever, estudar ou organizar ideias, sua contribuição ajuda a sustentar
-                        domínio, infraestrutura, refinamentos da interface e novas melhorias sem transformar a experiência
-                        em algo pesado ou impessoal.
+                        Se o app te ajuda a escrever, estudar ou organizar ideias, hoje você pode apoiar o projeto via PIX.
+                        Nesta fase, preferimos um caminho simples, direto e coerente com a leveza do iScrev Notes,
+                        enquanto opções para apoiadores de outros países serão implementadas futuramente.
                     </p>
 
                     <div class="hero-actions">
-                        <a class="button-primary" href="#support-options" data-i18n="hero.primary">Escolher forma de apoio</a>
+                        <a class="button-primary" href="#support-options" data-i18n="hero.primary">Ver apoio via PIX</a>
                         <a class="button-secondary" id="heroSecondaryLink" href="diario.html" data-i18n="hero.secondary">Abrir o app</a>
                     </div>
 
@@ -125,8 +126,6 @@
         </header>
 
         <main id="main-content" tabindex="-1">
-            <div class="support-banner" id="successBanner" hidden></div>
-
             <section class="main-section">
                 <div class="story-layout">
                     <div class="story-copy">
@@ -137,27 +136,28 @@
                             no navegador sem exigir conta para o uso básico e com persistência prioritariamente local.
                         </p>
                         <p data-i18n="story.p2">
-                            A página Support precisa refletir exatamente esse mesmo caráter: acolhedora, clara e direta,
-                            sem parecer um checkout isolado do restante do site.
+                            A página Support precisa refletir esse mesmo caráter: acolhedora, clara e direta. Por isso,
+                            nesta fase, ela assume um caminho único via PIX em vez de prometer meios internacionais que
+                            ainda serão implementados.
                         </p>
                     </div>
 
                     <ul class="detail-list">
                         <li>
-                            <strong data-i18n="trust.1.title">Cartão com checkout hospedado</strong>
-                            <span data-i18n="trust.1.body">Pagamentos por cartão seguem para uma página segura da Stripe. Os dados do cartão não passam pelos servidores do iScrev Notes.</span>
+                            <strong data-i18n="trust.1.title">Apoio via PIX nesta fase</strong>
+                            <span data-i18n="trust.1.body">Hoje a página trabalha unicamente com PIX, em um fluxo direto para quem pode transferir em real brasileiro.</span>
                         </li>
                         <li>
-                            <strong data-i18n="trust.2.title">PIX para usuários no Brasil</strong>
-                            <span data-i18n="trust.2.body">Quem preferir apoiar via PIX encontra uma opção direta voltada ao público brasileiro, sem esconder que se trata de um fluxo manual.</span>
+                            <strong data-i18n="trust.2.title">Transferência manual e transparente</strong>
+                            <span data-i18n="trust.2.body">Você escolhe um valor de referência, copia a chave e conclui a transferência no app do seu banco, sem passos escondidos.</span>
                         </li>
                         <li>
                             <strong data-i18n="trust.3.title">Valores em real brasileiro</strong>
-                            <span data-i18n="trust.3.body">Os valores desta página são mostrados em BRL (R$), inclusive para o apoio por cartão.</span>
+                            <span data-i18n="trust.3.body">Todas as contribuições desta página são apresentadas em BRL (R$), moeda usada no PIX.</span>
                         </li>
                         <li>
                             <strong data-i18n="trust.4.title">Canal para dúvidas</strong>
-                            <span data-i18n-html="trust.4.body_html">Se surgir alguma dúvida sobre apoio ou pagamento, escreva para <a href="mailto:iscrev.tech@gmail.com">iscrev.tech@gmail.com</a>.</span>
+                            <span data-i18n-html="trust.4.body_html">Se surgir alguma dúvida sobre o apoio atual ou sobre opções futuras, escreva para <a href="mailto:iscrev.tech@gmail.com">iscrev.tech@gmail.com</a>.</span>
                         </li>
                     </ul>
                 </div>
@@ -166,10 +166,11 @@
             <section class="main-section main-section-2" id="support-options">
                 <div class="section-head">
                     <p class="eyebrow" data-i18n="donate.eyebrow">Formas de apoio</p>
-                    <h2 data-i18n="donate.title">Escolha o valor e o caminho que faz mais sentido para você.</h2>
+                    <h2 data-i18n="donate.title">Escolha um valor e use a chave PIX com calma.</h2>
                     <p data-i18n="donate.lead">
-                        Stripe é o caminho principal para cartão e costuma ser a opção mais simples. PIX fica disponível
-                        como alternativa para quem está no Brasil e prefere transferência direta.
+                        No momento, o apoio é feito apenas por PIX. Você escolhe um valor sugerido ou livre, copia a
+                        chave e conclui a transferência no app do seu banco. Opções para apoiadores de fora do Brasil
+                        serão adicionadas futuramente.
                     </p>
                 </div>
 
@@ -177,42 +178,43 @@
                     <div class="support-copy">
                         <div class="cards-grid support-method-grid">
                             <article class="mini-card">
-                                <h3 data-i18n="method.1.title">Cartão via Stripe</h3>
-                                <p data-i18n="method.1.body">Checkout externo, hospedado pela Stripe, adequado para uma contribuição rápida sem o site lidar com os dados do cartão.</p>
+                                <h3 data-i18n="method.1.title">PIX no Brasil</h3>
+                                <p data-i18n="method.1.body">Fluxo atual de apoio financeiro do projeto: direto, simples e alinhado à fase presente do iScrev Notes.</p>
                             </article>
 
                             <article class="mini-card">
-                                <h3 data-i18n="method.2.title">PIX no Brasil</h3>
-                                <p data-i18n="method.2.body">Opção direta para usuários brasileiros. Hoje a página prioriza cópia da chave PIX e transparência sobre o fluxo.</p>
+                                <h3 data-i18n="method.2.title">Valor sugerido ou livre</h3>
+                                <p data-i18n="method.2.body">Escolha um valor pré-definido ou digite outro e use esse montante como referência ao fazer a transferência.</p>
                             </article>
 
                             <article class="mini-card">
-                                <h3 data-i18n="method.3.title">Transparência primeiro</h3>
-                                <p data-i18n="method.3.body">A página mostra exatamente o que é automático, o que é manual e para onde seguir em caso de dúvida.</p>
+                                <h3 data-i18n="method.3.title">Opções internacionais depois</h3>
+                                <p data-i18n="method.3.body">Doações de outros países ainda não estão disponíveis, mas fazem parte da evolução planejada desta página.</p>
                             </article>
                         </div>
 
                         <div class="policy-note">
                             <p data-i18n-html="donate.note_html">
-                                Cartões seguem por checkout hospedado da Stripe. PIX aparece como alternativa direta para o
-                                Brasil. Em qualquer um dos casos, dúvidas sobre apoio podem ser tratadas pela
-                                <a href="contato.html">página de contato</a> ou pelo e-mail do projeto.
+                                Esta página não abre checkout nem processa cartão. Nesta etapa, ela oferece apenas apoio
+                                via PIX em BRL (R$). Se você está fora do Brasil ou prefere outro método, opções
+                                internacionais serão implementadas futuramente; enquanto isso, dúvidas podem ser tratadas
+                                pela <a href="contato.html">página de contato</a> ou pelo e-mail do projeto.
                             </p>
                         </div>
                     </div>
 
                     <aside class="support-card" aria-labelledby="supportCardTitle">
                         <div class="support-card-head">
-                            <div class="support-card-icon" id="supportCardIcon" aria-hidden="true">R$</div>
+                            <div class="support-card-icon" id="supportCardIcon" aria-hidden="true">PIX</div>
                             <div>
-                                <p class="support-card-kicker" data-i18n="card.kicker">Apoio rápido</p>
-                                <h3 id="supportCardTitle" data-i18n="card.title">Escolha o valor e o método</h3>
+                                <p class="support-card-kicker" data-i18n="card.kicker">Apoio via PIX</p>
+                                <h3 id="supportCardTitle" data-i18n="card.title">Escolha um valor e copie a chave</h3>
                                 <p data-i18n="card.sub">Valores em real brasileiro</p>
                             </div>
                         </div>
 
-                        <label class="support-label" for="customInput" data-i18n="label.amount">Valor da contribuição</label>
-                        <p class="support-amount-note" data-i18n="amount.note">Os valores são exibidos em BRL (R$).</p>
+                        <label class="support-label" for="customInput" data-i18n="label.amount">Valor do apoio</label>
+                        <p class="support-amount-note" data-i18n="amount.note">Escolha um valor sugerido ou defina outro para usar como referência no PIX.</p>
                         <div class="support-amounts" id="amountsGrid" role="group" aria-label="Valor da contribuição"></div>
 
                         <div class="support-custom-wrap">
@@ -230,54 +232,15 @@
 
                         <div class="support-divider"></div>
 
-                        <div class="support-tabs" id="supportTabs" role="tablist" aria-label="Método de apoio">
-                            <button class="support-tab active"
-                                    id="tabStripe"
-                                    type="button"
-                                    role="tab"
-                                    aria-selected="true"
-                                    aria-controls="panelStripe"
-                                    data-method="stripe">
-                                <span data-i18n="tab.stripe">Cartão</span>
-                                <small data-i18n="tab.stripe.help">Checkout hospedado</small>
-                            </button>
-
-                            <button class="support-tab"
-                                    id="tabPix"
-                                    type="button"
-                                    role="tab"
-                                    aria-selected="false"
-                                    aria-controls="panelPix"
-                                    data-method="pix">
-                                <span>
-                                    <span data-i18n="tab.pix">PIX</span>
-                                    <span class="support-tab-badge" data-i18n="tab.pix.badge">Brasil</span>
-                                </span>
-                                <small data-i18n="tab.pix.help">Transferência direta</small>
-                            </button>
-                        </div>
-
-                        <div class="support-panel-block active" id="panelStripe" role="tabpanel" aria-labelledby="tabStripe">
+                        <div class="support-pix-flow">
                             <div class="support-summary">
-                                <div class="support-summary-label" data-i18n="summary.label">Você está apoiando com</div>
+                                <div class="support-summary-label" data-i18n="summary.label">Valor de referência</div>
                                 <div class="support-summary-amount" id="summaryAmount">R$ 10</div>
                             </div>
 
-                            <div class="support-note" data-i18n="stripe.note">
-                                Você será redirecionado para o checkout seguro da Stripe. O iScrev Notes não processa
-                                nem armazena os dados do cartão.
-                            </div>
-
-                            <div class="support-button-row">
-                                <a class="button-primary" id="stripeButton" href="#" rel="noopener noreferrer">Continuar com Stripe</a>
-                            </div>
-
-                            <p class="support-inline-note" id="stripeFootnote" data-i18n="stripe.foot">Pagamento hospedado em checkout seguro</p>
-                        </div>
-
-                        <div class="support-panel-block" id="panelPix" role="tabpanel" aria-labelledby="tabPix">
                             <div class="support-note" data-i18n="pix.note">
-                                PIX é uma alternativa voltada a usuários no Brasil. Use a chave abaixo no app do seu banco.
+                                Use o valor acima como referência e faça a transferência com a chave PIX abaixo.
+                                A confirmação acontece no app do seu banco.
                             </div>
 
                             <div class="pix-key-card">
@@ -289,7 +252,8 @@
                             </div>
 
                             <p class="support-inline-note" data-i18n-html="pix.help_html">
-                                Se quiser confirmar detalhes do apoio ou relatar algum problema, use
+                                Se você está fora do Brasil ou prefere aguardar outro método, opções internacionais
+                                serão implementadas futuramente. Para dúvidas, use
                                 <a href="mailto:iscrev.tech@gmail.com">iscrev.tech@gmail.com</a>.
                             </p>
                             <p class="copy-status" id="copyStatus" role="status" aria-live="polite"></p>
@@ -329,10 +293,11 @@
                 <div class="story-layout">
                     <div class="story-copy">
                         <p class="eyebrow" data-i18n="transparency.eyebrow">Clareza sobre pagamentos</p>
-                        <h2 data-i18n="transparency.title">Uma página de apoio precisa inspirar a mesma confiança que o resto do projeto.</h2>
+                        <h2 data-i18n="transparency.title">Uma página de apoio simples também precisa inspirar a mesma confiança que o resto do projeto.</h2>
                         <p data-i18n="transparency.p1">
-                            Por isso, a versão recomendada da Support coloca o apoio dentro da identidade institucional do
-                            iScrev, com a mesma estrutura visual, a mesma linguagem editorial e menos ruído entre intenção e ação.
+                            Por isso, a versão atual da Support coloca o apoio dentro da identidade institucional do
+                            iScrev, com a mesma estrutura visual, a mesma linguagem editorial e um fluxo honesto via PIX,
+                            sem ruído entre intenção e ação.
                         </p>
                         <p data-i18n="transparency.p2">
                             O objetivo não é parecer uma fintech nem uma campanha genérica, mas uma continuação natural
@@ -350,12 +315,12 @@
                             <span data-i18n-html="detail.2.body_html"><a href="mailto:iscrev.tech@gmail.com">iscrev.tech@gmail.com</a></span>
                         </li>
                         <li>
-                            <strong data-i18n="detail.3.title">Cartão</strong>
-                            <span data-i18n="detail.3.body">Fluxo principal via Stripe hospedado.</span>
+                            <strong data-i18n="detail.3.title">Método atual</strong>
+                            <span data-i18n="detail.3.body">Fluxo único via PIX em real brasileiro.</span>
                         </li>
                         <li>
-                            <strong data-i18n="detail.4.title">PIX</strong>
-                            <span data-i18n="detail.4.body">Alternativa manual para usuários no Brasil.</span>
+                            <strong data-i18n="detail.4.title">Próximos passos</strong>
+                            <span data-i18n="detail.4.body">Opções para apoiadores de outros países serão implementadas futuramente.</span>
                         </li>
                     </ul>
                 </div>
@@ -366,8 +331,8 @@
             <div>
                 <h2 data-i18n="footer.title">Se o iScrev Notes já te ajuda hoje, o apoio ajuda a mantê-lo vivo amanhã.</h2>
                 <p data-i18n="footer.body">
-                    Você pode contribuir agora, abrir o app ou entrar em contato para tratar de dúvidas sobre o projeto,
-                    privacidade ou pagamento.
+                    Você pode apoiar agora via PIX, abrir o app ou entrar em contato para tratar de dúvidas sobre o
+                    projeto, privacidade ou pagamento.
                 </p>
             </div>
 
@@ -378,8 +343,8 @@
 
             <div class="footer-meta">
                 <span data-i18n="footer.meta.1">Projeto independente</span>
-                <span data-i18n="footer.meta.2">Apoio via Stripe ou PIX</span>
-                <span data-i18n="footer.meta.3">Escrita, fórmulas e traços no mesmo espaço</span>
+                <span data-i18n="footer.meta.2">Apoio via PIX</span>
+                <span data-i18n="footer.meta.3">Opções internacionais em desenvolvimento</span>
             </div>
 
             <div class="footer-legal-summary">
