@@ -242,7 +242,7 @@ var I18N = {
     'sup.close': 'Not now',
     'sup.open': 'Open support page',
     /* PIX copy */
-    'pix.label': 'Support with PIX (e-mail)',
+    'pix.label': 'Support with PIX (Brazil Only)',
     'pix.copy': 'Copy',
     'pix.copied': 'Copied!',
     'pix.copy.success': 'Key copied!',

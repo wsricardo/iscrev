@@ -181,7 +181,7 @@ var COPY = {
     'input.placeholder': 'Enter another amount',
     'input.aria': 'Custom amount',
     'summary.label': 'Reference amount',
-    'pix.note': 'Use the amount above as a reference and complete the transfer with the PIX key below. Confirmation happens in your banking app. \nCheck the recipients name before confirming the transfer (Wandeson Ricardo da Silva, CPF xxx.xxx.xxx-04)',
+    'pix.note': 'Use the amount above as a reference and complete the transfer with the PIX key below. Confirmation happens in your banking app. \nCheck the recipients name before confirming the transfer (Wandeson Ricardo da Silva, CPF xxx.xxx.x14-xx)',
     'pix.keyLabel': 'Current PIX key',
     'pix.copy': 'Copy key',
     'pix.help_html': 'If you are outside Brazil or prefer to wait for another method, international support options will be added in a future update. If you have questions, write to <a href="mailto:iscrev.tech@gmail.com">iscrev.tech@gmail.com</a>.',
