@@ -1,6 +1,6 @@
 AUTHOR = 'WSRicardo'
 SITENAME = 'iScrev Notes Blog'
-SITEURL = ''
+SITEURL = 'https://www.iscrev.com'
 
 PATH = 'content'
 TIMEZONE = 'America/Sao_Paulo'
