@@ -222,9 +222,9 @@
 }
 .article-body li { margin-bottom: 6px; }
 .article-body img {
-    max-width: 100%;
+    max-width: 80%;
     border-radius: var(--radius-md);
-    margin: 18px 0;
+    margin: 18px auto;
     box-shadow: var(--shadow-soft);
 }
 
