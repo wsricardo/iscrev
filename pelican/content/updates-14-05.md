@@ -6,7 +6,7 @@ Slug: updates-14-05-2026
 Author: WSRicardo
 Summary: Um panorama mais técnico e humano da fase atual do iScrev Notes: novo fluxo de apoio via PIX, refinamentos de interface, documentação consolidada e os próximos passos para modularizar o núcleo JavaScript do app.
 
-![Ilustração de escrita e concentração em um ambiente acolhedor](/images/alana-08.png)
+![Ilustração de escrita e concentração em um ambiente acolhedor](/images/AlanaBeatriz-Cafeteria-iScrev.png)
 
 Maio foi um daqueles momentos em que um projeto independente amadurece por dentro e por fora ao mesmo tempo.
 
