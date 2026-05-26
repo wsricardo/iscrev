@@ -20,7 +20,7 @@ A migração será dividida em fases, permitindo que cada etapa seja concluída 
  
 
 -   [ ] **Fase 0: Preparação do Ambiente**
-    -   [v] Congelar o desenvolvimento de novas funcionalidades.
+    -   [x] Congelar o desenvolvimento de novas funcionalidades.
     -   [ ] Garantir que um servidor de desenvolvimento local seja o padrão para todos os contribuidores.
     -   [ ] Validar e atualizar o checklist de regressão manual (`CSpec 09`).
 
