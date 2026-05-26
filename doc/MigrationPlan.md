@@ -21,29 +21,29 @@ A migração será dividida em fases, permitindo que cada etapa seja concluída 
 
 -   [ ] **Fase 0: Preparação do Ambiente**
     -   [x] Congelar o desenvolvimento de novas funcionalidades.
-    -   [ ] Garantir que um servidor de desenvolvimento local seja o padrão para todos os contribuidores.
+    -   [ ] Garantir que um servidor de desenvolvimento local seja o padrão.
     -   [ ] Validar e atualizar o checklist de regressão manual (`CSpec 09`).
 
 -   [ ] **Fase 1: Extração de Módulos Puros e de Infraestrutura**
-    -   [ ] Extrair o submódulo `Storage` para `infra/storage.js`.
-    -   [ ] Extrair utilitários (`uid`, formatadores de data) para `shared/ids.js` e `shared/dates.js`.
-    -   [ ] Extrair as funções de renderização (`mdToHtml`, `renderTex`) para `editor/markdown.js`.
+    -   [ ] Extrair o submódulo `Storage` para `infra/storage.js` (Fonte: `diario.js` - Seção 2.5).
+    -   [ ] Extrair utilitários (`uid`, formatadores de data) para `shared/ids.js` e `shared/dates.js` (Fonte: `diario.js` - Seção 4).
+    -   [ ] Extrair as funções de renderização (`mdToHtml`, `renderTex`) para `editor/markdown.js` (Fonte: `diario.js` - Seção 1).
 
 -   [ ] **Fase 2: Extração do Motor da Caneta (`Pen`)**
-    -   [ ] Refatorar e extrair o submódulo `Pen` para `editor/pen.js`.
+    -   [ ] Refatorar e extrair o submódulo `Pen` para `editor/pen.js` (Fonte: `diario.js` - Seção 2).
     -   [ ] Implementar injeção de dependência para os callbacks e helpers externos.
 
 -   [ ] **Fase 3: Separação da Camada de UI**
-    -   [ ] Extrair a lógica de internacionalização para `ui/i18n.js`.
-    -   [ ] Extrair a função `showToast` para `ui/toast.js`.
-    -   [ ] Extrair a lógica da `sidebar` e `renderList` para `ui/sidebar.js`.
-    -   [ ] Extrair os controladores de modais (Equação e Apoio) para `ui/dialogs.js`.
-    -   [ ] Extrair o controle de modos (`setMode`) para `ui/modes.js`.
+    -   [ ] Extrair a lógica de internacionalização para `ui/i18n.js` (Fonte: `diario.js` - Seção 0).
+    -   [ ] Extrair a função `showToast` para `ui/toast.js` (Fonte: `diario.js` - Seção 5).
+    -   [ ] Extrair a lógica da `sidebar` e `renderList` para `ui/sidebar.js` (Fonte: `diario.js` - Seção 6).
+    -   [ ] Extrair os controladores de modais (Equação e Apoio) para `ui/dialogs.js` (Fonte: `diario.js` - Seções 10 e 14).
+    -   [ ] Extrair o controle de modos (`setMode`) para `ui/modes.js` (Fonte: `diario.js` - Seção 7).
 
 -   [ ] **Fase 4: Orquestração de Estado e Ações**
-    -   [ ] Criar `app/state.js` para gerenciar o estado da aplicação (`entries`, `currentId`).
-    -   [ ] Criar `app/actions.js` para centralizar as ações do usuário (CRUD, import/export).
-    -   [ ] Transformar o restante de `diario.js` em `app/bootstrap.js`, responsável pela inicialização.
+    -   [ ] Criar `app/state.js` para gerenciar o estado (`entries`, `currentId`) (Fonte: `diario.js` - Seção 3).
+    -   [ ] Criar `app/actions.js` para centralizar as ações do usuário (CRUD, import/export) (Fonte: `diario.js` - Seções 8 e 11).
+    -   [ ] Transformar o restante de `diario.js` em `app/bootstrap.js` (Fonte: `diario.js` - Seções 14 e 15).
 
 -   [ ] **Fase 5: Limpeza Final e Consolidação**
     -   [ ] Criar o ponto de entrada final `main.js`.
