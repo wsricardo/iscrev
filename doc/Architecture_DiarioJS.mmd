@@ -1,0 +1,61 @@
+graph TD
+    subgraph IIFE_Global [diario.js - IIFE Global]
+        
+        %% Seções de Estado Global
+        subgraph State [Estado Global]
+            E[entries Array]
+            CID[currentId]
+            CM[currentMode]
+            CL[currentLang]
+        end
+
+        %% Inicialização e Bootstrap
+        subgraph Boot [Seção 15 - Inicialização]
+            INIT[Storage.init] --> MIG[migrateFromLocalStorage]
+            MIG --> LD[loadData]
+            LD --> PINIT[Pen.init]
+            PINIT --> AL[applyLocale]
+            AL --> OE[openEntry mais recente]
+        end
+
+        %% Sub-módulos Internos
+        subgraph Submodules [Módulos Internos / Padrão Factory]
+            STORE[[Storage Module]]
+            PEN[[Pen Module]]
+        end
+
+        %% Lógicas de Conversão
+        subgraph Parsers [Seção 1 - Renderizadores]
+            MD[mdToHtml]
+            KTX[renderTex / KaTeX]
+            CMD[convertMarkdown]
+            MD --> KTX
+            MD --> CMD
+        end
+
+        %% Controlador de Ações (CRUD / Modos / Eventos)
+        subgraph Controllers [Controladores e Ações]
+            OP[openEntry]
+            NE[newEntry]
+            SE[saveEntry / debSave]
+            DE[deleteEntry]
+            SM[setMode: Edit / Pen / Preview]
+            EXP[Export/Import MD e PDF]
+        end
+        
+        %% Comunicações e Dependências
+        Controllers -->|Lê/Grava| State
+        Controllers -->|Delega Renderização| Parsers
+        Controllers -->|Aciona API| STORE
+        Controllers -->|Controla UI / Overlays| PEN
+        
+        PEN -.->|Callback _onStrokesChange| SE
+        
+        Boot -.->|Orquestra| Controllers
+    end
+
+    %% Contexto Externo
+    DOM[DOM HTML / UI] -->|Interação & PointerEvents| PEN
+    DOM -->|Input| Controllers
+    Parsers -->|Injeta innerHTML| DOM
+    STORE <-->|I/O| IDB[(IndexedDB Browser)]
