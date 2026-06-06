@@ -47,6 +47,33 @@ Outra IIFE interna que cuida unicamente da persistência das notas via banco de 
 ### 3.5. Auto-Save e Importação/Exportação
 O `diario.js` provê funções com *debounce* temporal para o *Auto-Save* (que monitora digitações), poupando tráfego desnecessário de I/O em banco. Na importação/exportação, os traços SVG nativos são envelopados num formato Base64 limpo e combinados via um parser Markdown Frontmatter YAML.
 
+### 3.6. Mapeamento Detalhado para Refatoração (Seções, Objetos e Funções)
+
+Para auxiliar no planejamento minucioso da refatoração e da migração modular, abaixo está o mapeamento detalhado da estrutura atual contida no arquivo `diario.js`. Ele evidencia o "acoplamento implícito", onde diferentes domínios interagem através do escopo fechado da IIFE.
+
+| Seção (Conceitual) | Objeto Principal / Escopo | Principais Funções e Variáveis | Responsabilidade Atual |
+| :--- | :--- | :--- | :--- |
+| **Estado Global** | Escopo da IIFE | `entries`, `currentId`, `currentMode`, `currentLang` | Mantém o estado da sessão em memória, compartilhado com todas as funções internas. |
+| **Renderizadores (Parsers)** | Escopo da IIFE | `mdToHtml()`, `renderTex()`, `convertMarkdown()`, `escHtml()` | Converte texto cru (Markdown/LaTeX) em HTML seguro para injeção no DOM. |
+| **Internacionalização (i18n)** | `I18N` (Dicionário) | `t()`, `applyLocale()` | Gerencia o dicionário de textos estáticos e a troca dinâmica de idioma na UI. |
+| **Utilitários e UI Helpers** | Escopo da IIFE | `generateId()`, `formatDate()`, `showToast()`, `autoResizeTextarea()` | Funções genéricas de feedback visual, formatações e ajustes dinâmicos do DOM. |
+| **Motor da Caneta (Pen)** | `Pen` (Module) | `init()`, `clear()`, `loadStrokes()`, `simplify()`, `toPathD()`, `eraserHitTest()`, `buildPrintSvg()` | Gerencia o overlay SVG, a suavização de curvas de Bézier, borracha e persistência vetorial. |
+| **Persistência (Storage)** | `Storage` (Module) | `init()`, `getAll()`, `put()`, `remove()`, `migrateFromLocalStorage()` | Abstrai a comunicação assíncrona com o IndexedDB e fallback para localStorage. |
+| **CRUD e Controladores** | Escopo da IIFE | `newEntry()`, `openEntry()`, `saveEntry()`, `deleteEntry()`, `debSave()` | Define o ciclo de vida das notas e gerencia o auto-save (debounce). |
+| **Modos de Visualização** | Escopo da IIFE | `setMode()` | Alterna as áreas visíveis (`Edit`, `Pen`, `Preview`) conforme interação do usuário. |
+| **Interface (Sidebar/Listas)** | Escopo da IIFE | `renderList()`, `filterList()`, `toggleSidebar()` | Preenche e atualiza a barra lateral com a listagem de notas salvas e realiza buscas. |
+| **Importação/Exportação** | Escopo da IIFE | `exportCurrent()`, `importFile()`, `downloadAsPdf()` | Processa leitura/escrita de arquivos `.md` e geração de blobs de exportação. |
+| **Inicialização (Bootstrap)**| Escopo da IIFE | `loadData()`, Listeners de Eventos, `window.onload` | Orquestra a sequência de *boot* e conecta os *event listeners* aos elementos HTML. |
+
+**Resumo Arquitetural para o Planejamento:**
+A tabela expõe claramente como o arquivo atual funciona como um "Contêiner Universal". As lógicas de **Infraestrutura** (Storage), **Engine** (Pen, Renderizadores), **UI** (Sidebar, Toasts) e **Domínio/Ações** (CRUD) estão todas amarradas no mesmo nível léxico da IIFE.
+
+Para o sucesso da nova arquitetura ESM, cada bloco listado acima deverá seguir o fluxo de separação sugerido:
+1. **Camada de Infraestrutura:** A extração imediata do bloco `Storage` (que já se encontra relativamente bem encapsulado internamente).
+2. **Camada de Engine:** Isolamento dos blocos `Pen` e `Renderizadores`, substituindo o acesso direto a variáveis globais por Injeção de Dependências.
+3. **Camada de UI:** Transferência de eventos e Helpers (`showToast`, `renderList`) para módulos puros de interação de apresentação.
+4. **Camada de Orquestração:** Criação de módulos gestores (como `app/state.js` e `app/actions.js`) para assumir a coordenação centralizada do **Estado Global** e as ações de **CRUD**, regulando de forma segura a comunicação entre todas as peças.
+
 ---
 
 ## 4. Diagrama da Arquitetura do `diario.js`
