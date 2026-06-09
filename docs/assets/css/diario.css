@@ -746,7 +746,12 @@ main:focus{
 }
 
 @media print{
-  .sidebar,.toolbar,.pen-toolbar,.stats-bar,.site-legal-bar,.toast,.eq-overlay,.main-shellbar,.btn-sidebar-toggle{display:none!important}
+  .sidebar,.toolbar,.pen-toolbar,.stats-bar,.site-legal-bar,.toast,.eq-overlay,.support-overlay,.main-shellbar,.btn-sidebar-toggle{display:none!important}
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    -webkit-box-shadow: none !important;
+  }
   html,body{
     overflow:visible;
     height:auto;
