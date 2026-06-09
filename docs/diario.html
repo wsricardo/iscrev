@@ -1,49 +1,55 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-L4XBSN6EDE"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4XBSN6EDE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-  gtag('config', 'G-L4XBSN6EDE');
-</script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="iScrev Notes e um diario digital e caderno de anotacoes com Markdown, LaTeX, caneta manuscrita, exportacao e persistencia local, com visual confortavel e sem distracoes.">
-<meta name="robots" content="noindex, follow, max-snippet:-1, max-image-preview:large">
-<meta name="author" content="WSRicardo">
-<meta name="application-name" content="iScrev Notes">
-<meta name="theme-color" content="#c8843a">
-<link rel="canonical" href="https://www.iscrev.com/diario.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="iScrev Notes | Diario digital e caderno de anotacoes">
-<meta property="og:description" content="Aplicativo web para diario digital e caderno de anotacoes com Markdown, LaTeX, caneta manuscrita e persistencia local.">
-<meta property="og:url" content="https://www.iscrev.com/diario.html">
-<meta property="og:site_name" content="iScrev Notes">
-<meta property="og:image" content="assets/img/og-image.png">
-<meta property="og:locale" content="pt_BR">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iScrev Notes | Diario digital e caderno de anotacoes">
-<meta name="twitter:description" content="Aplicativo web para diario digital e caderno de anotacoes com Markdown, LaTeX e caneta manuscrita.">
-<title>iScrev Notes | Diario digital com Markdown, LaTeX e caneta</title>
-<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="manifest" href="manifest.json" />
-<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+    gtag('config', 'G-L4XBSN6EDE');
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="iScrev Notes e um diario digital e caderno de anotacoes com Markdown, LaTeX, caneta manuscrita, exportacao e persistencia local, com visual confortavel e sem distracoes.">
+  <meta name="robots" content="noindex, follow, max-snippet:-1, max-image-preview:large">
+  <meta name="author" content="WSRicardo">
+  <meta name="application-name" content="iScrev Notes">
+  <meta name="theme-color" content="#c8843a">
+  <link rel="canonical" href="https://www.iscrev.com/diario.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="iScrev Notes | Diario digital e caderno de anotacoes">
+  <meta property="og:description"
+    content="Aplicativo web para diario digital e caderno de anotacoes com Markdown, LaTeX, caneta manuscrita e persistencia local.">
+  <meta property="og:url" content="https://www.iscrev.com/diario.html">
+  <meta property="og:site_name" content="iScrev Notes">
+  <meta property="og:image" content="assets/img/og-image.png">
+  <meta property="og:locale" content="pt_BR">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="iScrev Notes | Diario digital e caderno de anotacoes">
+  <meta name="twitter:description"
+    content="Aplicativo web para diario digital e caderno de anotacoes com Markdown, LaTeX e caneta manuscrita.">
+  <title>iScrev Notes | Diario digital com Markdown, LaTeX e caneta</title>
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 
-<!-- Fontes tipográficas -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Dancing+Script:wght@600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <!-- Fontes tipográficas -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Dancing+Script:wght@600&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
-<!-- KaTeX — carregamento SÍNCRONO (sem defer/async) para garantir
+  <!-- KaTeX — carregamento SÍNCRONO (sem defer/async) para garantir
      que katex.renderToString() está disponível imediatamente        -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-<script type="application/ld+json">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
@@ -73,229 +79,218 @@
 }
 </script>
 
-<!-- Estilos do projeto -->
-<link rel="stylesheet" href="assets/css/diario.css">
+  <script type="module" src="assets/js/diario.js"></script>
+
+  <!-- Estilos do projeto -->
+  <link rel="stylesheet" href="assets/css/diario.css">
 
 </head>
+
 <body>
-<a class="skip-link" href="#main-content">Pular para o conteudo principal</a>
-<div class="app">
+  <a class="skip-link" href="#main-content">Pular para o conteudo principal</a>
+  <div class="app">
 
-  <!-- ── Sidebar ─────────────────────────────────────────────────── -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <div class="logo">
-        <span id="logo-title">iScrev Notes</span>
-        <span id="logo-sub">anotações pessoais</span>
-      </div>
-      <!-- Controles do header: idioma + tela cheia -->
-      <div class="header-controls">
-        <div class="lang-switcher" id="lang-switcher">
-          <button class="lang-btn active"
-                  data-lang="pt"
-                  data-label="Português (Brasil)"
-                  title="Português (Brasil)"
-                  aria-label="Mudar para Português">
-            <span class="lang-code">PT</span>
-          </button>
-          <button class="lang-btn"
-                  data-lang="en"
-                  data-label="English"
-                  title="English"
-                  aria-label="Switch to English">
-            <span class="lang-code">EN</span>
-          </button>
+    <!-- ── Sidebar ─────────────────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <span id="logo-title">iScrev Notes</span>
+          <span id="logo-sub">anotações pessoais</span>
         </div>
+        <!-- Controles do header: idioma + tela cheia -->
+        <div class="header-controls">
+          <div class="lang-switcher" id="lang-switcher">
+            <button class="lang-btn active" data-lang="pt" data-label="Português (Brasil)" title="Português (Brasil)"
+              aria-label="Mudar para Português">
+              <span class="lang-code">PT</span>
+            </button>
+            <button class="lang-btn" data-lang="en" data-label="English" title="English" aria-label="Switch to English">
+              <span class="lang-code">EN</span>
+            </button>
+          </div>
 
-        <div class="header-actions">
-          <a id="btn-home"
-             href="index.html"
-             data-label="Início"
-             title="Início"
-             aria-label="Ir para a página inicial">
-            <svg viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 10.5 12 3l9 7.5"/>
-              <path d="M5 9.5V21h5v-6h4v6h5V9.5"/>
-            </svg>
-          </a>
+          <div class="header-actions">
+            <a id="btn-home" href="index.html" data-label="Início" title="Início" aria-label="Ir para a página inicial">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M3 10.5 12 3l9 7.5" />
+                <path d="M5 9.5V21h5v-6h4v6h5V9.5" />
+              </svg>
+            </a>
 
-        <!--
+            <!--
           Botão de tela cheia.
           data-label é atualizado por applyLocale() via TEXT_MAP.
           O ícone SVG troca entre expand e compress via JS (updateFsIcon).
         -->
-        <button id="btn-fullscreen"
-                data-label="Tela cheia"
-                title="Tela cheia"
-                aria-label="Ativar tela cheia">
-          <!-- Ícone expand (padrão) — trocado por JS em updateFsIcon() -->
-          <svg id="fs-icon" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2"
-               stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 3 21 3 21 9"/>
-            <polyline points="9 21 3 21 3 15"/>
-            <line x1="21" y1="3" x2="14" y2="10"/>
-            <line x1="3"  y1="21" x2="10" y2="14"/>
-          </svg>
-        </button>
+            <button id="btn-fullscreen" data-label="Tela cheia" title="Tela cheia" aria-label="Ativar tela cheia">
+              <!-- Ícone expand (padrão) — trocado por JS em updateFsIcon() -->
+              <svg id="fs-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 3 21 3 21 9" />
+                <polyline points="9 21 3 21 3 15" />
+                <line x1="21" y1="3" x2="14" y2="10" />
+                <line x1="3" y1="21" x2="10" y2="14" />
+              </svg>
+            </button>
+          </div>
+
+
         </div>
-
-        
       </div>
-    </div>
 
-    <button class="btn-new" id="btn-new">
-      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <line x1="7" y1="1" x2="7" y2="13"/><line x1="1" y1="7" x2="13" y2="7"/>
-      </svg>
-      <span id="btn-new-label">Nova Entrada</span>
-    </button>
-
-    <!-- Importar arquivo .md com traços embutidos no front matter -->
-    <button class="btn-import" id="btn-import-md" title="Importar arquivo Markdown (.md)">
-      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <polyline points="2,4 7,9 12,4"/>
-        <line x1="7" y1="9" x2="7" y2="1"/>
-        <line x1="1" y1="13" x2="13" y2="13"/>
-      </svg>
-      <span id="btn-import-label">Importar .md</span>
-    </button>
-
-    <div class="search-wrap">
-      <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-      </svg>
-      <input type="text" id="search-input" placeholder="Buscar entradas…">
-    </div>
-
-    <div class="entries-list" id="entries-list"></div>
-  </aside>
-
-  <button class="sidebar-scrim" id="sidebar-scrim" type="button"
-          aria-label="Fechar painel lateral"></button>
-  
-
-
-  <!-- ── Main ────────────────────────────────────────────────────── -->
-  <main class="main" id="main-content" tabindex="-1">
-    <div class="main-shellbar">
-      <button class="btn-sidebar-toggle" id="btn-sidebar-toggle" type="button"
-              data-label="Ocultar lista de entradas"
-              title="Ocultar lista de entradas"
-              aria-label="Ocultar lista de entradas"
-              aria-controls="sidebar"
-              aria-expanded="true">
-        <span class="btn-sidebar-toggle-label" id="btn-sidebar-toggle-label" aria-hidden="true">
-          <svg id="sidebar-toggle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2"
-               stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2.75" y="3.5" width="18.5" height="17" rx="3"/>
-            <line x1="8.5" y1="3.5" x2="8.5" y2="20.5"/>
-            <polyline points="15,8 11,12 15,16"/>
-          </svg>
-        </span>
-        <span class="sr-only" id="btn-sidebar-toggle-text">Ocultar lista de entradas</span>
+      <button class="btn-new" id="btn-new">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="7" y1="1" x2="7" y2="13" />
+          <line x1="1" y1="7" x2="13" y2="7" />
+        </svg>
+        <span id="btn-new-label">Nova Entrada</span>
       </button>
-    </div>
 
-    <!-- Tela de boas-vindas (sem entrada selecionada) -->
-    <div class="welcome" id="welcome">
-      <div class="welcome-icon">📖</div>
-      <h2 id="welcome-title">Bem-vindo ao seu diário</h2>
-      <p  id="welcome-sub">Selecione uma entrada ou crie uma nova.</p>
-      <div class="welcome-actions">
-        <button class="welcome-action welcome-action-primary" id="welcome-new" type="button">
-          <span id="welcome-new-label">Nova Entrada</span>
-        </button>
-        <button class="welcome-action welcome-action-secondary" id="welcome-import" type="button">
-          <span id="welcome-import-label">Importar .md</span>
+      <!-- Importar arquivo .md com traços embutidos no front matter -->
+      <button class="btn-import" id="btn-import-md" title="Importar arquivo Markdown (.md)">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <polyline points="2,4 7,9 12,4" />
+          <line x1="7" y1="9" x2="7" y2="1" />
+          <line x1="1" y1="13" x2="13" y2="13" />
+        </svg>
+        <span id="btn-import-label">Importar .md</span>
+      </button>
+
+      <div class="search-wrap">
+        <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round">
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input type="text" id="search-input" placeholder="Buscar entradas…">
+      </div>
+
+      <div class="entries-list" id="entries-list"></div>
+    </aside>
+
+    <button class="sidebar-scrim" id="sidebar-scrim" type="button" aria-label="Fechar painel lateral"></button>
+
+
+
+    <!-- ── Main ────────────────────────────────────────────────────── -->
+    <main class="main" id="main-content" tabindex="-1">
+      <div class="main-shellbar">
+        <button class="btn-sidebar-toggle" id="btn-sidebar-toggle" type="button" data-label="Ocultar lista de entradas"
+          title="Ocultar lista de entradas" aria-label="Ocultar lista de entradas" aria-controls="sidebar"
+          aria-expanded="true">
+          <span class="btn-sidebar-toggle-label" id="btn-sidebar-toggle-label" aria-hidden="true">
+            <svg id="sidebar-toggle-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2.75" y="3.5" width="18.5" height="17" rx="3" />
+              <line x1="8.5" y1="3.5" x2="8.5" y2="20.5" />
+              <polyline points="15,8 11,12 15,16" />
+            </svg>
+          </span>
+          <span class="sr-only" id="btn-sidebar-toggle-text">Ocultar lista de entradas</span>
         </button>
       </div>
-    </div>
 
-    <!-- Container do editor -->
-    <div id="editor-container" style="display:none;flex-direction:column;flex:1;min-height:0">
+      <!-- Tela de boas-vindas (sem entrada selecionada) -->
+      <div class="welcome" id="welcome">
+        <div class="welcome-icon">📖</div>
+        <h2 id="welcome-title">Bem-vindo ao seu diário</h2>
+        <p id="welcome-sub">Selecione uma entrada ou crie uma nova.</p>
+        <div class="welcome-actions">
+          <button class="welcome-action welcome-action-primary" id="welcome-new" type="button">
+            <span id="welcome-new-label">Nova Entrada</span>
+          </button>
+          <button class="welcome-action welcome-action-secondary" id="welcome-import" type="button">
+            <span id="welcome-import-label">Importar .md</span>
+          </button>
+        </div>
+      </div>
 
-      <!-- Toolbar principal -->
-      <div class="toolbar">
-        <!-- Botões de formatação (visíveis apenas no modo edição) -->
-        <span id="fmt-btns" style="display:flex;align-items:center;gap:6px">
-          <button class="toolbar-btn" id="fmt-bold"   data-wrap="**" title="Negrito (**texto**)"><b>N</b></button>
-          <button class="toolbar-btn" id="fmt-italic" data-wrap="*"  title="Itálico (*texto*)"><i>I</i></button>
-          <button class="toolbar-btn" id="fmt-quote"  data-prefix="> " title="Citação (> texto)">"</button>
-          <button class="toolbar-btn" id="fmt-list"   data-prefix="- " title="Lista (- item)">☰</button>
+      <!-- Container do editor -->
+      <div id="editor-container" style="display:none;flex-direction:column;flex:1;min-height:0">
+
+        <!-- Toolbar principal -->
+        <div class="toolbar">
+          <!-- Botões de formatação (visíveis apenas no modo edição) -->
+          <span id="fmt-btns" style="display:flex;align-items:center;gap:6px">
+            <button class="toolbar-btn" id="fmt-bold" data-wrap="**" title="Negrito (**texto**)"><b>N</b></button>
+            <button class="toolbar-btn" id="fmt-italic" data-wrap="*" title="Itálico (*texto*)"><i>I</i></button>
+            <button class="toolbar-btn" id="fmt-quote" data-prefix="> " title="Citação (> texto)">"</button>
+            <button class="toolbar-btn" id="fmt-list" data-prefix="- " title="Lista (- item)">☰</button>
+            <div class="toolbar-sep"></div>
+            <button class="btn-eq" id="btn-eq">∑ <span id="btn-eq-label">Equação</span></button>
+            <div class="toolbar-sep"></div>
+          </span>
+
+          <!-- Toggle de modo: Editar | Caneta | Preview -->
+          <div class="mode-toggle">
+            <button class="mode-btn active" id="mode-edit">✏ <span id="mode-edit-label">Editar</span></button>
+            <button class="mode-btn" id="mode-pen">✒ <span id="mode-pen-label">Caneta</span></button>
+            <button class="mode-btn" id="mode-preview">👁 <span id="mode-preview-label">Preview</span></button>
+
+          </div>
+
+          <!-- Mood select: opções geradas e traduzidas por applyLocale() -->
+          <select class="mood-select" id="mood-select"></select>
+
           <div class="toolbar-sep"></div>
-          <button class="btn-eq" id="btn-eq">∑ <span id="btn-eq-label">Equação</span></button>
+          <button class="btn-export" id="btn-export-md" title="Baixar como Markdown (.md)">⬇ <span
+              id="btn-md-label">Markdown</span></button>
+          <button class="btn-export" id="btn-export-pdf" title="Exportar como PDF">⬇ PDF</button>
           <div class="toolbar-sep"></div>
-        </span>
-
-        <!-- Toggle de modo: Editar | Caneta | Preview -->
-        <div class="mode-toggle">
-          <button class="mode-btn active" id="mode-edit">✏ <span id="mode-edit-label">Editar</span></button>
-          <button class="mode-btn"        id="mode-pen">✒ <span id="mode-pen-label">Caneta</span></button>
-          <button class="mode-btn"        id="mode-preview">👁 <span id="mode-preview-label">Preview</span></button>
-          
+          <button class="btn-delete" id="btn-delete"><span id="btn-delete-label">Excluir</span></button>
+          <button class="btn-save" id="btn-save"><span id="btn-save-label">Salvar</span></button>
         </div>
 
-        <!-- Mood select: opções geradas e traduzidas por applyLocale() -->
-        <select class="mood-select" id="mood-select"></select>
+        <!-- Toolbar da caneta (visível apenas no modo caneta) -->
+        <div class="pen-toolbar" id="pen-toolbar">
+          <span class="pen-section-label" id="pen-color-label">Cor:</span>
+          <div class="pen-colors" id="pen-colors"></div>
+          <div class="toolbar-sep"></div>
+          <span class="pen-section-label" id="pen-width-label">Espessura:</span>
+          <div class="pen-widths" id="pen-widths"></div>
+          <div class="toolbar-sep"></div>
+          <button class="pen-tool-btn" id="pen-pan" title="Mão: arraste para rolar a página">✋ <span
+              id="pen-pan-label">Mão</span></button>
+          <button class="pen-tool-btn" id="pen-eraser" title="Borracha: arraste sobre um traço para apagá-lo">◻ <span
+              id="pen-eraser-label">Borracha</span></button>
+          <button class="pen-tool-btn" id="pen-undo" title="Desfazer último traço (Ctrl+Z)">↩ <span
+              id="pen-undo-label">Desfazer</span></button>
+          <button class="pen-tool-btn pen-clear-btn" id="pen-clear" title="Apagar todos os traços">✕ <span
+              id="pen-clear-label">Limpar</span></button>
+          <span class="pen-stroke-count" id="pen-stroke-count"></span>
+        </div>
 
-        <div class="toolbar-sep"></div>
-        <button class="btn-export" id="btn-export-md"  title="Baixar como Markdown (.md)">⬇ <span id="btn-md-label">Markdown</span></button>
-        <button class="btn-export" id="btn-export-pdf" title="Exportar como PDF">⬇ PDF</button>
-        <div class="toolbar-sep"></div>
-        <button class="btn-delete" id="btn-delete"><span id="btn-delete-label">Excluir</span></button>
-        <button class="btn-save"   id="btn-save"><span id="btn-save-label">Salvar</span></button>
-      </div>
+        <!-- Editor wrap: editor-area scrollável + SVG overlay -->
+        <div class="editor-wrap">
 
-      <!-- Toolbar da caneta (visível apenas no modo caneta) -->
-      <div class="pen-toolbar" id="pen-toolbar">
-        <span class="pen-section-label" id="pen-color-label">Cor:</span>
-        <div class="pen-colors" id="pen-colors"></div>
-        <div class="toolbar-sep"></div>
-        <span class="pen-section-label" id="pen-width-label">Espessura:</span>
-        <div class="pen-widths" id="pen-widths"></div>
-        <div class="toolbar-sep"></div>
-        <button class="pen-tool-btn" id="pen-pan" title="Mão: arraste para rolar a página">✋ <span id="pen-pan-label">Mão</span></button>
-        <button class="pen-tool-btn" id="pen-eraser" title="Borracha: arraste sobre um traço para apagá-lo">◻ <span id="pen-eraser-label">Borracha</span></button>
-        <button class="pen-tool-btn" id="pen-undo"   title="Desfazer último traço (Ctrl+Z)">↩ <span id="pen-undo-label">Desfazer</span></button>
-        <button class="pen-tool-btn pen-clear-btn" id="pen-clear" title="Apagar todos os traços">✕ <span id="pen-clear-label">Limpar</span></button>
-        <span class="pen-stroke-count" id="pen-stroke-count"></span>
-      </div>
-
-      <!-- Editor wrap: editor-area scrollável + SVG overlay -->
-      <div class="editor-wrap">
-
-        <!--
+          <!--
           editor-area: ÚNICO scroll container da aplicação.
           Sem display:flex — isso permite que .notebook-bg cresça
           com o conteúdo sem ser fixado pela altura do viewport.
         -->
-        <div class="editor-area" id="editor-area">
+          <div class="editor-area" id="editor-area">
 
-          <!--
+            <!--
             notebook-bg: bloco puro (não-flex) que carrega o background
             de linhas e margem vermelha. Por ser filho direto do scroll
             container, move-se naturalmente com o scroll — eliminando
             o efeito de paralaxe que existia quando o background estava
             em um pseudo-elemento de .main (fixo, não scrollável).
           -->
-          <div class="notebook-bg">
-            <div class="entry-date-display" id="entry-date-display"></div>
-            <input type="text" id="entry-title"
-                   placeholder="Título da entrada…"
-                   autocomplete="off" spellcheck="false">
-            <textarea id="entry-raw"
-                      placeholder="Escreva aqui…  $inline$ ou $$bloco$$ para LaTeX."
-                      spellcheck="false"></textarea>
-            <div id="entry-preview"></div>
-            <div id="notebook-tail" aria-hidden="true"></div>
+            <div class="notebook-bg">
+              <div class="entry-date-display" id="entry-date-display"></div>
+              <input type="text" id="entry-title" placeholder="Título da entrada…" autocomplete="off"
+                spellcheck="false">
+              <textarea id="entry-raw" placeholder="Escreva aqui…  $inline$ ou $$bloco$$ para LaTeX."
+                spellcheck="false"></textarea>
+              <div id="entry-preview"></div>
+              <div id="notebook-tail" aria-hidden="true"></div>
+              <div id="notebook-tail-x" aria-hidden="true"></div>
+            </div>
           </div>
-        </div>
 
-        <!--
+          <!--
           SVG de anotações manuscritas
           ──────────────────────────────
           • position:absolute;inset:0 → cobre exatamente o editor-wrap
@@ -305,118 +300,125 @@
             via syncScroll(), mantendo os traços alinhados com o conteúdo
             independente da posição de rolagem
         -->
-        <svg id="pen-svg"
-             xmlns="http://www.w3.org/2000/svg"
-             role="img"
-             aria-label="Área de anotações manuscritas">
-          <g id="pen-layer"></g>
-        </svg>
+          <svg id="pen-svg" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Área de anotações manuscritas">
+            <g id="pen-layer"></g>
+          </svg>
 
-      </div><!-- /.editor-wrap -->
+        </div><!-- /.editor-wrap -->
 
-      <!-- Barra de status: contagem de palavras + dica LaTeX -->
-      <div class="stats-bar">
-        <span id="word-count">0 palavras</span>
-        <span class="latex-hint" id="latex-hint">LaTeX: <b>$inline$</b> · <b>$$bloco$$</b></span>
+        <!-- Barra de status: contagem de palavras + dica LaTeX -->
+        <div class="stats-bar">
+          <span id="word-count">0 palavras</span>
+          <span class="latex-hint" id="latex-hint">LaTeX: <b>$inline$</b> · <b>$$bloco$$</b></span>
+        </div>
+
+        <footer class="site-legal-bar">
+          <p>
+            <span id="legal-prefix">Privacidade e uso:</span>
+            <a id="legal-privacy-link" href="privacidade.html#privacidade"><span
+                id="legal-privacy-label">Política</span></a>
+            <span id="legal-sep" aria-hidden="true"> · </span>
+            <a id="legal-terms-link" href="privacidade.html#termos"><span id="legal-terms-label">Termos</span></a>
+            <span id="legal-support-sep" aria-hidden="true"> · </span>
+            <button class="legal-link-btn" id="legal-support-trigger" type="button" aria-haspopup="dialog"
+              aria-controls="support-overlay">
+              <span id="legal-support-label">Apoie</span>
+            </button>
+          </p>
+        </footer>
+
+
+      </div><!-- /#editor-container -->
+
+    </main>
+  </div><!-- /.app -->
+
+  <!-- Toast de notificação (position:fixed, z-index:100) -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Modal de inserção de equação LaTeX (position:fixed, z-index:200) -->
+  <div class="eq-overlay" id="eq-overlay">
+    <div class="eq-dialog">
+      <h3 id="eq-title">Inserir Equação LaTeX</h3>
+      <p id="eq-desc">Digite o código LaTeX e confira a pré-visualização em tempo real.</p>
+      <div class="eq-type-toggle">
+        <button class="eq-type-btn active" id="eq-inline-btn">Inline &nbsp;$…$</button>
+        <button class="eq-type-btn" id="eq-block-btn">Bloco &nbsp;$$…$$</button>
       </div>
+      <div class="eq-templates" id="eq-templates"></div>
+      <textarea id="eq-input" placeholder="Ex: \frac{-b \pm \sqrt{b^2-4ac}}{2a}"></textarea>
+      <div class="eq-preview-label" id="eq-preview-label">Pré-visualização</div>
+      <div class="eq-preview-box" id="eq-preview-box">
+        <span id="eq-waiting" style="color:rgba(26,18,9,.3);font-style:italic;font-size:.85rem">aguardando…</span>
+      </div>
+      <div class="eq-dialog-btns">
+        <button class="eq-btn-cancel" id="eq-cancel">Cancelar</button>
+        <button class="eq-btn-insert" id="eq-insert">Inserir</button>
+      </div>
+    </div>
+  </div>
 
-      <footer class="site-legal-bar">
-        <p>
-          <span id="legal-prefix">Privacidade e uso:</span>
-          <a id="legal-privacy-link" href="privacidade.html#privacidade"><span id="legal-privacy-label">Política</span></a>
-          <span id="legal-sep" aria-hidden="true"> · </span>
-          <a id="legal-terms-link" href="privacidade.html#termos"><span id="legal-terms-label">Termos</span></a>
-          <span id="legal-support-sep" aria-hidden="true"> · </span>
-          <button class="legal-link-btn" id="legal-support-trigger" type="button" aria-haspopup="dialog" aria-controls="support-overlay">
-            <span id="legal-support-label">Apoie</span>
+  <div class="support-overlay" id="support-overlay" aria-hidden="true">
+    <div class="support-dialog" role="dialog" aria-modal="true" aria-labelledby="support-title"
+      aria-describedby="support-desc support-note">
+      <h3 id="support-title">Ajude a manter o iScrev Notes vivo</h3>
+      <p id="support-desc">Se o iScrev Notes te ajuda a escrever e organizar ideias, você pode apoiar a manutenção do
+        projeto.</p>
+      <ul class="support-points">
+        <li id="support-point-1">Seu apoio ajuda com domínio, hospedagem e melhorias do app.</li>
+        <li id="support-point-2">Os pagamentos acontecem na página de apoio, separada do diário.</li>
+        <li id="support-point-3">Suas notas continuam aqui enquanto você decide com calma.</li>
+      </ul>
+
+      <div class="support-pix-card" id="support-pix-card">
+        <span class="support-pix-label" id="pix-label">Apoie com PIX</span>
+
+        <div class="support-pix-row">
+
+          <span class="support-pix-key" id="pix-key-value">c855694b-df4e-465a-83b7-2e368b3f0a47</span>
+          <button class="support-pix-copy" id="copy-pix-btn" type="button">
+            <span id="copy-pix-label">Copiar</span>
           </button>
-        </p>
-      </footer>
-
-
-    </div><!-- /#editor-container -->
-
-  </main>
-</div><!-- /.app -->
-
-<!-- Toast de notificação (position:fixed, z-index:100) -->
-<div class="toast" id="toast"></div>
-
-<!-- Modal de inserção de equação LaTeX (position:fixed, z-index:200) -->
-<div class="eq-overlay" id="eq-overlay">
-  <div class="eq-dialog">
-    <h3 id="eq-title">Inserir Equação LaTeX</h3>
-    <p  id="eq-desc">Digite o código LaTeX e confira a pré-visualização em tempo real.</p>
-    <div class="eq-type-toggle">
-      <button class="eq-type-btn active" id="eq-inline-btn">Inline &nbsp;$…$</button>
-      <button class="eq-type-btn"        id="eq-block-btn">Bloco &nbsp;$$…$$</button>
-    </div>
-    <div class="eq-templates" id="eq-templates"></div>
-    <textarea id="eq-input" placeholder="Ex: \frac{-b \pm \sqrt{b^2-4ac}}{2a}"></textarea>
-    <div class="eq-preview-label" id="eq-preview-label">Pré-visualização</div>
-    <div class="eq-preview-box" id="eq-preview-box">
-      <span id="eq-waiting" style="color:rgba(26,18,9,.3);font-style:italic;font-size:.85rem">aguardando…</span>
-    </div>
-    <div class="eq-dialog-btns">
-      <button class="eq-btn-cancel" id="eq-cancel">Cancelar</button>
-      <button class="eq-btn-insert" id="eq-insert">Inserir</button>
-    </div>
-  </div>
-</div>
-
-<div class="support-overlay" id="support-overlay" aria-hidden="true">
-  <div class="support-dialog" role="dialog" aria-modal="true" aria-labelledby="support-title" aria-describedby="support-desc support-note">
-    <h3 id="support-title">Ajude a manter o iScrev Notes vivo</h3>
-    <p id="support-desc">Se o iScrev Notes te ajuda a escrever e organizar ideias, você pode apoiar a manutenção do projeto.</p>
-    <ul class="support-points">
-      <li id="support-point-1">Seu apoio ajuda com domínio, hospedagem e melhorias do app.</li>
-      <li id="support-point-2">Os pagamentos acontecem na página de apoio, separada do diário.</li>
-      <li id="support-point-3">Suas notas continuam aqui enquanto você decide com calma.</li>
-    </ul>
-
-    <div class="support-pix-card">
-      <span class="support-pix-label" id="pix-label">Apoie com PIX</span>
-      
-      <div class="support-pix-row">
-        
-        <span class="support-pix-key" id="pix-key-value">c855694b-df4e-465a-83b7-2e368b3f0a47</span>
-        <button class="support-pix-copy" id="copy-pix-btn" type="button">
-          <span id="copy-pix-label">Copiar</span>
-        </button>
+        </div>
+        <p class="support-copy-status" id="copy-status" role="status" aria-live="polite"></p>
+        <p class="support-pix-hint">Chave PIX acima. Cheque antes de confirmar a transferência o nome do destinatário
+          (Wandeson Ricardo da Silva, CPF xxx.xxx.x14-xx).</p>
       </div>
-      <p class="support-copy-status" id="copy-status" role="status" aria-live="polite"></p>
-      <p class="support-pix-hint">Chave PIX acima. Cheque antes de confirmar a transferência o nome do destinatário (Wandeson Ricardo da Silva, CPF xxx.xxx.x14-xx).</p>
-    </div>
 
-    <p class="support-note" id="support-note">A página de apoio abre em outra aba para preservar sua sessão atual.</p>
-    <div class="support-dialog-btns">
-      <button class="support-btn-secondary" id="support-close" type="button">Agora não</button>
-      <a class="support-btn-primary" id="support-page-link" href="support.html" target="_blank" rel="noopener noreferrer">Abrir página de apoio</a>
+      <div class="support-stripe-card" id="support-stripe-card" style="display:none; padding: 24px 0 0 0; text-align: center;">
+        <p class="support-pix-hint" id="support-stripe-hint" style="margin-bottom: 16px; font-size: 0.95rem;">Pagamento seguro via Apple Pay, Google Pay ou Cartão de Crédito.</p>
+        <a class="support-btn-primary" id="support-stripe-btn" href="https://donate.stripe.com/cNieV715daoJ55X8C47kc00" target="_blank" rel="noopener noreferrer" style="display: block; text-align: center; font-size: 1rem; padding: 12px;">Apoiar via Stripe</a>
+      </div>
+
+      <p class="support-note" id="support-note">A página de apoio abre em outra aba para preservar sua sessão atual.</p>
+      <div class="support-dialog-btns">
+        <button class="support-btn-secondary" id="support-close" type="button">Agora não</button>
+        <a class="support-btn-primary" id="support-page-link" href="support.html" target="_blank"
+          rel="noopener noreferrer">Abrir página de apoio</a>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Script principal — após o DOM para garantir que todos os
+  <!-- Script principal — após o DOM para garantir que todos os
      elementos existam quando os addEventListener forem registrados -->
-<script>
-  if ('serviceWorker' in navigator) {
-  navigator.serviceWorker
-    .register('/service-worker.js')
-    .then( function (registration ) {
-      console.log("Service Worker registrado com sucesso", registration);
-    })
-    .catch( function( err ) {
-      console.log("Erro ao registrar Service Worker", err);
-    });
-} else {
-  console.log("Service Worker não suportado");
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/service-worker.js')
+        .then(function (registration) {
+          console.log("Service Worker registrado com sucesso", registration);
+        })
+        .catch(function (err) {
+          console.log("Erro ao registrar Service Worker", err);
+        });
+    } else {
+      console.log("Service Worker não suportado");
 
-}
-</script>
-<script type="module" src="assets/js/pdf-exporter.js"></script>
-<script type="module" src="assets/js/diario.js"></script>
-<script type="module" src="assets/js/ui.js"></script>
+    }
+  </script>
+
 
 
 </body>
+
 </html>

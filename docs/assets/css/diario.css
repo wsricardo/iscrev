@@ -278,10 +278,11 @@ main:focus{
 ────────────────────────────────────────────────────────────────────── */
 .editor-area{
   flex:1;            /* preenche .editor-wrap (necessário) */
-  overflow-y:auto;   /* único scroll container */
+  overflow:auto;     /* único scroll container (X e Y) */
+  overscroll-behavior-x: none; /* Previne voltar página via swipe mobile */
   z-index:1;
 }
-.editor-area::-webkit-scrollbar{width:6px}
+.editor-area::-webkit-scrollbar{width:6px;height:6px}
 .editor-area::-webkit-scrollbar-thumb{background:rgba(200,132,58,.3);border-radius:4px}
 
 .notebook-bg{
@@ -299,12 +300,13 @@ main:focus{
       transparent 90.5px
     );
 }
-.entry-date-display{font-family:'Dancing Script',cursive;font-size:1.05rem;color:var(--rust);margin-bottom:8px;opacity:.8}
-#entry-title{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--ink);background:transparent;border:none;outline:none;width:100%;margin-bottom:18px;line-height:1.2;border-bottom:2px solid rgba(200,132,58,.25);padding-bottom:12px}
+.entry-date-display{font-family:'Dancing Script',cursive;font-size:1.05rem;color:var(--rust);margin-bottom:8px;opacity:.8;max-width:850px}
+#entry-title{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--ink);background:transparent;border:none;outline:none;width:100%;max-width:850px;margin-bottom:18px;line-height:1.2;border-bottom:2px solid rgba(200,132,58,.25);padding-bottom:12px}
 #entry-title::placeholder{color:rgba(26,18,9,.25)}
 #entry-raw{
   display:block;
   width:100%;
+  max-width:850px;
   min-height:60vh;
   background:transparent;
   border:none;outline:none;resize:none;
@@ -352,7 +354,7 @@ main:focus{
 #entry-raw::placeholder{color:rgba(26,18,9,.28);font-family:'Lora',serif;font-style:italic}
 
 /* ── Preview ─────────────────────────────────────────────────────── */
-#entry-preview{display:none;width:100%;min-height:60vh;font-family:'Lora',serif;font-size:1.05rem;line-height:28px;color:var(--ink)}
+#entry-preview{display:none;width:100%;max-width:850px;min-height:60vh;font-family:'Lora',serif;font-size:1.05rem;line-height:28px;color:var(--ink)}
 #entry-preview p{margin-bottom:14px}
 #entry-preview strong{font-weight:600}
 #entry-preview em{font-style:italic}
@@ -362,6 +364,8 @@ main:focus{
 #entry-preview .math-block{background:var(--math-bg);border:1px solid var(--math-bd);border-radius:6px;padding:14px 20px;margin:16px 0;overflow-x:auto;text-align:center}
 #entry-preview .math-inline{display:inline}
 #notebook-tail{width:100%;height:0}
+#notebook-tail-x{height:1px;width:0;position:absolute;top:0;right:0}
+.notebook-bg{position:relative;} /* Necessário para #notebook-tail-x ancorar corretamente */
 .katex-display{margin:.4em 0!important}
 
 /* ── SVG de anotações (pen overlay) ──────────────────────────────── */
@@ -380,7 +384,7 @@ main:focus{
   height:100%;
   z-index:5;
   pointer-events:none;
-  touch-action:none;
+  touch-action:none; /* Previne zoom e pan nativos durante modo caneta */
   /* Não usar overflow:hidden aqui — o clip vem do editor-wrap */
 }
 #pen-svg.pen-visible{
@@ -739,7 +743,7 @@ main:focus{
 }
 
 @media print{
-  .sidebar,.toolbar,.pen-toolbar,.stats-bar,.toast,.eq-overlay,.main-shellbar,.btn-sidebar-toggle{display:none!important}
+  .sidebar,.toolbar,.pen-toolbar,.stats-bar,.site-legal-bar,.toast,.eq-overlay,.main-shellbar,.btn-sidebar-toggle{display:none!important}
   html,body{
     overflow:visible;
     height:auto;
@@ -761,7 +765,9 @@ main:focus{
      de documento que não se traduzem para o contexto de impressão. */
   #pen-svg{display:none!important}
 
-  body.print-exporting .editor-wrap{display:none!important}
+  body.print-exporting .editor-wrap,
+  body.print-exporting .stats-bar,
+  body.print-exporting .site-legal-bar{display:none!important}
   body.print-exporting #print-stage{display:block!important}
   body.print-exporting #print-stage-surface{
     background-image:none;

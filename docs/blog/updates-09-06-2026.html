@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-L4XBSN6EDE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-L4XBSN6EDE');
+</script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="WSRicardo">
+    <meta name="theme-color" content="#c8843a">
+
+    <meta name="description" content="Neste mês, o iScrev Notes recebeu atualizações vitais: a integração de pagamentos via Stripe para apoios internacionais, refinamentos na página de...">
+    <meta property="og:title"       content="Atualizações de Junho no iScrev Notes: Apoio via Stripe, Novo Layout e Código Limpo | iScrev Notes Blog">
+    <meta property="og:description" content="Neste mês, o iScrev Notes recebeu atualizações vitais: a integração de pagamentos via Stripe para apoios internacionais, refinamentos na página de...">
+    <meta property="og:type"        content="article">
+    <meta property="og:url"         content="https://www.iscrev.com/blog/updates-09-06-2026.html">
+    <meta property="og:site_name" content="iScrev Notes Blog">
+
+    <title>Atualizações de Junho no iScrev Notes: Apoio via Stripe, Novo Layout e Código Limpo | iScrev Notes Blog</title>
+
+    <link rel="canonical" href="https://www.iscrev.com/blog/updates-09-06-2026.html">
+    <link rel="icon" href="https://www.iscrev.com/assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="manifest" href="https://www.iscrev.com/manifest.json">
+    <link rel="apple-touch-icon" href="https://www.iscrev.com/assets/img/apple-touch-icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500;600&family=Dancing+Script:wght@700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.iscrev.com/assets/css/style.css">
+    <link rel="stylesheet" href="https://www.iscrev.com/assets/css/style-blog.css">
+
+    <link href="blog/feeds/all.atom.xml" type="application/atom+xml"
+          rel="alternate" title="iScrev Notes Blog — Feed Atom">
+</head>
+
+
+<body class="page-blog page-article page-pt">
+    
+    <div class="site-shell">
+        <header>
+            <nav aria-label="Navegação principal">
+                <a class="logo" href="https://www.iscrev.com/" aria-label="iScrev Notes — página inicial">
+                    <span class="brand-mark">iScrev Notes</span>
+                    <span class="brand-sub">texto, fórmulas e traços em harmonia</span>
+                </a>
+
+                <button class="nav-toggle" type="button"
+                        aria-label="Abrir menu"
+                        aria-expanded="false"
+                        aria-haspopup="menu"
+                        data-open-label="Abrir menu"
+                        data-close-label="Fechar menu"
+                        aria-controls="site-nav-group">
+                    <span></span><span></span><span></span>
+                </button>
+
+                <div class="nav-group" id="site-nav-group">
+                    <ul class="nav-menu">
+                        <li>
+                            <a class="nav-link" href="https://www.iscrev.com/">Início</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="https://www.iscrev.com/sobre.html">Sobre</a>
+                        </li>
+                        <li>
+                            <a class="nav-link active" href="https://www.iscrev.com/blog/"
+                               aria-current="page">Blog</a>
+                        </li>
+                        <li> <a class="nav-link" href="https://www.iscrev.com/support.html">Apoie</a></li>
+                    </ul>
+
+                    <div class="nav-tools">
+                        <a class="nav-cta" href="https://www.iscrev.com/diario.html">Abrir diário</a>
+                        <div class="lang-switcher" aria-label="Alternar idioma">
+                            <a class="lang-link active" href="https://www.iscrev.com/"
+                               aria-current="page">PT</a>
+                            <a class="lang-link" href="https://www.iscrev.com/en.html">EN</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+<div class="article-hero">
+    <p class="eyebrow">
+        <a href="https://www.iscrev.com/blog/" style="color:inherit;text-decoration:none">Blog</a>
+        &nbsp;/&nbsp;
+        <a href="https://www.iscrev.com/blog/category/anuncios.html"
+           style="color:inherit;text-decoration:none">Anuncios</a>
+    </p>
+    <h1>Atualizações de Junho no iScrev Notes: Apoio via Stripe, Novo Layout e Código Limpo</h1>
+    <div class="article-meta">
+        <span>09 de junho de 2026</span>
+        <span>WSRicardo</span>
+        <span>
+            <a href="https://www.iscrev.com/blog/tag/atualizacoes.html"
+               style="color:var(--rust);text-decoration:none">atualizacoes, </a>
+            <a href="https://www.iscrev.com/blog/tag/stripe.html"
+               style="color:var(--rust);text-decoration:none">stripe, </a>
+            <a href="https://www.iscrev.com/blog/tag/pix.html"
+               style="color:var(--rust);text-decoration:none">pix, </a>
+            <a href="https://www.iscrev.com/blog/tag/apoio.html"
+               style="color:var(--rust);text-decoration:none">apoio, </a>
+            <a href="https://www.iscrev.com/blog/tag/desenvolvimento.html"
+               style="color:var(--rust);text-decoration:none">desenvolvimento, </a>
+            <a href="https://www.iscrev.com/blog/tag/design.html"
+               style="color:var(--rust);text-decoration:none">design</a>
+        </span>
+    </div>
+</div>
+        </header>
+
+        <main id="main-content" tabindex="-1">
+<article class="article-body">
+    <p>Chegamos a mais uma etapa importante de evolução do iScrev Notes. Junho trouxe novidades não apenas visuais, mas focadas na sustentabilidade a longo prazo do projeto e na qualidade interna do código. </p>
+<p>Como um projeto independente, o iScrev Notes cresce com o tempo, a pesquisa e o apoio da comunidade. O grande foco desta atualização foi tornar esse apoio mais acessível, global e seguro, além de garantir que a aplicação continue leve e rápida.</p>
+<h2>Apoio Global com Stripe e PIX Simplificado</h2>
+<p>A maior novidade técnica voltada para a comunidade é a <strong>integração com o Stripe</strong>. Até pouco tempo atrás, o suporte ao projeto era limitado ao público brasileiro através de transferências via PIX. Com a nova atualização, usuários do mundo todo agora podem apoiar o iScrev Notes de forma rápida e segura utilizando cartões de crédito.</p>
+<p>O design da página de apoio (<code>support.html</code>) e do modal interno no diário também passou por uma reformulação. A premissa foi abraçar o <strong>minimalismo e a honestidade</strong>. Removemos formulários complexos e caixas de seleção de valores que adicionavam atrito. Agora, o fluxo é o mais limpo possível:</p>
+<ul>
+<li><strong>Para o Brasil (PT):</strong> O usuário tem acesso direto à nossa chave PIX para copiar, colar no seu banco e definir o valor que sentir no coração, além de poder usar o Stripe.</li>
+<li><strong>Internacional (EN):</strong> O botão do Stripe leva direto para o checkout global, com um valor sugerido partindo de 1 dólar, mas permitindo que a contribuição seja livre.</li>
+</ul>
+<p>Essa abordagem se alinha à nossa filosofia: nada de letras miúdas, taxas escondidas ou processos longos. Apenas um clique ou um "copiar e colar".</p>
+<h2>Limpeza Profunda e Adeus ao Código Legado</h2>
+<p>Desenvolver um app local-first significa ter uma obsessão por manter o código pequeno, rápido e funcional offline. Durante esta atualização, fizemos uma verdadeira "faxina" na base de código (<code>src/</code>):</p>
+<ol>
+<li><strong>Adeus ao Exportador de PDF Antigo:</strong> No início do projeto, tínhamos uma biblioteca pesada focada em gerar PDFs. Desde que migramos para um CSS refinado de impressão nativa (<code>window.print()</code>), esse exportador assíncrono tornou-se obsoleto. Hoje ele foi oficialmente deletado, reduzindo o peso do pacote e do nosso Service Worker.</li>
+<li><strong>Otimização de Variáveis:</strong> O código de configuração de valores, moedas e estados obsoletos (que antes regiam a velha página de apoio) foi completamente varrido do <code>support.js</code>. </li>
+<li><strong>Novo Cache:</strong> Lançamos a versão <code>v10.7</code> do nosso cache offline, assegurando que navegadores peguem a versão mais leve do app.</li>
+</ol>
+<h2>Blog Estruturado e Sincronizado</h2>
+<p>E, como você pode estar notando caso esteja lendo isso do nosso diretório raiz, ajustamos a forma como nosso blog estático interage com o app!</p>
+<p>Refinamos a arquitetura do <strong>Pelican</strong> para garantir que categorias, tags, feeds RSS/Atom e artigos não "vazem" para a raiz do site principal. Tudo agora vive harmoniosamente dentro da subpasta <code>/blog/</code>. Isso significa que o <code>iscrev.com</code> mantém suas landing pages puras na raiz, e o conteúdo textual e atualizações ficam perfeitamente delimitados.</p>
+<h2>Próximos Passos</h2>
+<p>Ainda temos muito trabalho pela frente. O próximo grande salto do projeto envolverá modularizar ainda mais o arquivo principal do diário, abraçando ES Modules com força total. Isso abrirá portas para a construção de funcionalidades mais ambiciosas no futuro, preservando a essência de "um arquivo só".</p>
+<p>Muito obrigado a todos que usam, escrevem, desenham e apoiam o iScrev Notes. Continuamos em frente!</p>
+<hr>
+<p><em>Para apoiar o projeto e nos ajudar a manter essa ferramenta sem anúncios e focada na privacidade, visite nossa <a href="/support.html">página de apoio</a>.</em></p>
+</article>
+
+        </main>
+
+        <footer class="site-footer">
+            <div>
+                <h2>Pronto para colocar ideias no papel digital?</h2>
+                <p>
+                    Abra o iScrev Notes para experimentar a interface principal ou leia mais sobre
+                    a proposta, o cuidado visual e o tipo de uso que inspirou o projeto.
+                </p>
+            </div>
+
+            <div class="footer-actions">
+                <a class="button-primary" href="https://www.iscrev.com/diario.html">Abrir iScrev Notes</a>
+                <a class="button-secondary" href="https://www.iscrev.com/sobre.html">Ler sobre o projeto</a>
+            </div>
+
+            <div class="footer-meta">
+                <span>iScrev Notes</span>
+                <span>Com simplicidade, modernidade e elegância</span>
+                <span>Minimalismo e intimismo</span>
+                <span>Uma experiência pensada para estudo, reflexão e criação</span>
+            </div>
+
+            <div class="footer-legal-summary">
+                <p>
+                    Privacidade e uso responsável: o iScrev Notes salva entradas e preferências
+                    no seu navegador, pode depender de provedores técnicos como Google Fonts e
+                    jsDelivr para carregar recursos visuais e matemáticos e pode exibir anúncios
+                    do Google AdSense. Veja a
+                    <a href="https://www.iscrev.com/privacidade.html#privacidade">Política de Privacidade</a>
+                    e os <a href="https://www.iscrev.com/privacidade.html#termos">Termos de Uso</a>.
+                </p>
+            </div>
+
+            <div style="padding:4px;text-align:center;margin:0 auto;
+                        border-top:1px solid #ccc;width:100%">
+                <p class="copyright"
+                   style="display:block;text-align:center;margin:0 auto;color:#633737">
+                    <a href="https://www.wsricardo.com.br">WSRicardo © 2026</a>
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://www.iscrev.com/assets/js/site-nav.js" defer></script>
+    
+</body>
+</html>

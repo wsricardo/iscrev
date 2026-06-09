@@ -1,7 +1,7 @@
-const CACHE = "iscrev-notes-v10.3"
+const CACHE = "iscrev-notes-v10.7"
 const ASSETS = [
     "./", "./diario.html", "./assets/css/diario.css", "./assets/css/style.css",
-    "./assets/js/diario.js", "./assets/js/pdf-exporter.js", "./assets/js/site-nav.js", "./assets/js/ui.js",
+    "./assets/js/diario.js", "./assets/js/site-nav.js", "./assets/js/ui.js",
     "https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css",
     "https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js",
     "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Dancing+Script:wght@600&family=JetBrains+Mono:wght@400;500&display=swap"

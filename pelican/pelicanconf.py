@@ -20,12 +20,16 @@ INDEX_SAVE_AS = 'blog/index.html'
 #PAGE_PATHS = ['pages']
 PAGE_URL = 'blog/pages/{slug}.html'
 PAGE_SAVE_AS = 'blog/pages/{slug}.html'
-#CATEGORY_SAVE_AS = ''
-#TAG_SAVE_AS = ''
-#AUTHOR_SAVE_AS = ''
-#ARCHIVES_SAVE_AS = ''
-#CATEGORIES_SAVE_AS = ''
-#TAGS_SAVE_AS = ''
+CATEGORY_URL = 'blog/category/{slug}.html'
+CATEGORY_SAVE_AS = 'blog/category/{slug}.html'
+TAG_URL = 'blog/tag/{slug}.html'
+TAG_SAVE_AS = 'blog/tag/{slug}.html'
+AUTHOR_URL = 'blog/author/{slug}.html'
+AUTHOR_SAVE_AS = 'blog/author/{slug}.html'
+ARCHIVES_SAVE_AS = 'blog/archives.html'
+CATEGORIES_SAVE_AS = 'blog/categories.html'
+TAGS_SAVE_AS = 'blog/tags.html'
+AUTHORS_SAVE_AS = 'blog/authors.html'
 
 # --- Configurações de Feed ---
 FEED_ALL_ATOM = None

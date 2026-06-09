@@ -2,22 +2,6 @@
 'use strict';
 
 var CONFIG = Object.freeze({
-  currency: Object.freeze({
-    pt: Object.freeze({
-      symbol: 'R$',
-      locale: 'pt-BR'
-    }),
-    en: Object.freeze({
-      symbol: 'R$',
-      locale: 'en-US'
-    })
-  }),
-  amounts: Object.freeze({
-    presets: Object.freeze([5, 10, 25, 50, 100]),
-    defaultValue: 10,
-    min: 1,
-    max: 10000
-  }),
   pix: Object.freeze({
     key: 'c855694b-df4e-465a-83b7-2e368b3f0a47',
     label: 'PIX'
@@ -27,7 +11,7 @@ var CONFIG = Object.freeze({
 var COPY = {
   pt: {
     'meta.title': 'Apoie o iScrev Notes | Projeto independente de escrita e estudo',
-    'meta.description': 'Apoie o iScrev Notes via PIX e ajude a manter o projeto independente. Nesta fase, o apoio acontece em real brasileiro, com opções internacionais planejadas para o futuro.',
+    'meta.description': 'Apoie o iScrev Notes via PIX ou Stripe e ajude a manter o projeto independente. Opções seguras para o Brasil e exterior.',
     'skip': 'Pular para o conteudo principal',
     'brand.sub': 'texto, fórmulas e traços em harmonia',
     'brand.aria': 'iScrev Notes página inicial',
@@ -41,7 +25,7 @@ var COPY = {
     'nav.app': 'Abrir diário',
     'hero.eyebrow': 'Apoio ao projeto',
     'hero.title_html': 'Mantenha o iScrev Notes<br>leve, independente e em evolução.',
-    'hero.lead': 'Se o app te ajuda a escrever, estudar ou organizar ideias, hoje você pode apoiar o projeto via PIX. Nesta fase, preferimos um caminho simples, direto e coerente com a leveza do iScrev Notes, enquanto opções para apoiadores de outros países serão implementadas futuramente.',
+    'hero.lead': 'Se o app te ajuda a escrever, estudar ou organizar ideias, você pode apoiar o projeto de forma segura via PIX (Brasil) ou Stripe (Cartão, Apple Pay, Google Pay).',
     'hero.primary': 'Ver apoio via PIX',
     'hero.secondary': 'Abrir o app',
     'hero.meta.1': 'Persistência local',
@@ -58,7 +42,7 @@ var COPY = {
     'story.eyebrow': 'Por que existe esta página',
     'story.title': 'Contribuições ajudam a manter o projeto com autonomia e continuidade.',
     'story.p1': 'O iScrev Notes nasceu como um projeto independente para reunir escrita, LaTeX e traços livres no navegador sem exigir conta para o uso básico e com persistência prioritariamente local.',
-    'story.p2': 'A página Support precisa refletir esse mesmo caráter: acolhedora, clara e direta. Por isso, nesta fase, ela assume um caminho único via PIX em vez de prometer meios internacionais que ainda serão implementados.',
+    'story.p2': 'A página Support precisa refletir esse mesmo caráter: acolhedora, clara e direta. Por isso, ela oferece caminhos diretos e seguros via PIX ou Stripe.',
     'trust.1.title': 'Apoio via PIX nesta fase',
     'trust.1.body': 'Hoje a página trabalha unicamente com PIX, em um fluxo direto para quem pode transferir em real brasileiro.',
     'trust.2.title': 'Transferência manual e transparente',
@@ -69,14 +53,15 @@ var COPY = {
     'trust.4.body_html': 'Se surgir alguma dúvida sobre o apoio atual ou sobre opções futuras, escreva para <a href="mailto:iscrev.tech@gmail.com">iscrev.tech@gmail.com</a>.',
     'donate.eyebrow': 'Formas de apoio',
     'donate.title': 'Escolha um valor e use a chave PIX com calma.',
-    'donate.lead': 'No momento, o apoio é feito apenas por PIX. Você escolhe um valor sugerido ou livre, copia a chave e conclui a transferência no app do seu banco. Opções para apoiadores de fora do Brasil serão adicionadas futuramente.',
-    'donate.note_html': 'Esta página não abre checkout nem processa cartão. Nesta etapa, ela oferece apenas apoio via PIX em BRL (R$). Se você está fora do Brasil ou prefere outro método, opções internacionais serão implementadas futuramente; enquanto isso, dúvidas podem ser tratadas pela <a href="contato.html">página de contato</a> ou pelo e-mail do projeto.',
+    'donate.lead': 'Apoie de duas formas seguras: PIX para quem está no Brasil, ou via Stripe (Cartão, Apple/Google Pay) para contribuições de qualquer lugar do mundo.',
+    'donate.note_html': 'O iScrev não processa cartões localmente. Pagamentos com cartão são processados e protegidos pela infraestrutura global da Stripe. Dúvidas podem ser tratadas pela <a href="contato.html">página de contato</a>.',
+    'donate.info': 'O valor sugerido mínimo para apoio é a partir de R$ 1, mas você é livre para contribuir com o montante que desejar.',
     'method.1.title': 'PIX no Brasil',
     'method.1.body': 'Fluxo atual de apoio financeiro do projeto: direto, simples e alinhado à fase presente do iScrev Notes.',
     'method.2.title': 'Valor sugerido ou livre',
     'method.2.body': 'Escolha um valor pré-definido ou digite outro e use esse montante como referência ao fazer a transferência.',
-    'method.3.title': 'Opções internacionais depois',
-    'method.3.body': 'Doações de outros países ainda não estão disponíveis, mas fazem parte da evolução planejada desta página.',
+    'method.3.title': 'Pagamentos Globais',
+    'method.3.body': 'Apoie de qualquer lugar do mundo usando Cartão de Crédito, Apple Pay ou Google Pay através da infraestrutura da Stripe.',
     'card.kicker': 'Apoio via PIX',
     'card.title': 'Escolha um valor e copie a chave',
     'card.sub': 'Valores em real brasileiro',
@@ -89,7 +74,9 @@ var COPY = {
     'pix.note': 'Use o valor acima como referência e faça a transferência com a chave PIX abaixo. A confirmação acontece no app do seu banco.\n Cheque antes de confirmar a transferência o nome do destinario (Wandeson Ricardo da Silva CPF xxx.xxx.x14-xx).',
     'pix.keyLabel': 'Chave PIX atual',
     'pix.copy': 'Copiar chave',
-    'pix.help_html': 'Se você está fora do Brasil ou prefere aguardar outro método, opções internacionais serão implementadas futuramente. Para dúvidas, escreva para <a href="mailto:iscrev.tech@gmail.com">iscrev.tech@gmail.com</a>.',
+    'stripe.hint': 'Pagamento seguro via Apple Pay, Google Pay ou Cartão de Crédito.',
+    'stripe.btn': 'Apoiar via Stripe',
+    'pix.help_html': 'Para dúvidas sobre o projeto ou pagamentos, escreva para <a href="mailto:iscrev.tech@gmail.com">iscrev.tech@gmail.com</a>.',
     'pix.copied': 'Chave PIX copiada.',
     'impact.eyebrow': 'Para onde vai o apoio',
     'impact.title': 'O que essa contribuição ajuda a sustentar no iScrev Notes',
@@ -108,16 +95,16 @@ var COPY = {
     'detail.2.title': 'Contato sobre apoio',
     'detail.2.body_html': '<a href="mailto:iscrev.tech@gmail.com">iscrev.tech@gmail.com</a>',
     'detail.3.title': 'Método atual',
-    'detail.3.body': 'Fluxo único via PIX em real brasileiro.',
+    'detail.3.body': 'PIX (Brasil) e Stripe (Global).',
     'detail.4.title': 'Próximos passos',
-    'detail.4.body': 'Opções para apoiadores de outros países serão implementadas futuramente.',
+    'detail.4.body': 'Apoio habilitado globalmente.',
     'footer.title': 'Se o iScrev Notes já te ajuda hoje, o apoio ajuda a mantê-lo vivo amanhã.',
     'footer.body': 'Você pode apoiar agora via PIX, abrir o app ou entrar em contato para tratar de dúvidas sobre o projeto, privacidade ou pagamento.',
     'footer.primary': 'Abrir iScrev Notes',
     'footer.secondary': 'Falar sobre apoio',
     'footer.meta.1': 'Projeto independente',
     'footer.meta.2': 'Apoio via PIX',
-    'footer.meta.3': 'Opções internacionais em desenvolvimento',
+    'footer.meta.3': 'Pagamentos globais via Stripe',
     'footer.legal_html': 'Privacidade e uso responsável: o iScrev Notes salva entradas e preferências principalmente no seu próprio navegador; veja a <a href="privacidade.html#privacidade">Política de Privacidade</a>, os <a href="privacidade.html#termos">Termos de Uso</a> e a <a href="contato.html">página de contato</a> para detalhes sobre tratamento de dados, recursos técnicos externos e canais de solicitação.'
   },
   en: {
@@ -163,14 +150,15 @@ var COPY = {
     'trust.4.title': 'Questions and payment help',
     'trust.4.body_html': 'If you have any question about the current support flow or future options, write to <a href="mailto:iscrev.tech@gmail.com">iscrev.tech@gmail.com</a>.',
     'donate.eyebrow': 'Ways to support',
-    'donate.title': 'Choose an amount and use the PIX key at your own pace.',
-    'donate.lead': 'For now, support is available only through PIX. You choose a suggested or custom amount, copy the key and complete the transfer in your banking app. Support options for people outside Brazil will be added later.',
-    'donate.note_html': 'This page does not open a checkout or process card payments. At this stage it offers only PIX support in BRL (R$). If you are outside Brazil or prefer another method, international options will be added in a future update; until then, questions can go through the <a href="contact.html">contact page</a> or the project email.',
+    'donate.title': 'Support the project development',
+    'donate.lead': 'You can securely support the project via Stripe using Credit Card, Apple Pay, or Google Pay from anywhere in the world.',
+    'donate.note_html': 'This page uses Stripe\'s secure global infrastructure to process payments. Questions can be addressed via the <a href="contact.html">contact page</a>.',
+    'donate.info': 'The suggested minimum support is starting from $1, but you are free to contribute with any amount you wish.',
     'method.1.title': 'PIX in Brazil',
     'method.1.body': 'The current financial support flow for the project: direct, simple and aligned with the present stage of iScrev Notes.',
     'method.2.title': 'Preset or custom amount',
     'method.2.body': 'Choose a preset amount or enter your own and use that value as a reference when you make the transfer.',
-    'method.3.title': 'International options later',
+    'method.3.title': 'Global Payments',
     'method.3.body': 'Support options for people in other countries are not available yet, but they are part of the planned evolution of this page.',
     'card.kicker': 'Support via PIX',
     'card.title': 'Choose an amount and copy the key',
@@ -184,7 +172,9 @@ var COPY = {
     'pix.note': 'Use the amount above as a reference and complete the transfer with the PIX key below. Confirmation happens in your banking app. \nCheck the recipients name before confirming the transfer (Wandeson Ricardo da Silva, CPF xxx.xxx.x14-xx)',
     'pix.keyLabel': 'Current PIX key',
     'pix.copy': 'Copy key',
-    'pix.help_html': 'If you are outside Brazil or prefer to wait for another method, international support options will be added in a future update. If you have questions, write to <a href="mailto:iscrev.tech@gmail.com">iscrev.tech@gmail.com</a>.',
+    'stripe.hint': 'Secure payment via Apple Pay, Google Pay, or Credit Card.',
+    'stripe.btn': 'Support via Stripe',
+    'pix.help_html': 'If you have questions about the project or payments, write to <a href="mailto:iscrev.tech@gmail.com">iscrev.tech@gmail.com</a>.',
     'pix.copied': 'PIX key copied.',
     'impact.eyebrow': 'Where support goes',
     'impact.title': 'What this contribution helps sustain in iScrev Notes',
@@ -203,16 +193,16 @@ var COPY = {
     'detail.2.title': 'Support contact',
     'detail.2.body_html': '<a href="mailto:iscrev.tech@gmail.com">iscrev.tech@gmail.com</a>',
     'detail.3.title': 'Current method',
-    'detail.3.body': 'Single PIX flow in Brazilian reais.',
+    'detail.3.body': 'Stripe (Card, Apple/Google Pay) globally.',
     'detail.4.title': 'Next step',
-    'detail.4.body': 'Support options for people in other countries are planned for a future update.',
+    'detail.4.body': 'Support enabled for users worldwide.',
     'footer.title': 'If iScrev Notes already helps you today, support helps keep it alive tomorrow.',
     'footer.body': 'You can support the project via PIX now, open the app, or get in touch with questions about the project, privacy or payments.',
     'footer.primary': 'Open iScrev Notes',
     'footer.secondary': 'Talk about support',
     'footer.meta.1': 'Independent project',
     'footer.meta.2': 'Support via PIX',
-    'footer.meta.3': 'International options in development',
+    'footer.meta.3': 'Global payments via Stripe',
     'footer.legal_html': 'Privacy and responsible use: iScrev Notes stores entries and preferences mainly in your own browser; see the <a href="privacy.html#privacy-policy">Privacy Policy</a>, <a href="privacy.html#terms-of-use">Terms of Use</a> and the <a href="contact.html">contact page</a> for details about data handling, external technical resources and request channels.'
   }
 };
@@ -232,10 +222,7 @@ var ROUTES = {
   }
 };
 
-var state = {
-  amount: CONFIG.amounts.defaultValue,
-  isCustom: false
-};
+
 
 function getLang() {
   var params;
@@ -280,11 +267,7 @@ var dom = {
   footerSecondaryLink: qs('footerSecondaryLink'),
   langPt: qs('langPt'),
   langEn: qs('langEn'),
-  amountsGrid: qs('amountsGrid'),
-  customInput: qs('customInput'),
   supportCardIcon: qs('supportCardIcon'),
-  currencyPrefix: qs('currencyPrefix'),
-  summaryAmount: qs('summaryAmount'),
   pixKeyValue: qs('pixKeyValue'),
   copyPixButton: qs('copyPixButton'),
   copyStatus: qs('copyStatus'),
@@ -303,33 +286,6 @@ function activeUrl() {
   return lang === 'en'
     ? 'https://www.iscrev.com/support.html?lang=en'
     : 'https://www.iscrev.com/support.html';
-}
-
-function currentCurrency() {
-  return CONFIG.currency[lang] || CONFIG.currency.pt;
-}
-
-function formatNumber(value) {
-  var locale = currentCurrency().locale;
-  var hasDecimals = Math.round(value * 100) % 100 !== 0;
-  return value.toLocaleString(locale, {
-    minimumFractionDigits: hasDecimals ? 2 : 0,
-    maximumFractionDigits: 2
-  });
-}
-
-function formatAmount(value) {
-  return currentCurrency().symbol + ' ' + formatNumber(value);
-}
-
-function sanitizeAmount(raw) {
-  var normalized = String(raw).replace(',', '.').trim();
-  var parsed = Number.parseFloat(normalized);
-
-  if (!Number.isFinite(parsed)) return null;
-  if (parsed < CONFIG.amounts.min) return CONFIG.amounts.min;
-  if (parsed > CONFIG.amounts.max) return CONFIG.amounts.max;
-  return Math.round(parsed * 100) / 100;
 }
 
 function applyMeta() {
@@ -375,13 +331,17 @@ function applyCopy() {
     langSwitcher.setAttribute('aria-label', t('nav.lang'));
   }
 
-  dom.customInput.setAttribute('placeholder', t('input.placeholder'));
-  dom.customInput.setAttribute('aria-label', t('input.aria'));
-  dom.amountsGrid.setAttribute('aria-label', t('label.amount'));
   dom.copyPixButton.setAttribute('aria-label', t('pix.copy'));
-  dom.pixKeyValue.textContent = CONFIG.pix.key;
-  dom.currencyPrefix.textContent = currentCurrency().symbol;
-  dom.supportCardIcon.textContent = CONFIG.pix.label;
+
+  var pixFlow = document.getElementById('support-pix-flow');
+  
+  if (lang === 'pt') {
+      if(pixFlow) pixFlow.style.display = 'block';
+  } else {
+      if(pixFlow) pixFlow.style.display = 'none';
+  }
+  if (dom.pixKeyValue) dom.pixKeyValue.textContent = CONFIG.pix.key;
+  if (dom.supportCardIcon) dom.supportCardIcon.textContent = CONFIG.pix.label;
 }
 
 function applyRoutes() {
@@ -406,64 +366,6 @@ function applyRoutes() {
     dom.langEn.setAttribute('aria-current', 'page');
     dom.langPt.removeAttribute('aria-current');
   }
-}
-
-function buildAmounts() {
-  var fragment = document.createDocumentFragment();
-
-  CONFIG.amounts.presets.forEach(function (amount) {
-    var button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'support-amount-btn';
-    button.textContent = formatAmount(amount);
-    if (!state.isCustom && state.amount === amount) button.classList.add('active');
-
-    button.addEventListener('click', function () {
-      state.isCustom = false;
-      state.amount = amount;
-      dom.customInput.value = '';
-      dom.copyStatus.textContent = '';
-      render();
-    });
-
-    fragment.appendChild(button);
-  });
-
-  var customButton = document.createElement('button');
-  customButton.type = 'button';
-  customButton.className = 'support-amount-btn';
-  customButton.textContent = t('btn.custom');
-  if (state.isCustom) customButton.classList.add('active');
-
-  customButton.addEventListener('click', function () {
-    state.isCustom = true;
-    if (!dom.customInput.value) dom.customInput.value = String(state.amount);
-    dom.customInput.focus();
-    render();
-  });
-
-  fragment.appendChild(customButton);
-  dom.amountsGrid.innerHTML = '';
-  dom.amountsGrid.appendChild(fragment);
-}
-
-function updateSummary() {
-  dom.summaryAmount.textContent = formatAmount(state.amount);
-}
-
-function render() {
-  buildAmounts();
-  updateSummary();
-}
-
-function handleCustomInput() {
-  var parsed = sanitizeAmount(dom.customInput.value);
-  if (parsed === null) return;
-
-  state.isCustom = true;
-  state.amount = parsed;
-  dom.copyStatus.textContent = '';
-  render();
 }
 
 function copyPixKey() {
@@ -492,13 +394,6 @@ function copyPixKey() {
 }
 
 function bindEvents() {
-  dom.customInput.addEventListener('focus', function () {
-    state.isCustom = true;
-    render();
-  });
-
-  dom.customInput.addEventListener('input', handleCustomInput);
-  dom.customInput.addEventListener('change', handleCustomInput);
   dom.copyPixButton.addEventListener('click', copyPixKey);
 }
 
@@ -506,6 +401,5 @@ applyMeta();
 applyCopy();
 applyRoutes();
 bindEvents();
-render();
 
 }());

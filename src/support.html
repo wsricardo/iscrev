@@ -223,36 +223,13 @@
                             </div>
                         </div>
 
-                        <label class="support-label" for="customInput" data-i18n="label.amount">Valor do apoio</label>
-                        <p class="support-amount-note" data-i18n="amount.note">Escolha um valor sugerido ou defina outro para usar como referência no PIX.</p>
-                        <div class="support-amounts" id="amountsGrid" role="group" aria-label="Valor da contribuição"></div>
-
-                        <div class="support-custom-wrap">
-                            <span class="support-custom-prefix" id="currencyPrefix" aria-hidden="true">R$</span>
-                            <input class="support-custom-input"
-                                   id="customInput"
-                                   type="number"
-                                   min="1"
-                                   max="10000"
-                                   step="1"
-                                   inputmode="decimal"
-                                   aria-label="Valor personalizado"
-                                   placeholder="0">
+                        <div class="support-donation-info" style="margin: 16px 0; padding: 16px; background: rgba(0,0,0,0.02); border-radius: 8px;">
+                            <p data-i18n="donate.info" style="font-size: 0.95rem; color: #444; margin: 0; line-height: 1.5;">O valor sugerido mínimo para apoio é a partir de R$ 1, mas você é livre para contribuir com o montante que desejar.</p>
                         </div>
 
                         <div class="support-divider"></div>
 
-                        <div class="support-pix-flow">
-                            <div class="support-summary">
-                                <div class="support-summary-label" data-i18n="summary.label">Valor de referência</div>
-                                <div class="support-summary-amount" id="summaryAmount">R$ 10</div>
-                            </div>
-
-                            <div class="support-note" data-i18n="pix.note">
-                                Use o valor acima como referência e faça a transferência com a chave PIX abaixo.
-                                A confirmação acontece no app do seu banco.
-                            </div>
-
+                        <div class="support-pix-flow" id="support-pix-flow">
                             <div class="pix-key-card">
                                 <span class="pix-key-label" data-i18n="pix.keyLabel">Chave PIX atual</span>
                                 <div class="pix-key-row">
@@ -267,6 +244,13 @@
                                 <a href="mailto:iscrev.tech@gmail.com">iscrev.tech@gmail.com</a>.
                             </p>
                             <p class="copy-status" id="copyStatus" role="status" aria-live="polite"></p>
+                        </div>
+
+                        <div class="support-divider"></div>
+
+                        <div class="support-stripe-flow" id="support-stripe-flow" style="text-align:center; padding-top: 16px;">
+                            <p style="font-size: 0.95rem; color: var(--text); margin-bottom: 16px;" data-i18n="stripe.hint">Pagamento seguro via Apple Pay, Google Pay ou Cartão de Crédito.</p>
+                            <a class="button-primary" style="display:block; text-align:center; width:100%;" href="https://donate.stripe.com/cNieV715daoJ55X8C47kc00" target="_blank" rel="noopener noreferrer" data-i18n="stripe.btn">Apoiar via Stripe</a>
                         </div>
                     </aside>
                 </div>
