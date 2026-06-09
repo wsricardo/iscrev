@@ -67,47 +67,122 @@ export function mdToHtml(src) {
   }).join('');
 }
 
-/** Converte segmento de texto puro em HTML com Markdown básico. */
+
+/** Converte segmento de texto puro em HTML com Máquina de Estados (State Machine). */
 export function convertMarkdown(raw) {
-  var s = escHtml(raw);
-  s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  s = s.replace(/\*(.+?)\*/g,     '<em>$1</em>');
-
-  s = s.replace(/^(#{1})\s+(.*)$/gm, '<h1>$2</h1>');
-  s = s.replace(/^(#{2})\s+(.*)$/gm, '<h2>$2</h2>');
-  s = s.replace(/^(#{3})\s+(.*)$/gm, '<h3>$2</h3>');
-  s = s.replace(/^(#{4})\s+(.*)$/gm, '<h4>$2</h4>');
-  s = s.replace(/^(#{5})\s+(.*)$/gm, '<h5>$2</h5>');
-  s = s.replace(/^(#{6})\s+(.*)$/gm, '<h6>$2</h6>');
-
-  s = s.replace(/\n/g, '<br>');
-  //console.log('>' + s)
+  const lines = raw.split('\n');
+  let htmlOut = '';
   
-  s = s.replace(/`([^`]+)`/g,
-    '<code style="font-family:\'JetBrains Mono\',monospace;font-size:.88em;'
-    + 'background:rgba(200,132,58,.12);padding:1px 5px;border-radius:3px">$1</code>');
+  let state = {
+    inList: false,
+    inCodeBlock: false,
+    inTable: false,
+    inBlockquote: false
+  };
 
-  var lines = s.split(/(\n)/), out = [], inUl = false;
-  for (var i = 0; i < lines.length; i++) {
-    var ln = lines[i];
-    if (/^&gt;\s?/.test(ln)) {
-      if (inUl) { out.push('</ul>'); inUl = false; }
-      out.push('<blockquote>' + ln.replace(/^&gt;\s?/, '') + '</blockquote>');
+  for (let i = 0; i < lines.length; i++) {
+    let line = lines[i].replace(/\r$/, '');
 
-    } else if ( ln == "\n") {
-      out.push('<br>');
-    
-    } else if (/^[-*]\s/.test(ln)) {
-      if (!inUl) { out.push('<ul>'); inUl = true; }
-      out.push('<li>' + ln.slice(2) + '</li>');
+    // Escapar tags HTML (prevenção de XSS)
+    line = escHtml(line);
+
+    // 1. Bloco de Código (Crase tripla)
+    if (line.startsWith('```')) {
+      if (state.inCodeBlock) {
+        htmlOut += '</code></pre>\n';
+        state.inCodeBlock = false;
+      } else {
+        htmlOut += '<pre style="background:rgba(200,132,58,.08);padding:10px;border-radius:6px;overflow-x:auto;"><code style="font-family:\'JetBrains Mono\',monospace;font-size:.88em;color:#8b3a1f;">\n';
+        state.inCodeBlock = true;
+      }
+      continue;
+    }
+
+    if (state.inCodeBlock) {
+      htmlOut += line + '\n';
+      continue;
+    }
+
+    // 2. Listas
+    if (/^[-*]\s/.test(line)) {
+      if (!state.inList) {
+        htmlOut += '<ul>\n';
+        state.inList = true;
+      }
+      htmlOut += '<li>' + parseInlineRules(line.slice(2)) + '</li>\n';
+      continue;
+    } else if (state.inList) {
+      htmlOut += '</ul>\n';
+      state.inList = false;
+    }
+
+    // 3. Blockquotes
+    if (/^&gt;\s?/.test(line)) {
+      if (!state.inBlockquote) {
+        htmlOut += '<blockquote>\n';
+        state.inBlockquote = true;
+      }
+      htmlOut += parseInlineRules(line.replace(/^&gt;\s?/, '')) + '<br>\n';
+      continue;
+    } else if (state.inBlockquote) {
+      htmlOut += '</blockquote>\n';
+      state.inBlockquote = false;
+    }
+
+    // 4. Tabelas Básicas
+    if (line.includes('|') && line.trim().startsWith('|')) {
+      if (!state.inTable) {
+        htmlOut += '<div class="table-wrapper"><table style="width:100%;border-collapse:collapse;margin:10px 0;">\n<tbody>\n';
+        state.inTable = true;
+      }
+      if (line.includes('---')) continue; 
+      
+      const cells = line.split('|').filter(c => c.trim() !== '');
+      htmlOut += '<tr style="border-bottom:1px solid rgba(200,132,58,.3)">' + cells.map(c => '<td style="padding:6px 12px;">' + parseInlineRules(c.trim()) + '</td>').join('') + '</tr>\n';
+      continue;
+    } else if (state.inTable) {
+      htmlOut += '</tbody>\n</table></div>\n';
+      state.inTable = false;
+    }
+
+    // 5. Cabeçalhos
+    const headingMatch = line.match(/^(#{1,6})\s+(.*)$/);
+    if (headingMatch) {
+      const level = headingMatch[1].length;
+      htmlOut += '<h' + level + '>' + parseInlineRules(headingMatch[2]) + '</h' + level + '>\n';
+      continue;
+    }
+
+    // 6. Parágrafos / Quebras
+    if (line.trim() === '') {
+      htmlOut += '<br>\n';
     } else {
-      if (inUl) { out.push('</ul>'); inUl = false; }
-      if (ln.trim()) out.push(ln );
+      htmlOut += parseInlineRules(line) + '<br>\n';
     }
   }
-  if (inUl) out.push('</ul>');
-  return out.join('');
+
+  // Fechar estados órfãos
+  if (state.inList) htmlOut += '</ul>\n';
+  if (state.inBlockquote) htmlOut += '</blockquote>\n';
+  if (state.inTable) htmlOut += '</tbody>\n</table></div>\n';
+  if (state.inCodeBlock) htmlOut += '</code></pre>\n';
+
+  return htmlOut;
 }
+
+function parseInlineRules(text) {
+  let s = text;
+  s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  s = s.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  
+  // Links Inline: [Texto](URL)
+  s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color:#c8843a;text-decoration:none;border-bottom:1px dashed #c8843a;">$1</a>');
+  
+  // Código Inline
+  s = s.replace(/`([^`]+)`/g, '<code style="font-family:\'JetBrains Mono\',monospace;font-size:.88em;background:rgba(200,132,58,.12);padding:1px 5px;border-radius:3px">$1</code>');
+  return s;
+}
+
 
 
 // Compatibilidade global

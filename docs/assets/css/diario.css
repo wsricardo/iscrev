@@ -286,6 +286,9 @@ main:focus{
 .editor-area::-webkit-scrollbar-thumb{background:rgba(200,132,58,.3);border-radius:4px}
 
 .notebook-bg{
+  width:100%;
+  max-width:800px;
+  margin:0 auto;
   min-height:100%;
   padding:28px 30px 28px 96px;
   box-sizing:border-box;
@@ -1270,5 +1273,65 @@ main:focus{
   }
   .welcome-action{
     width:min(280px, 100%);
+  }
+}
+
+
+/* --- Estabilização de PDF e Caneta --- */
+@media (min-width: 768px) {
+  .notebook-bg {
+    min-width: 800px;
+  }
+}
+
+.math-block {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+@media print {
+  .notebook-bg {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    margin: 0 !important;
+  }
+  .math-block {
+    overflow-x: hidden !important;
+    white-space: pre-wrap !important;
+    word-break: break-all;
+  }
+}
+
+
+/* --- Estabilização de Papel e Scroll Horizontal --- */
+@media (min-width: 768px) {
+  .notebook-bg {
+    width: 800px !important;
+    max-width: none !important;
+  }
+}
+
+.table-wrapper {
+  max-width: 100%;
+  overflow-x: auto;
+  margin-bottom: 1em;
+}
+
+.math-block {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+@media print {
+  .notebook-bg {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+  }
+  .table-wrapper, .math-block {
+    overflow-x: hidden !important;
+    white-space: pre-wrap !important;
+    word-break: break-all;
   }
 }
