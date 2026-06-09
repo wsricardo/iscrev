@@ -1,4 +1,4 @@
-const CACHE = "iscrev-notes-v10.7"
+const CACHE = "iscrev-notes-v10.8"
 const ASSETS = [
     "./", "./diario.html", "./assets/css/diario.css", "./assets/css/style.css",
     "./assets/js/diario.js", "./assets/js/site-nav.js", "./assets/js/ui.js",
