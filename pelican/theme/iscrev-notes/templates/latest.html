@@ -1,0 +1,9 @@
+[
+{% for article in articles[:5] %}
+{
+  "title": "{{ article.title | striptags | escape }}",
+  "url": "/{{ article.url }}",
+  "date": "{{ article.locale_date }}"
+}{% if not loop.last %},{% endif %}
+{% endfor %}
+]

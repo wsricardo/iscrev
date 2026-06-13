@@ -297,7 +297,7 @@ export let I18N = {
 export let currentLang = (function () {
   var s = localStorage.getItem('diario_lang');
   if (s && I18N[s]) return s;
-  return (navigator.language || '').startsWith('pt') ? 'pt' : 'en';
+  return 'en';
 }());
 
 /** Retorna string traduzida. Fallback: pt → chave crua. */
@@ -459,6 +459,7 @@ export function doApply(lang) {
       homeBtn.setAttribute('data-label', homeLabel);
       homeBtn.setAttribute('title', homeLabel);
       homeBtn.setAttribute('aria-label', homeLabel);
+      homeBtn.setAttribute('href', lang === 'pt' ? 'pt.html' : 'index.html');
     }
 
     if (typeof Pen !== 'undefined' && Pen.buildToolbar) Pen.buildToolbar();

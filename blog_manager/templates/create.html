@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+    .preview-box {
+        display: none;
+        width: 100%;
+        height: 200px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background: #fafafa;
+        overflow-y: auto;
+        box-sizing: border-box;
+    }
+    .preview-box img { max-width: 100%; }
+</style>
+<div class="header-actions">
+    <h1>{{ 'Editar' if is_edit else 'Nova' }} Postagem</h1>
+    <a href="{{ url_for('index') }}" class="btn btn-secondary">Voltar</a>
+</div>
+<form method="post">
+    <div class="form-group">
+        <label>Slug (URL amigável)</label>
+        <input type="text" name="slug" value="{{ slug }}" {{ 'readonly' if is_edit else 'required' }}>
+    </div>
+    
+    <div style="display: flex; gap: 20px;">
+        <div style="flex: 1;">
+            <h2>Versão em Inglês (Padrão)</h2>
+            <div class="form-group">
+                <label>Título (EN)</label>
+                <input type="text" name="title_en" value="{{ title_en }}" required>
+            </div>
+            <div class="form-group">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
+                    <label style="margin: 0;">Conteúdo Markdown (EN)</label>
+                    <button type="button" class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="togglePreview('en')">Ver Preview</button>
+                </div>
+                <textarea id="content_en" name="content_en" required>{{ content_en }}</textarea>
+                <div id="preview_en" class="preview-box"></div>
+            </div>
+        </div>
+        <div style="flex: 1;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h2 style="margin: 0;">Versão em Português</h2>
+                <button type="button" class="btn btn-secondary" onclick="autoTranslate()" id="btn-translate">
+                    🪄 Auto-traduzir para o Inglês
+                </button>
+            </div>
+            <div class="form-group">
+                <label>Título (PT)</label>
+                <input type="text" name="title_pt" value="{{ title_pt }}" required>
+            </div>
+            <div class="form-group">
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5px;">
+                    <label style="margin: 0;">Conteúdo Markdown (PT)</label>
+                    <button type="button" class="btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="togglePreview('pt')">Ver Preview</button>
+                </div>
+                <textarea id="content_pt" name="content_pt" required>{{ content_pt }}</textarea>
+                <div id="preview_pt" class="preview-box"></div>
+            </div>
+        </div>
+    </div>
+    
+    <button type="submit" class="btn">Salvar Postagem</button>
+</form>
+
+<script>
+function togglePreview(lang) {
+    const textarea = document.getElementById(`content_${lang}`);
+    const preview = document.getElementById(`preview_${lang}`);
+    const btn = event.target;
+    
+    if (preview.style.display === 'block') {
+        preview.style.display = 'none';
+        textarea.style.display = 'block';
+        btn.textContent = 'Ver Preview';
+    } else {
+        preview.innerHTML = marked.parse(textarea.value);
+        textarea.style.display = 'none';
+        preview.style.display = 'block';
+        btn.textContent = 'Editar Markdown';
+    }
+}
+
+async function autoTranslate() {
+    const btn = document.getElementById('btn-translate');
+    const titlePt = document.querySelector('input[name="title_pt"]').value;
+    const contentPt = document.querySelector('textarea[name="content_pt"]').value;
+    
+    if (!titlePt && !contentPt) {
+        alert("Preencha a versão em português primeiro!");
+        return;
+    }
+    
+    btn.textContent = "⏳ Traduzindo...";
+    btn.disabled = true;
+    
+    try {
+        if (titlePt) {
+            const resTitle = await fetch('/api/translate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: titlePt })
+            });
+            const dataTitle = await resTitle.json();
+            if (dataTitle.translated) {
+                document.querySelector('input[name="title_en"]').value = dataTitle.translated;
+            }
+        }
+        
+        if (contentPt) {
+            const resContent = await fetch('/api/translate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: contentPt })
+            });
+            const dataContent = await resContent.json();
+            if (dataContent.translated) {
+                document.querySelector('textarea[name="content_en"]').value = dataContent.translated;
+            }
+        }
+        
+        btn.textContent = "✅ Traduzido";
+        setTimeout(() => {
+            btn.textContent = "🪄 Auto-traduzir para o Inglês";
+            btn.disabled = false;
+        }, 3000);
+    } catch (e) {
+        alert("Erro na tradução: " + e);
+        btn.textContent = "🪄 Auto-traduzir para o Inglês";
+        btn.disabled = false;
+    }
+}
+</script>
+{% endblock %}

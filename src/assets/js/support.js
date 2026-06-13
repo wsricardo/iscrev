@@ -209,15 +209,15 @@ var COPY = {
 
 var ROUTES = {
   pt: {
-    home: 'index.html',
+    home: 'pt.html',
     about: 'sobre.html',
-    support: 'support.html',
+    support: 'support.html?lang=pt',
     contact: 'contato.html'
   },
   en: {
-    home: 'en.html',
+    home: 'index.html',
     about: 'about.html',
-    support: 'support.html?lang=en',
+    support: 'support.html',
     contact: 'contact.html'
   }
 };
@@ -235,7 +235,7 @@ function getLang() {
     if (forced === 'pt' || forced === 'en') return forced;
   } catch (err) {}
 
-  navLang = (navigator.language || navigator.userLanguage || 'pt-BR').toLowerCase();
+  navLang = (navigator.language || navigator.userLanguage || 'en-US').toLowerCase();
   return navLang.indexOf('pt') === 0 ? 'pt' : 'en';
 }
 
@@ -283,8 +283,8 @@ var dom = {
 };
 
 function activeUrl() {
-  return lang === 'en'
-    ? 'https://www.iscrev.com/support.html?lang=en'
+  return lang === 'pt'
+    ? 'https://www.iscrev.com/support.html?lang=pt'
     : 'https://www.iscrev.com/support.html';
 }
 

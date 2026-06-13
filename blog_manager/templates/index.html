@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="header-actions">
+    <h1>Postagens do Blog</h1>
+    <div>
+        <a href="{{ url_for('create') }}" class="btn">Nova Postagem</a>
+        <form action="{{ url_for('build') }}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-secondary">Publicar Site (Build)</button>
+        </form>
+    </div>
+</div>
+<table>
+    <tr>
+        <th>Slug</th>
+        <th>Título (EN)</th>
+        <th>Título (PT)</th>
+        <th>Ações</th>
+    </tr>
+    {% for post in posts %}
+    <tr>
+        <td>{{ post.slug }}</td>
+        <td>{{ post.title_en }}</td>
+        <td>{{ post.title_pt }}</td>
+        <td>
+            <a href="{{ url_for('edit', slug=post.slug) }}" class="btn">Editar</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

@@ -6,11 +6,19 @@
 {% block page_header %}
 <div class="blog-page-header">
     <p class="eyebrow">Blog</p>
+    {% if DEFAULT_LANG == 'pt' %}
     <h1>Artigos e bastidores do projeto</h1>
     <p>
         Uma janela para a jornada de desenvolvimento do iScrev Notes —
         filosofia de produto, decisões técnicas e dicas de uso.
     </p>
+    {% else %}
+    <h1>Articles and behind the scenes</h1>
+    <p>
+        A window into the development journey of iScrev Notes —
+        product philosophy, technical decisions, and usage tips.
+    </p>
+    {% endif %}
 </div>
 {% endblock %}
 

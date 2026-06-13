@@ -1,10 +1,19 @@
 AUTHOR = 'WSRicardo'
 SITENAME = 'iScrev Notes Blog'
-SITEURL = 'https://www.iscrev.com'
+SITEURL = ''
 
 PATH = 'content'
 TIMEZONE = 'America/Sao_Paulo'
-DEFAULT_LANG = 'pt-BR'
+DEFAULT_LANG = 'en'
+
+PLUGINS = ['i18n_subsites']
+
+I18N_SUBSITES = {
+    'pt': {
+        'SITENAME': 'iScrev Notes Blog',
+        'DEFAULT_LANG': 'pt',
+    }
+}
 
 # --- Configurações do Tema ---
 # Aponta para o nosso tema customizado que criaremos a seguir.
@@ -40,12 +49,11 @@ TRANSLATION_FEED_ATOM = None
 # Gera o site na pasta `docs/` do diretório pai.
 OUTPUT_PATH = '../docs/'
 
+# --- Configurações de JSON API ---
+DIRECT_TEMPLATES = ['index', 'latest', 'archives', 'categories', 'tags', 'authors']
+LATEST_SAVE_AS = 'blog/latest.json'
+
 # --- Configurações de Arquivos Estáticos ---
-STATIC_PATHS = ['blog/images']
-EXTRA_PATH_METADATA = {
-    'blog/images': {'path': 'blog/images'},
-}
-
-
+STATIC_PATHS = ['images']
 
 DEFAULT_PAGINATION = 10

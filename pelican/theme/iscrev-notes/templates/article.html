@@ -15,7 +15,13 @@
     </p>
     <h1>{{ article.title }}</h1>
     <div class="article-meta">
-        <span>{{ article.date | strftime('%d de %B de %Y') }}</span>
+        <span>
+        {% if DEFAULT_LANG == 'pt' %}
+            {{ article.date | strftime('%d de %B de %Y') }}
+        {% else %}
+            {{ article.date | strftime('%B %d, %Y') }}
+        {% endif %}
+        </span>
         {% if article.author %}
         <span>{{ article.author }}</span>
         {% endif %}
@@ -38,14 +44,14 @@
 
 {# Navegação entre artigos #}
 {% if article.prev_article or article.next_article %}
-<nav class="pagination" aria-label="Navegação entre artigos">
+<nav class="pagination" aria-label="{% if DEFAULT_LANG == 'pt' %}Navegação entre artigos{% else %}Article navigation{% endif %}">
     {% if article.prev_article %}
     <a href="{{ SITEURL }}/{{ article.prev_article.url }}" rel="prev"
-       title="{{ article.prev_article.title }}">← Artigo anterior</a>
+       title="{{ article.prev_article.title }}">← {% if DEFAULT_LANG == 'pt' %}Artigo anterior{% else %}Previous article{% endif %}</a>
     {% endif %}
     {% if article.next_article %}
     <a href="{{ SITEURL }}/{{ article.next_article.url }}" rel="next"
-       title="{{ article.next_article.title }}">Próximo artigo →</a>
+       title="{{ article.next_article.title }}">{% if DEFAULT_LANG == 'pt' %}Próximo artigo{% else %}Next article{% endif %} →</a>
     {% endif %}
 </nav>
 {% endif %}

@@ -525,6 +525,14 @@ Refatoração do single-file para três arquivos separados (`diario.html`, `diar
 
 Implementação do drawer responsivo com scrim, animação via `transform`, breakpoint em 900px. Botão `btn-sidebar-toggle` na toolbar principal. `syncResponsiveShell()` e `isMobileShell()` para comportamento adaptativo.
 
+### Fase 13 — Blog Bilíngue, Gerenciador Flask CMS e Funcionalidades Editoriais
+
+Adoção do plugin `i18n_subsites` do Pelican para gerar o blog principal em Inglês (`/blog/`) e um sub-site completo em Português (`/pt/blog/`). O cabeçalho e templates como `base.html` e `article.html` foram refatorados com Jinja2 para utilizar URLs absolutas a partir da raiz (`/`) nas dependências de front-end (evitando quebra de CSS ao navegar nos sub-sites) e renderizar adequadamente a troca de idioma para traduções (mapeando a rota `article.translations[0].url`).
+Para evitar complexidade no gerenciamento de arquivos Pelican bilíngues, foi desenvolvido um CMS dedicado com Flask (`blog_manager`) rodando localmente na porta 5001. A ferramenta permite:
+- **Sincronização Build/Src:** Compilar o Pelican e mover diretamente `docs/` para `src/` em um botão, habilitando acesso contínuo pelo ambiente de desenvolvimento (`http.server`).
+- **Auto-tradução Embutida:** Integração de `deep-translator` em uma rota `/api/translate` chamada de forma assíncrona pelo cliente para popular a versão em inglês a partir da versão em português.
+- **Preview Markdown Interativo:** Integração de `marked.js` no ambiente de edição para preview instantâneo dos arquivos em desenvolvimento.
+
 ---
 
 ## 8. Bugs Documentados e Soluções Adotadas

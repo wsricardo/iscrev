@@ -497,6 +497,14 @@ Com base no codigo atual e nos arquivos legados, a historia tecnica do app pode 
 - exportacao PDF mais sofisticada;
 - menu superior institucional adaptado ao mobile.
 
+### Fase 7 - Blog e Gestão CMS
+
+- Internacionalização do Pelican com `i18n_subsites` gerando `/blog/` (EN) e `/pt/blog/` (PT).
+- Tradução de todas as postagens base para o inglês usando tradução automática.
+- Criação de uma solução customizada em Python/Flask (`blog_manager`) na porta 5001 para a escrita bilateral de textos em ambos idiomas simultaneamente, mantendo a simplicidade operacional do site estático.
+- Inclusão de um recurso nativo de auto-tradução no CMS baseado no pacote `deep-translator` para agilizar a criação de posts do português para o inglês.
+- Visualização prévia (Preview) interativa usando `marked.js` no ambiente de edição de markdown.
+
 ---
 
 ## 9. Aspectos Conceituais e Filosoficos
