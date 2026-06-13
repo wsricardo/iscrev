@@ -5,6 +5,7 @@ Tags: filosofia, design, webdev
 Slug: segundo-post-historia
 Author: WSRicardo
 Summary: Explore a filosofia central do iScrev Notes, um projeto que redefine a escrita digital através da computação acolhedora, privacidade Local-First e uma simplicidade operacional que prioriza a experiência do usuário.
+Lang: en
 
 # iScrev Notes: Onde a Escrita Digital Encontra o Aconchego do Papel e a Liberdade do Pensamento
 

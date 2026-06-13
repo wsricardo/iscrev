@@ -5,6 +5,7 @@ Tags: filosofia, design, webdev
 Slug: primeiro-post-filosofia
 Author: WSRicardo
 Summary: Uma breve introdução à filosofia que guia o desenvolvimento do iScrev Notes, um projeto focado em simplicidade, privacidade e uma experiência de escrita acolhedora.
+Lang: en
 
 ## A Jornada Começa
 

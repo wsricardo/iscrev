@@ -1,22 +1,22 @@
 [
 {
+  "title": "Big news: Introducing iScrev XBoard!",
+  "url": "/blog/iscrev-xboard.html",
+  "date": "sáb 13 junho 2026"
+},{
   "title": "An Invitation to Humanized Computing",
   "url": "/blog/convite-computacao-humanizada.html",
   "date": "sex 12 junho 2026"
 },{
-  "title": "New Markdown Engine and Improved PDF Generation",
+  "title": "Nova Engine Markdown e Geração de PDF aprimorada",
   "url": "/blog/nova-engine-markdown-e-pdf.html",
   "date": "ter 09 junho 2026"
 },{
-  "title": "June Updates to iScrev Notes: Support via Stripe, New Layout and Clean Code",
+  "title": "Atualizações de Junho no iScrev Notes: Apoio via Stripe, Novo Layout e Código Limpo",
   "url": "/blog/updates-09-06-2026.html",
   "date": "ter 09 junho 2026"
 },{
-  "title": "May Update on iScrev Notes: PIX, local-first architecture and the journal&#39;s next leap",
+  "title": "Atualização de Maio no iScrev Notes: PIX, arquitetura local-first e o próximo salto do diário",
   "url": "/blog/updates-14-05-2026.html",
   "date": "qui 14 maio 2026"
-},{
-  "title": "A Pause for Thought",
-  "url": "/blog/alana-08-05-2026.html",
-  "date": "sex 08 maio 2026"
 }]

@@ -5,6 +5,7 @@ Tags: atualizacoes, markdown, pdf, desenvolvimento, arquitetura
 Slug: nova-engine-markdown-e-pdf
 Author: WSRicardo
 Summary: Mais uma atualização arquitetural focada em confiabilidade: desenvolvemos um interpretador Markdown customizado baseado em Máquina de Estados e blindamos a física do papel para a exportação de PDFs de alta fidelidade.
+Lang: en
 
 Continuando o nosso ritmo acelerado de melhorias no iScrev Notes, acabamos de enviar para o ar atualizações que mudam completamente a forma como a aplicação entende o que você digita e como ela transforma isso em um documento exportável.
 

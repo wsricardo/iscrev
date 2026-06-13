@@ -17,7 +17,7 @@
     <meta name="theme-color" content="#c8843a">
 
     <meta name="description" content="Mais uma atualização arquitetural focada em confiabilidade: desenvolvemos um interpretador Markdown customizado baseado em Máquina de Estados e...">
-    <meta property="og:title"       content="New Markdown Engine and Improved PDF Generation | iScrev Notes Blog">
+    <meta property="og:title"       content="Nova Engine Markdown e Geração de PDF aprimorada | iScrev Notes Blog">
     <meta property="og:description" content="Mais uma atualização arquitetural focada em confiabilidade: desenvolvemos um interpretador Markdown customizado baseado em Máquina de Estados e...">
     <meta property="og:type"        content="article">
     <meta property="og:url"         content="/blog/nova-engine-markdown-e-pdf.html">
@@ -26,7 +26,7 @@
     <meta name="twitter:card" content="summary_large_image">
 
 
-    <title>New Markdown Engine and Improved PDF Generation | iScrev Notes Blog</title>
+    <title>Nova Engine Markdown e Geração de PDF aprimorada | iScrev Notes Blog</title>
 
     <link rel="canonical" href="https://www.iscrev.com/blog/nova-engine-markdown-e-pdf.html">
     <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
@@ -97,7 +97,7 @@
         <a href="/blog/category/atualizacoes.html"
            style="color:inherit;text-decoration:none">Atualizacoes</a>
     </p>
-    <h1>New Markdown Engine and Improved PDF Generation</h1>
+    <h1>Nova Engine Markdown e Geração de PDF aprimorada</h1>
     <div class="article-meta">
         <span>
             junho 09, 2026
@@ -121,29 +121,29 @@
 
         <main id="main-content" tabindex="-1">
 <article class="article-body">
-    <p>Continuing our rapid pace of improvements to iScrev Notes, we've just released updates that completely change how the application understands what you type and how it turns it into an exportable document.</p>
-<p>If the last update focused on <a href="/blog/updates-09-06-2026.html">project support and code cleanup</a>, this one focuses entirely on <strong>stability and user experience during writing and drawing</strong>.</p>
-<h2>The New Internal Markdown Engine</h2>
-<p>Until today, iScrev used a very simple system (based on Regular Expressions) to convert your text into bold, lists and quotes.The problem with this approach is that it was fragile: mixing paragraphs with lists or quotes often broke the formatting of your note.</p>
-<p>To honor the "Zero Dependencies" philosophy (we didn't want to inflate the application by installing third-party plugins like <code>marked.js</code>), we built our own "State Machine Parser" from scratch.</p>
-<p>The new engine reads the text line by line, intelligently memorizing the logical state of the structure.This gave us instant powers:</p>
+    <p>Continuando o nosso ritmo acelerado de melhorias no iScrev Notes, acabamos de enviar para o ar atualizações que mudam completamente a forma como a aplicação entende o que você digita e como ela transforma isso em um documento exportável.</p>
+<p>Se a última atualização focou no <a href="/blog/updates-09-06-2026.html">apoio ao projeto e limpeza de código</a>, esta foca inteiramente na <strong>estabilidade e na experiência de uso durante a escrita e desenho</strong>.</p>
+<h2>O Novo Motor Markdown Interno</h2>
+<p>Até hoje, o iScrev usava um sistema bem simples (baseado em Expressões Regulares) para converter seu texto em negrito, listas e citações. O problema dessa abordagem é que ela era frágil: misturar parágrafos com listas ou citações costumava quebrar a formatação da sua nota.</p>
+<p>Para honrar a filosofia "Zero Dependências" (não queríamos inflar o aplicativo instalando plugins de terceiros como o <code>marked.js</code>), nós construímos o nosso próprio "State Machine Parser" do zero. </p>
+<p>A nova engine lê o texto linha a linha, memorizando inteligentemente o estado lógico da estrutura. Isso nos trouxe poderes instantâneos:</p>
 <ol>
-<li><strong>Native Tables:</strong> Now you can build classic Markdown tables.They have their own CSS wrapper, allowing individual horizontal scrolling if they are too wide.</li>
-<li><strong>Multiline Code Blocks:</strong> Using the three backticks (<code>```</code>), developers can now store long snippets of code with the correct font and independent scrolling areas.</li>
-<li><strong>Indestructible Lists:</strong> Now you can break lines at will between the items in your list without breaking the HTML semantic structure.</li>
+<li><strong>Tabelas Nativas:</strong> Agora você pode construir tabelas Markdown clássicas. Elas ganharam um envelopamento de CSS próprio, permitindo rolagem horizontal individual caso fiquem muito largas.</li>
+<li><strong>Blocos de Código Multilinha:</strong> Usando as três crases (<code>```</code>), desenvolvedores agora podem armazenar trechos longos de código com a fonte correta e áreas de rolagem independentes.</li>
+<li><strong>Listas Indestrutíveis:</strong> Agora você pode quebrar linhas à vontade entre os itens da sua lista sem quebrar a estrutura semântica HTML.</li>
 </ol>
-<p>And all this without compromising in any way the anti-XSS protection or the accuracy of our built-in LaTeX engine.</p>
-<h2>The "Physics" of Paper and Perfect Export to PDF</h2>
-<p>The second major focus was to solve the feared problem of Pen desynchronization on screens of different sizes.</p>
-<p>In the past, if you wrote something and used the pen to highlight, and then moved the application to a smaller window, the text would "shrink" (it would <em>reflow</em> and break lines prematurely), but the SVG of the pen would stay in the same place.The result?Completely scrambled notes and PDFs.</p>
-<p>Now we <strong>harden digital paper</strong>.
-When used on desktop, the notebook will always preserve a crystallized aspect ratio of "A4 bond" size (~800px).If you squeeze the window, the paper will not "crumple";Instead, we'll cleverly create a scrollbar for you to navigate it.</p>
-<p>With this, we combine two scenarios:
-- Your art and pen highlights will <em>never</em> be misaligned with the typed text again.
-- When clicking on "Save PDF" (Ctrl+P / Command+P), the browser will always read the sheet in A4 format, generating PDFs with an absurd cutting fidelity, without depending on heavy PDF converters installed on the machine.</p>
-<p>On <strong>mobile</strong>, we use intelligent behavior: the layout floats freely (100%), allowing for pleasant edge-to-edge reading and typing without forced side scrolling.</p>
-<p>We continue to evolve the architecture to ensure iScrev is the lightest, most secure, and fastest hybrid note-taking tool you can access in your browser.</p>
-<p>Enjoy the improvements and feel free to use the new tables and code blocks!</p>
+<p>E tudo isso sem comprometer em nada a proteção anti-XSS ou a precisão do nosso motor LaTeX embutido.</p>
+<h2>A "Física" do Papel e Exportação Perfeita para PDF</h2>
+<p>O segundo grande foco foi resolver o temido problema de dessincronização da Caneta (Pen) em telas de tamanhos diferentes.</p>
+<p>Antigamente, se você escrevesse algo e usasse a caneta para grifar, e depois movesse o aplicativo para uma janela menor, o texto "encolhia" (sofria <em>reflow</em> e quebrava linhas precocemente), mas o SVG da caneta ficava no mesmo lugar. O resultado? Notas e PDFs completamente embaralhados.</p>
+<p>Agora nós <strong>endurecemos o papel digital</strong>. 
+Quando usado no desktop, o caderno sempre preservará uma proporção cristalizada de tamanho "Sulfite A4" (~800px). Se você espremer a janela, o papel não vai "amassar"; em vez disso, criaremos inteligentemente uma barra de rolagem para você navegar nele. </p>
+<p>Com isso, unimos dois cenários:
+- A sua arte e grifos à caneta <em>nunca</em> mais irão se desalinhar do texto digitado.
+- Ao clicar em "Salvar PDF" (Ctrl+P / Command+P), o navegador sempre irá ler a folha em formato A4, gerando PDFs com uma fidelidade de corte absurda, sem depender de pesados conversores de PDF instalados na máquina.</p>
+<p>No <strong>celular</strong>, nós usamos comportamento inteligente: o layout flutua livremente (100%), permitindo leitura e digitação agradáveis de ponta a ponta sem rolagem lateral forçada.</p>
+<p>Continuamos evoluindo a arquitetura para garantir que o iScrev seja a mais leve, segura e rápida ferramenta de anotações híbrida que você possa acessar pelo navegador. </p>
+<p>Aproveite as melhorias e sinta-se livre para usar as novas tabelas e blocos de código!</p>
 </article>
 
         </main>

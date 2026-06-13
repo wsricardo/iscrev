@@ -5,6 +5,7 @@ Tags: filosofia, computacao_humanizada, computacao_acolhedora, design, sustentab
 Slug: terceiro-post-computacao-humanizada
 Author: WSRicardo
 Summary: Explorando como o iScrev Notes materializa os princípios da computação humanizada e acolhedora, priorizando o bem-estar do usuário, a privacidade e a sustentabilidade em seu design e operação.
+Lang: en
 
 # iScrev Notes: Computação Humanizada e Acolhedora a Serviço do Pensamento
 

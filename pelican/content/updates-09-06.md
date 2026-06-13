@@ -5,6 +5,7 @@ Tags: atualizacoes, stripe, pix, apoio, desenvolvimento, design
 Slug: updates-09-06-2026
 Author: WSRicardo
 Summary: Neste mês, o iScrev Notes recebeu atualizações vitais: a integração de pagamentos via Stripe para apoios internacionais, refinamentos na página de doação e uma limpeza profunda na arquitetura legada do projeto.
+Lang: en
 
 Chegamos a mais uma etapa importante de evolução do iScrev Notes. Junho trouxe novidades não apenas visuais, mas focadas na sustentabilidade a longo prazo do projeto e na qualidade interna do código. 
 
