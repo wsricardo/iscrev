@@ -300,6 +300,61 @@
                 </div>
             </section>
 
+
+            <section class="ecosystem-section">
+                <h2>Explore the iScrev Ecosystem</h2>
+                <p class="lead">From writing to teaching, iScrev provides the calm and focus you need to excel in your daily routines.</p>
+                
+                <div class="eco-slider">
+                    <article class="eco-card">
+                        <img src="assets/img/iscrev_use_case_1.png" alt="Studying in a cozy cafe">
+                        <div class="eco-card-content">
+                            <h3>Study & Reflection</h3>
+                            <p>Perfect for reading, studying and organizing ideas in a comfortable atmosphere.</p>
+                        </div>
+                    </article>
+                    <article class="eco-card">
+                        <img src="assets/img/iscrev_use_case_2.png" alt="Teaching with digital whiteboard">
+                        <div class="eco-card-content">
+                            <h3>Teach & Present</h3>
+                            <p>Use iScrev XBoard to dynamically present and draw concepts in classrooms.</p>
+                        </div>
+                    </article>
+                    <article class="eco-card">
+                        <img src="assets/img/iscrev_use_case_3.png" alt="Creative work late at night">
+                        <div class="eco-card-content">
+                            <h3>Create & Focus</h3>
+                            <p>Ideal for programmers and artists working late on personal projects.</p>
+                        </div>
+                    </article>
+                </div>
+
+                <button id="btn-open-author" class="btn-custom-author">
+                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    Meet the Ecosystem & Author
+                </button>
+            </section>
+
+<section class="main-section download-section" style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 1fr); gap: 40px; align-items: center; background: linear-gradient(135deg, rgba(200,132,58,0.1) 0%, rgba(139,58,31,0.05) 100%);">
+    <div class="download-copy" style="padding-right: 20px;">
+        <p class="eyebrow">Get the App</p>
+        <h2 style="font-size: clamp(2rem, 3.4vw, 2.8rem); margin-bottom: 15px; color: var(--ink);">Download iScrev XBoard</h2>
+        <p style="color: var(--ink-soft); line-height: 1.8; margin-bottom: 25px;">
+            Take your teaching and presentations to the next level. Download the latest desktop version of iScrev XBoard for a fast, native digital whiteboard experience, or use it directly in your browser.
+        </p>
+        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+            <a href="https://github.com/wsricardo/iScrev-XBoard/releases/latest" target="_blank" class="button-primary" style="font-size: 1.05rem;">
+                <svg style="width:20px;height:20px;fill:currentColor;margin-right:5px;" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                Latest Release (GitHub)
+            </a>
+            <a href="xboard/index.html" target="_blank" class="button-secondary" style="font-size: 1.05rem;">Open Web App</a>
+        </div>
+    </div>
+    <div class="download-graphic" style="text-align: center;">
+        <img src="assets/img/iscrev_xboard_download.png" alt="iScrev XBoard Download" style="max-width: 100%; border-radius: var(--radius-xl); box-shadow: var(--shadow-soft); border: 1px solid rgba(139,58,31,0.1);">
+    </div>
+</section>
+
 <section class="main-section main-section-blog">
     <article class="card">
         <div class="card-content">
@@ -455,5 +510,33 @@
     </div>
     <script src="assets/js/site-nav.js"></script>
   
+
+    <!-- Author Modal -->
+    <dialog id="author-modal" class="glass-dialog">
+        <header class="dialog-header">
+            <h3>About the Project & Creator</h3>
+            <button id="btn-close-author" class="close-btn">&times;</button>
+        </header>
+        <div class="dialog-content">
+            <div class="dialog-section">
+                <h4>The iScrev Ecosystem</h4>
+                <p><strong>iScrev Notes</strong> and <strong>iScrev XBoard</strong> were born from the need to unify text, mathematical formulas, and sketches without breaking the creative momentum.</p>
+                <p>Instead of fragmented tools, we offer a cohesive experience inspired by classic notebooks, designed for students, teachers, and professionals.</p>
+            </div>
+            <div class="dialog-section" style="border-left: 1px solid rgba(139,58,31,0.1); padding-left: 20px;">
+                <h4>Wandeson Ricardo (Author)</h4>
+                <p>Inspired by Da Vinci and polymathy, WSRicardo is an independent developer, researcher, and artist. His work spans from Anatomy to Algorithms, Calculus to Visual Arts.</p>
+                <p>Support his independent projects or discover his portfolio and channels below:</p>
+                <div class="social-links">
+                    <a href="https://www.wsricardo.com.br" target="_blank" class="social-link">Portfolio</a>
+                    <a href="https://github.com/wsricardo" target="_blank" class="social-link">GitHub</a>
+                    <a href="https://www.youtube.com/@dimensaoalfa" target="_blank" class="social-link">YouTube (Science)</a>
+                    <a href="https://www.youtube.com/@WSRicardoArte" target="_blank" class="social-link">YouTube (Arts)</a>
+                    <a href="https://apoia.se/wsricardo" target="_blank" class="social-link" style="background: var(--warm); color: white;">Apoia.se</a>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
 </body>
 </html>

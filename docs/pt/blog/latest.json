@@ -1,5 +1,9 @@
 [
 {
+  "title": "APPs iScrev no Cotidiano: Onde a Arte Encontra a Produtividade",
+  "url": "/blog/iscrev-art-and-daily-life.html",
+  "date": "sáb 13 junho 2026"
+},{
   "title": "Novidade chegando: Apresentando o iScrev XBoard!",
   "url": "/blog/iscrev-xboard.html",
   "date": "sáb 13 junho 2026"
@@ -15,8 +19,4 @@
   "title": "Atualizações de Junho no iScrev Notes: Apoio via Stripe, Novo Layout e Código Limpo",
   "url": "/blog/updates-09-06-2026.html",
   "date": "ter 09 junho 2026"
-},{
-  "title": "Atualização de Maio no iScrev Notes: PIX, arquitetura local-first e o próximo salto do diário",
-  "url": "/blog/updates-14-05-2026.html",
-  "date": "qui 14 maio 2026"
 }]

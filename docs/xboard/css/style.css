@@ -29,9 +29,8 @@ body, html {
   width: 100vw;
   height: 100vh;
   cursor: crosshair;
-  /* Textura de lousa ou cor de fundo */
   background-color: #1e1e1e;
-  /* Uma sutil textura pode ser adicionada com background-image no futuro */
+  touch-action: none; /* ESSENCIAL: Impede o navegador de rolar a pagina ao desenhar */
 }
 
 /* Toolbar Style - Glassmorphism */
@@ -190,12 +189,33 @@ body, html {
     display: none !important;
   }
 
-  /* Quando o Hamburger é clicado, adiciona essa classe via JS */
+  /* Gaveta Flutuante para Mobile */
   #toolbar.menu-expanded {
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
     border-radius: 16px;
-    padding: 15px;
-    width: 90vw;
+    padding: 20px;
+    width: auto;
+    max-height: 80vh;
+    overflow-y: auto;
+    bottom: 80px; /* Eleva o menu para nao cobrir a parte inferior */
+  }
+
+  #toolbar.menu-expanded .tool-group {
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-right: 0;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  #toolbar.menu-expanded .tool-group:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
   }
 
   #toolbar.menu-expanded .mobile-hide {
@@ -204,6 +224,29 @@ body, html {
 
   /* Ajustes no seletor de range para não esmagar no mobile */
   #size-picker {
-    width: 50px;
+    width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  #toolbar {
+    padding: 8px 12px;
+    bottom: 10px;
+  }
+  
+  #toolbar.menu-expanded {
+    padding: 15px;
+    bottom: 60px;
+    width: 95vw;
+  }
+
+  .tool-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1.1rem;
+  }
+  
+  #size-picker {
+    width: 80px;
   }
 }

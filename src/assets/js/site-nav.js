@@ -71,3 +71,35 @@ function bindNav(nav) {
 document.querySelectorAll('header nav').forEach(bindNav);
 
 }());
+
+document.addEventListener('DOMContentLoaded', () => {
+    const authorModal = document.getElementById('author-modal');
+    const openBtn = document.getElementById('btn-open-author');
+    const closeBtn = document.getElementById('btn-close-author');
+
+    if (openBtn && authorModal) {
+        openBtn.addEventListener('click', () => {
+            authorModal.showModal();
+        });
+    }
+
+    if (closeBtn && authorModal) {
+        closeBtn.addEventListener('click', () => {
+            authorModal.close();
+        });
+    }
+    
+    if (authorModal) {
+        authorModal.addEventListener('click', (e) => {
+            const dialogDimensions = authorModal.getBoundingClientRect()
+            if (
+                e.clientX < dialogDimensions.left ||
+                e.clientX > dialogDimensions.right ||
+                e.clientY < dialogDimensions.top ||
+                e.clientY > dialogDimensions.bottom
+            ) {
+                authorModal.close();
+            }
+        });
+    }
+});

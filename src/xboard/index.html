@@ -13,7 +13,6 @@
   </script>
 
   <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/modals.css">
 </head>
@@ -68,6 +67,11 @@
     <!-- Menu Sanduíche (Mobile) -->
     <div class="tool-group mobile-only" style="border-right: none; padding-right: 0;">
       <button class="tool-btn" id="btn-hamburger" data-i18n-title="tool_menu">☰</button>
+    </div>
+    
+    <!-- Botão Dinâmico PWA -->
+    <div class="tool-group" style="border-right: none;">
+      <button class="tool-btn hidden" id="btn-install" data-i18n-title="tool_install" style="display: none; background: #28a745; box-shadow: 0 0 10px rgba(40,167,69,0.6);" title="Instalar App">📲</button>
     </div>
   </nav>
 
@@ -164,13 +168,6 @@
   <script src="js/modules/ui-manager.js"></script>
   <script src="js/modules/pdf-exporter.js"></script>
   <script src="js/modules/admin-panel.js"></script>
-
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(err => console.error('SW Error:', err));
-      });
-    }
-  </script>
+  <script src="js/modules/pwa-manager.js"></script>
 </body>
 </html>

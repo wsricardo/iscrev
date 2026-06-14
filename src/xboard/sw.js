@@ -42,7 +42,7 @@ self.addEventListener('fetch', event => {
           }
           return networkResponse;
         }).catch(() => {
-          // Fallback silencioso em caso de ausência total de rede
+          // Fallback silencioso
         });
         return response || fetchPromise;
       });
