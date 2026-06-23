@@ -15,8 +15,13 @@ for target_dir in directories:
             content = f.read()
 
         if file == 'support.html' and '<meta name="description"' not in content:
-            content = content.replace('<meta name="viewport"', '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <meta name="description" content="Support iScrev Notes project. Learn how you can contribute, report issues or provide feedback.">\n', 1)
-            content = re.sub(r'<meta name="viewport" content="width=device-width, initial-scale=1.0">\s*<meta name="viewport" content="width=device-width, initial-scale=1.0">', '<meta name="viewport" content="width=device-width, initial-scale=1.0">', content)
+            # Replaces the whole tag safely without leaving orphans
+            content = re.sub(
+                r'<meta name="viewport" content="width=device-width, initial-scale=1\.0">', 
+                '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <meta name="description" content="Support iScrev Notes project. Learn how you can contribute, report issues or provide feedback.">', 
+                content, 
+                count=1
+            )
 
         if file == 'index.html':
             content = content.replace('href="en.html"', 'href="index.html"')

@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="{{ DEFAULT_LANG }}">
+
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-L4XBSN6EDE"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L4XBSN6EDE"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-  gtag('config', 'G-L4XBSN6EDE');
-</script>
+        gtag('config', 'G-L4XBSN6EDE');
+    </script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,15 +19,15 @@
 
     {% if article %}
     <meta name="description" content="{{ article.summary | striptags | truncate(155) }}">
-    <meta property="og:title"       content="{{ article.title }} | {{ SITENAME }}">
+    <meta property="og:title" content="{{ article.title }} | {{ SITENAME }}">
     <meta property="og:description" content="{{ article.summary | striptags | truncate(155) }}">
-    <meta property="og:type"        content="article">
-    <meta property="og:url"         content="{{ SITEURL }}/{{ article.url }}">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ SITEURL }}/{{ article.url }}">
     {% else %}
     <meta name="description" content="{{ SITEDESC | default('Blog do iScrev Notes') }}">
-    <meta property="og:title"       content="{% block og_title %}{{ SITENAME }}{% endblock %}">
-    <meta property="og:type"        content="website">
-    <meta property="og:url"         content="{{ SITEURL }}/">
+    <meta property="og:title" content="{% block og_title %}{{ SITENAME }}{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ SITEURL }}/">
     {% endif %}
     <meta property="og:site_name" content="{{ SITENAME }}">
     <meta property="og:image" content="{{ SITEURL }}/assets/img/apple-touch-icon.png">
@@ -42,30 +43,32 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500;600&family=Dancing+Script:wght@700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:wght@400;500;600&family=Dancing+Script:wght@700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="/assets/css/style-blog.css">
 
     {% if FEED_ALL_ATOM %}
-    <link href="{{ FEED_ALL_ATOM_URL | default(FEED_ALL_ATOM) }}" type="application/atom+xml"
-          rel="alternate" title="{{ SITENAME }} — Feed Atom">
+    <link href="{{ FEED_ALL_ATOM_URL | default(FEED_ALL_ATOM) }}" type="application/atom+xml" rel="alternate"
+        title="{{ SITENAME }} — Feed Atom">
     {% endif %}
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9765187479679672"
-     crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
 </head>
 
 {# Determina as classes do body para escopo CSS preciso #}
 {% set page_class = 'page-blog' %}
 {% if article %}
-    {% set page_class = page_class ~ ' page-article' %}
+{% set page_class = page_class ~ ' page-article' %}
 {% endif %}
 {% if not article and articles is defined %}
-    {% set page_class = page_class ~ ' page-index' %}
+{% set page_class = page_class ~ ' page-index' %}
 {% endif %}
 
 <body class="{{ page_class }} page-{{ DEFAULT_LANG.split('-')[0]|lower }}">
-    
+
     <div class="site-shell">
         <header>
             <nav aria-label="Navegação principal">
@@ -74,48 +77,52 @@
                     <span class="brand-sub">texto, fórmulas e traços em harmonia</span>
                 </a>
 
-                <button class="nav-toggle" type="button"
-                        aria-label="Abrir menu"
-                        aria-expanded="false"
-                        aria-haspopup="menu"
-                        data-open-label="Abrir menu"
-                        data-close-label="Fechar menu"
-                        aria-controls="site-nav-group">
+                <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false"
+                    aria-haspopup="menu" data-open-label="Abrir menu" data-close-label="Fechar menu"
+                    aria-controls="site-nav-group">
                     <span></span><span></span><span></span>
                 </button>
 
                 <div class="nav-group" id="site-nav-group">
                     <ul class="nav-menu">
                         <li>
-                            <a class="nav-link" href="{% if DEFAULT_LANG == 'pt' %}/pt.html{% else %}/{% endif %}">{% if DEFAULT_LANG == 'pt' %}Início{% else %}Home{% endif %}</a>
+                            <a class="nav-link" href="{% if DEFAULT_LANG == 'pt' %}/pt.html{% else %}/{% endif %}">{% if
+                                DEFAULT_LANG == 'pt' %}Início{% else %}Home{% endif %}</a>
                         </li>
                         <li>
-                            <a class="nav-link" href="/{% if DEFAULT_LANG == 'pt' %}sobre.html{% else %}about.html{% endif %}">{% if DEFAULT_LANG == 'pt' %}Sobre{% else %}About{% endif %}</a>
+                            <a class="nav-link"
+                                href="/{% if DEFAULT_LANG == 'pt' %}sobre.html{% else %}about.html{% endif %}">{% if
+                                DEFAULT_LANG == 'pt' %}Sobre{% else %}About{% endif %}</a>
                         </li>
                         <li>
-                            <a class="nav-link active" href="{% if DEFAULT_LANG == 'pt' %}/pt/blog/{% else %}/blog/{% endif %}"
-                               aria-current="page">Blog</a>
+                            <a class="nav-link active"
+                                href="{% if DEFAULT_LANG == 'pt' %}/pt/blog/{% else %}/blog/{% endif %}"
+                                aria-current="page">Blog</a>
                         </li>
-                        <li> <a class="nav-link" href="/support.html">{% if DEFAULT_LANG == 'pt' %}Apoie{% else %}Support{% endif %}</a></li>
+                        <li> <a class="nav-link" href="/support.html">{% if DEFAULT_LANG == 'pt' %}Apoie{% else
+                                %}Support{% endif %}</a></li>
+                        <li> <a class="nav-link" href="/xboard/index.html">{% if DEFAULT_LANG == 'pt' %}XBoard App{%
+                                else %}XBoard App{% endif %}</a></li>
                     </ul>
 
                     <div class="nav-tools">
-                        <a class="nav-cta" href="/diario.html">{% if DEFAULT_LANG == 'pt' %}Abrir diário{% else %}Open journal{% endif %}</a>
+                        <a class="nav-cta" href="/diario.html">{% if DEFAULT_LANG == 'pt' %}Abrir diário{% else %}Open
+                            journal{% endif %}</a>
                         <div class="lang-switcher" aria-label="Alternar idioma">
                             {% if DEFAULT_LANG == 'en' %}
-                                <a class="lang-link active" href="#" aria-current="page">EN</a>
-                                {% if article and article.translations %}
-                                    <a class="lang-link" href="{{ SITEURL }}/{{ article.translations[0].url }}">PT</a>
-                                {% else %}
-                                    <a class="lang-link" href="/pt/blog/">PT</a>
-                                {% endif %}
+                            <a class="lang-link active" href="#" aria-current="page">EN</a>
+                            {% if article and article.translations %}
+                            <a class="lang-link" href="{{ SITEURL }}/{{ article.translations[0].url }}">PT</a>
                             {% else %}
-                                {% if article and article.translations %}
-                                    <a class="lang-link" href="{{ SITEURL }}/{{ article.translations[0].url }}">EN</a>
-                                {% else %}
-                                    <a class="lang-link" href="/blog/">EN</a>
-                                {% endif %}
-                                <a class="lang-link active" href="#" aria-current="page">PT</a>
+                            <a class="lang-link" href="/pt/blog/">PT</a>
+                            {% endif %}
+                            {% else %}
+                            {% if article and article.translations %}
+                            <a class="lang-link" href="{{ SITEURL }}/{{ article.translations[0].url }}">EN</a>
+                            {% else %}
+                            <a class="lang-link" href="/blog/">EN</a>
+                            {% endif %}
+                            <a class="lang-link active" href="#" aria-current="page">PT</a>
                             {% endif %}
                         </div>
                     </div>
@@ -132,7 +139,8 @@
 
         <footer class="site-footer">
             <div>
-                <h2>{% if DEFAULT_LANG == 'pt' %}Pronto para colocar ideias no papel digital?{% else %}Ready to put ideas on digital paper?{% endif %}</h2>
+                <h2>{% if DEFAULT_LANG == 'pt' %}Pronto para colocar ideias no papel digital?{% else %}Ready to put
+                    ideas on digital paper?{% endif %}</h2>
                 <p>
                     {% if DEFAULT_LANG == 'pt' %}
                     Abra o iScrev Notes para experimentar a interface principal ou leia mais sobre
@@ -145,15 +153,21 @@
             </div>
 
             <div class="footer-actions">
-                <a class="button-primary" href="/diario.html">{% if DEFAULT_LANG == 'pt' %}Abrir iScrev Notes{% else %}Open iScrev Notes{% endif %}</a>
-                <a class="button-secondary" href="/{% if DEFAULT_LANG == 'pt' %}sobre.html{% else %}about.html{% endif %}">{% if DEFAULT_LANG == 'pt' %}Ler sobre o projeto{% else %}Read about the project{% endif %}</a>
+                <a class="button-primary" href="/diario.html">{% if DEFAULT_LANG == 'pt' %}Abrir iScrev Notes{% else
+                    %}Open iScrev Notes{% endif %}</a>
+                <a class="button-secondary"
+                    href="/{% if DEFAULT_LANG == 'pt' %}sobre.html{% else %}about.html{% endif %}">{% if DEFAULT_LANG ==
+                    'pt' %}Ler sobre o projeto{% else %}Read about the project{% endif %}</a>
             </div>
 
             <div class="footer-meta">
                 <span>iScrev Notes</span>
-                <span>{% if DEFAULT_LANG == 'pt' %}Com simplicidade, modernidade e elegância{% else %}With simplicity, modernity, and elegance{% endif %}</span>
-                <span>{% if DEFAULT_LANG == 'pt' %}Minimalismo e intimismo{% else %}Minimalism and intimacy{% endif %}</span>
-                <span>{% if DEFAULT_LANG == 'pt' %}Uma experiência pensada para estudo, reflexão e criação{% else %}An experience designed for study, reflection, and creation{% endif %}</span>
+                <span>{% if DEFAULT_LANG == 'pt' %}Com simplicidade, modernidade e elegância{% else %}With simplicity,
+                    modernity, and elegance{% endif %}</span>
+                <span>{% if DEFAULT_LANG == 'pt' %}Minimalismo e intimismo{% else %}Minimalism and intimacy{% endif
+                    %}</span>
+                <span>{% if DEFAULT_LANG == 'pt' %}Uma experiência pensada para estudo, reflexão e criação{% else %}An
+                    experience designed for study, reflection, and creation{% endif %}</span>
             </div>
 
             <div class="footer-legal-summary">
@@ -178,8 +192,7 @@
 
             <div style="padding:4px;text-align:center;margin:0 auto;
                         border-top:1px solid #ccc;width:100%">
-                <p class="copyright"
-                   style="display:block;text-align:center;margin:0 auto;color:#633737">
+                <p class="copyright" style="display:block;text-align:center;margin:0 auto;color:#633737">
                     <a href="https://www.wsricardo.com.br">WSRicardo © 2026</a>
                 </p>
             </div>
@@ -187,6 +200,7 @@
     </div>
 
     <script src="/assets/js/site-nav.js" defer></script>
-    
+
 </body>
+
 </html>

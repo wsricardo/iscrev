@@ -260,10 +260,23 @@
     .blog-page-header,
     .article-hero,
     .article-body {
-        padding: 24px;
-        border-radius: 24px;
+        padding: 20px;
+        border-radius: 20px;
     }
     .article-body {
         max-width: 100%;
+    }
+    .article-body img {
+        max-width: 100%;
+        margin: 14px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .blog-page-header,
+    .article-hero,
+    .article-body {
+        padding: 16px;
+        border-radius: 16px;
     }
 }

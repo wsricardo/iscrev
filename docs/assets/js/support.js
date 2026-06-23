@@ -25,9 +25,10 @@ var COPY = {
     'nav.app': 'Abrir diário',
     'hero.eyebrow': 'Apoio ao projeto',
     'hero.title_html': 'Mantenha o iScrev Notes<br>leve, independente e em evolução.',
-    'hero.lead': 'Se o app te ajuda a escrever, estudar ou organizar ideias, você pode apoiar o projeto de forma segura via PIX (Brasil) ou Stripe (Cartão, Apple Pay, Google Pay).',
+    'hero.lead': 'Se o app te ajuda a escrever, estudar ou organizar ideias, apoie o projeto de forma segura. Escolha o PIX (para transferências no Brasil) ou a plataforma Stripe (para contribuições globais via Cartão, Apple Pay ou Google Pay com segurança certificada).',
     'hero.primary': 'Ver apoio via PIX',
     'hero.secondary': 'Abrir o app',
+    'hero.stripe_btn': 'Doar com segurança via Stripe',
     'hero.meta.1': 'Persistência local',
     'hero.meta.2': 'Markdown e LaTeX',
     'hero.meta.3': 'Escrita à mão',
@@ -71,7 +72,7 @@ var COPY = {
     'input.placeholder': 'Digite outro valor',
     'input.aria': 'Valor personalizado',
     'summary.label': 'Valor de referência',
-    'pix.note': 'Use o valor acima como referência e faça a transferência com a chave PIX abaixo. A confirmação acontece no app do seu banco.\n Cheque antes de confirmar a transferência o nome do destinario (Wandeson Ricardo da Silva CPF xxx.xxx.x14-xx).',
+    'pix.note': 'Use o valor acima como referência e faça a transferência com a chave PIX abaixo. A confirmação acontece de forma segura no app do seu banco.',
     'pix.keyLabel': 'Chave PIX atual',
     'pix.copy': 'Copiar chave',
     'stripe.hint': 'Pagamento seguro via Apple Pay, Google Pay ou Cartão de Crédito.',
@@ -123,9 +124,10 @@ var COPY = {
     'nav.app': 'Open diary',
     'hero.eyebrow': 'Project support',
     'hero.title_html': 'Help keep iScrev Notes<br>light, independent and evolving.',
-    'hero.lead': 'If the app helps you write, study or organize ideas, you can currently support the project through PIX. At this stage we are keeping the flow simple, direct and consistent with the lightweight nature of iScrev Notes, while support options for people in other countries are planned for a future update.',
+    'hero.lead': 'If the app helps you write, study or organize ideas, you can support the project securely. Choose PIX (for transfers in Brazil) or the Stripe platform (for global contributions via Credit Card, Apple Pay or Google Pay with certified security).',
     'hero.primary': 'View PIX support',
     'hero.secondary': 'Open the app',
+    'hero.stripe_btn': 'Donate securely via Stripe',
     'hero.meta.1': 'Local-first persistence',
     'hero.meta.2': 'Markdown and LaTeX',
     'hero.meta.3': 'Handwriting',
@@ -169,7 +171,7 @@ var COPY = {
     'input.placeholder': 'Enter another amount',
     'input.aria': 'Custom amount',
     'summary.label': 'Reference amount',
-    'pix.note': 'Use the amount above as a reference and complete the transfer with the PIX key below. Confirmation happens in your banking app. \nCheck the recipients name before confirming the transfer (Wandeson Ricardo da Silva, CPF xxx.xxx.x14-xx)',
+    'pix.note': 'Use the amount above as a reference and complete the transfer with the PIX key below. Confirmation happens securely in your banking app.',
     'pix.keyLabel': 'Current PIX key',
     'pix.copy': 'Copy key',
     'stripe.hint': 'Secure payment via Apple Pay, Google Pay, or Credit Card.',
@@ -398,8 +400,8 @@ function bindEvents() {
 }
 
 applyMeta();
-applyCopy();
-applyRoutes();
+// applyCopy();
+// applyRoutes();
 bindEvents();
 
 }());
