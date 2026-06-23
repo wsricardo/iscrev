@@ -161,6 +161,9 @@ def update_file(filepath, is_pt):
         f.write(content)
 
 if sys.argv[1] == 'pt':
-    update_file('c:/Users/wsric/iscrev/src/pt.html', True)
+    import os
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    update_file(os.path.join(BASE_DIR, 'src', 'pt.html'), True)
+    update_file(os.path.join(BASE_DIR, 'src', 'index.html'), False)
 elif sys.argv[1] == 'en':
     update_file('c:/Users/wsric/iscrev/src/index.html', False)

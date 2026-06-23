@@ -175,8 +175,14 @@ function parseInlineRules(text) {
   s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   s = s.replace(/\*(.+?)\*/g, '<em>$1</em>');
   
-  // Links Inline: [Texto](URL)
-  s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color:#c8843a;text-decoration:none;border-bottom:1px dashed #c8843a;">$1</a>');
+  // Links Inline: [Texto](URL) com sanitização de XSS
+  s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, function(match, text, url) {
+    let cleanUrl = url.trim();
+    if (/^(javascript|data|vbscript):/i.test(cleanUrl)) {
+      cleanUrl = '#'; // Bloqueia execução de scripts e payloads
+    }
+    return '<a href="' + cleanUrl + '" target="_blank" rel="noopener noreferrer" style="color:#c8843a;text-decoration:none;border-bottom:1px dashed #c8843a;">' + text + '</a>';
+  });
   
   // Código Inline
   s = s.replace(/`([^`]+)`/g, '<code style="font-family:\'JetBrains Mono\',monospace;font-size:.88em;background:rgba(200,132,58,.12);padding:1px 5px;border-radius:3px">$1</code>');

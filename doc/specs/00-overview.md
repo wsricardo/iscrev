@@ -1,119 +1,76 @@
-# CSpec 00 — Visão Geral da Implementação
+# CSpec 00 — Visão Geral da Implementação (Atualizada)
 
 ## 1. Escopo
 
-Esta especificação descreve a implementação atual da aplicação principal do iScrev Notes, centrada em:
+Esta especificação descreve a implementação atual do ecossistema **iScrev**, centrada nas seguintes aplicações principais:
 
-- `src/diario.html`
-- `src/assets/js/diario.js`
-- `src/assets/js/pdf-exporter.js`
-- `src/assets/css/diario.css`
-- `src/service-worker.js`
-
-Não cobre em profundidade as páginas institucionais (`index.html`, `sobre.html`, `en.html`, `about.html`), exceto quando elas influenciam o shell do diário ou a navegação.
+- **iScrev Notes:** (`src/diario.html` e `src/assets/js/diario/`) - SPA de diário e anotações.
+- **iScrev XBoard:** (`src/xboard/index.html` e `src/xboard/js/`) - Lousa digital baseada em Canvas.
+- **Páginas Institucionais e Blog:** (`index.html`, `pt.html`, e Pelican em `pelican/`) - Landing pages e blog gerados estaticamente.
 
 ## 2. Caracterização do sistema
 
-O iScrev Notes é uma SPA local-first de diário e anotações pessoais com:
+O ecossistema iScrev é focado em ferramentas *Local-first*, englobando:
 
-- edição em texto puro;
-- formatação Markdown leve;
-- renderização LaTeX via KaTeX;
-- anotações manuscritas em SVG;
-- persistência local via IndexedDB com fallback para `localStorage`;
-- exportação em Markdown e impressão/PDF;
-- shell responsivo com sidebar;
-- internacionalização PT/EN sem recarregar a página.
+- **iScrev Notes:** Edição em texto puro, formatação Markdown leve (com proteção XSS), renderização LaTeX via KaTeX, anotações manuscritas em SVG, persistência via IndexedDB e exportação PDF/Markdown.
+- **iScrev XBoard:** Renderização baseada em `<canvas>` com controle de histórico, gerenciamento de mídias (PDF, vídeo, gravação local), biblioteca de aulas e múltiplos fundos (linhas, grades).
+- **Service Workers:** Estratégias PWA resilientes (Stale-While-Revalidate com `.catch()` seguro) para acesso offline ininterrupto de ambas as aplicações.
 
 ## 3. Princípios arquiteturais vigentes
 
-### 3.1 Local-first
+### 3.1 Local-first e Privacidade
+A fonte primária de verdade é o navegador local. Não existe backend de aplicação, bancos de dados em nuvem ou necessidade de conta. Todo processamento ocorre no lado do cliente.
 
-A fonte primária de verdade dos dados do usuário é o navegador local. Não existe backend de aplicação nem sincronização remota no runtime atual.
+### 3.2 Modularização e Clean Code
+Ambas as aplicações (*Notes* e *XBoard*) abandonaram os "monólitos de código". O *iScrev Notes* possui um entrypoint `diario.js` que apenas orquestra importações de `src/assets/js/diario/` (dividido em `app`, `editor`, `infra`, `shared`, `ui`). O *XBoard* segue a mesma padronização em `src/xboard/js/modules/`.
 
-### 3.2 HTML/CSS/JS diretos
+### 3.3 Superfície canônica renderizada (Notes)
+O `textarea` não é mais a superfície de visualização predominante. A referência visual compartilhada de `pen` e `preview` é o HTML renderizado.
 
-O núcleo do diário opera sem framework de UI, sem bundler e sem importações internas entre módulos. O carregamento usa `type="module"` em `diario.html`, mas os scripts se comportam como módulos autônomos ou IIFEs.
-
-### 3.3 Superfície canônica renderizada
-
-O comportamento atual do app não usa mais o `textarea` como superfície visual comum entre todos os modos. A referência visual compartilhada de `pen` e `preview` é o HTML renderizado por `mdToHtml()`.
-
-### 3.4 Fallback progressivo
-
-O sistema favorece a funcionalidade com degradação elegante:
-
-- IndexedDB cai para `localStorage`;
-- importação tolera front matter ausente ou `pen_strokes` corrompido;
-- KaTeX inválido não quebra o preview inteiro;
-- PDF usa mais de uma estratégia de impressão conforme a situação.
+### 3.4 Fallback progressivo e Segurança
+O sistema favorece a funcionalidade com degradação elegante e segurança por design:
+- IndexedDB cai para `localStorage`.
+- Parsing Markdown neutraliza XSS (protocolos `javascript:`, `data:`).
+- Redes offlines falham graciosamente via SW em vez de quebrar a Promise.
 
 ## 4. Topologia de runtime
 
 ```text
-diario.html
-├── assets/css/diario.css
-├── KaTeX CSS + JS (CDN)
-├── pdf-exporter.js
-├── diario.js
-├── ui.js
-└── service-worker.js (registrado em runtime)
+src/
+├── index.html / pt.html (Institucional)
+├── diario.html (iScrev Notes)
+│   ├── assets/js/diario.js (Orquestrador ES Modules)
+│   ├── assets/js/diario/ (Módulos: app, editor, infra, shared, ui)
+│   └── service-worker.js
+└── xboard/ (iScrev XBoard)
+    ├── index.html
+    ├── sw.js (PWA próprio do XBoard)
+    └── js/ (Módulos Core e Services)
 ```
-
-### 4.1 Papel dos arquivos
-
-- `diario.html`
-  Define shell, overlays, toolbars, IDs consultados pelo JS e ordem de carregamento.
-- `diario.js`
-  Contém i18n, renderização, caneta, persistência, CRUD, import/export, shell responsivo, fullscreen, atalhos e bootstrap.
-- `pdf-exporter.js`
-  Expõe `window.PdfExporter` para paginação e impressão em iframe.
-- `diario.css`
-  Define os tokens visuais, o layout do shell, o papel pautado, o overlay SVG e as regras de impressão.
-- `ui.js`
-  Atualmente é placeholder; não controla a aplicação principal.
-- `service-worker.js`
-  Faz cache de assets e aplica estratégia `stale-while-revalidate` simples.
 
 ## 5. Invariantes globais
 
-1. `entries` é a fonte de verdade em memória para a lista de entradas.
-2. `currentId` é `null` ou corresponde a uma entrada presente em `entries`.
-3. `.editor-area` é o único contêiner de scroll do editor.
-4. `#pen-svg` é um overlay absoluto; os traços são ancorados em coordenadas de documento, não em viewport.
-5. `pen` e `preview` compartilham a mesma superfície renderizada.
-6. Exportação Markdown deve continuar legível por humanos e reimportável pela aplicação.
-7. A chave `pen_strokes` deve permanecer estável até haver versionamento explícito do protocolo.
-8. A troca de idioma não deve exigir reload.
+1. O modelo de dados do *Notes* continua centrado em `entries` e persistência local.
+2. A geometria de desenho livre do *Notes* usa SVG, enquanto o *XBoard* usa Raster (Canvas 2D).
+3. Exportação Markdown deve continuar imune a scripts maliciosos.
+4. Automação de infraestrutura (Build e Sync) baseia-se unicamente em caminhos relativos em Python (`os.path.dirname(__file__)`), garantindo portabilidade cross-platform e CI/CD.
 
 ## 6. Diferenças relevantes em relação à documentação histórica
 
-Estas diferenças são importantes para evitar que `gspecs` antigas orientem mudanças incorretas:
+Estas diferenças são vitais para compreender o código hoje:
 
-### 6.1 Modo `pen`
+### 6.1 Refatoração Modular
+O arquivo `diario.js` **não concentra** mais todas as responsabilidades. Ele atua apenas como um agregador global (`window.*`) para dependências menores e testáveis.
 
-O comportamento atual usa preview renderizado como superfície visual do modo `pen`. O `textarea` é ocultado em `setMode('pen')`.
+### 6.2 Service Workers com Tratamento PWA
+Tanto `diario.html` quanto `xboard/index.html` possuem Service Workers com tratamentos completos contra quebras de rede (Network Falls).
 
-### 6.2 Estratégia de PDF
+### 6.3 Pelican Integrado
+O blog do projeto é parte intrínseca do build e gera dinamicamente os endpoints JSON (`latest.json`) consumidos assincronamente pelas Landing Pages.
 
-O comportamento atual tenta primeiro `runStagePrintJob()` mesmo para entradas sem traços. O uso de `PdfExporter.exportEntry()` é um fallback, não o primeiro caminho nominal do fluxo.
+## 7. Diretriz para evolução
 
-### 6.3 Service worker
-
-Existe service worker funcional no repositório atual, com cache de assets locais e URLs externas do KaTeX e Google Fonts.
-
-## 7. Limites desta implementação
-
-- `diario.js` concentra muitas responsabilidades em um único arquivo.
-- Não há suíte automatizada de testes.
-- A especificação do protocolo Markdown ainda depende de regex tolerante, não de parser formal.
-- A renderização Markdown é propositalmente parcial, não compatível com CommonMark completo.
-
-## 8. Diretriz para evolução
-
-Mudanças futuras podem modularizar internamente o código, desde que preservem:
-
-- os contratos de DOM descritos em `01-runtime-and-dom-contract.md`;
-- os formatos de dados em `02` e `07`;
-- os eventos e invariantes de persistência em `03`;
-- a geometria do sistema de caneta em `05`.
+Mudanças futuras devem preservar:
+- A separação entre *Notes* e *XBoard*, mantendo as responsabilidades de UX distintas (uma orientada a documentos, a outra orientada a aulas/whiteboard).
+- A portabilidade dos scripts de build (sem caminhos de máquina locais rígidos).
+- Os padrões rigorosos de ausência de backend, mantendo a confiança na filosofia *Local-first*.

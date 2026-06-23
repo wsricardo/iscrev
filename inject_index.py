@@ -1,5 +1,8 @@
 import sys
 import re
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def update_file(filepath, is_pt):
     with open(filepath, 'r', encoding='utf-8') as f:
@@ -148,4 +151,4 @@ def update_file(filepath, is_pt):
         f.write(content)
 
 if sys.argv[1] == 'en':
-    update_file('c:/Users/wsric/iscrev/src/index.html', False)
+    update_file(os.path.join(BASE_DIR, 'src', 'index.html'), False)

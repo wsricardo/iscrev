@@ -42,6 +42,9 @@ self.addEventListener("fetch", e => {
                         cache.put(e.request, networkResponse.clone());
                     }
                     return networkResponse;
+                }).catch(() => {
+                    // Ignora falhas de rede para não quebrar a aplicação offline
+                    return null;
                 });
                 // Retorna a resposta do cache se disponível, senão, aguarda a rede.
                 return response || fetchPromise;

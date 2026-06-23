@@ -158,5 +158,7 @@ def update_file(filepath, is_pt):
     with open(filepath, 'w', encoding='utf-8') as f:
         f.write(content)
 
-update_file('c:/Users/wsric/iscrev/src/pt.html', True)
-update_file('c:/Users/wsric/iscrev/src/index.html', False)
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+update_file(os.path.join(BASE_DIR, 'src', 'pt.html'), True)
+update_file(os.path.join(BASE_DIR, 'src', 'index.html'), False)
